@@ -1,0 +1,17 @@
+applications:
+- opencontrail
+parameters:
+  _param:
+    opencontrail_version: 2.2
+    opencontrail_tor_agents: 1
+  opencontrail:
+    tor:
+      enabled: true
+      version: ${_param:opencontrail_version}
+      agents: ${_param:opencontrail_tor_agents}
+      control:
+        address: ${_param:single_address}
+      interface:
+        address: ${_param:single_address}
+      device:
+        host: ${_param:tor_device_address}

@@ -1,0 +1,2 @@
+{%- from "opencontrail/map.jinja" import compute with context %}
+{{ compute.interface.default_pmac }}

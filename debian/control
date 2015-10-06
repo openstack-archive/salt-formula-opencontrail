@@ -1,0 +1,15 @@
+Source: salt-formula-opencontrail
+Maintainer: Jakub Pavlik <jakub.pavlik@tcpcloud.eu>
+Section: admin
+Priority: optional
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+Homepage: http://www.tcpcloud.eu
+Vcs-Browser: https://github.com/tcpcloud/salt-formula-opencontrail
+Vcs-Git: https://github.com/tcpcloud/salt-formula-opencontrail.git
+
+Package: salt-formula-opencontrail
+Architecture: all
+Depends: ${misc:Depends}, salt-master, reclass
+Description: OpenContrail Salt formula
+ Install and configure OpenContrail server and client.

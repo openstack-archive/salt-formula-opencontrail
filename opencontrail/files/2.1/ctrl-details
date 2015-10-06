@@ -1,0 +1,12 @@
+{%- from "opencontrail/map.jinja" import common with context %}
+CONTROLLER_MGMT={{ common.identity.host }}
+SERVICE_TOKEN={{ common.identity.token }}
+ADMIN_TOKEN={{ common.identity.password }}
+CONTROLLER={{ common.identity.host }}
+QUANTUM={{ common.network.host }}
+QUANTUM_PORT={{ common.network.port }}
+COMPUTE=None
+AUTH_PROTOCOL=http
+QUANTUM_PROTOCOL=http
+AMQP_SERVER={{ common.identity.host }}
+INTERNAL_VIP={{ common.identity.host }}

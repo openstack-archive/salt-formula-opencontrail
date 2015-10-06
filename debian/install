@@ -1,0 +1,2 @@
+opencontrail/*             /usr/share/salt-formulas/env/opencontrail/
+metadata/service/*      /usr/share/salt-formulas/reclass/service/opencontrail/

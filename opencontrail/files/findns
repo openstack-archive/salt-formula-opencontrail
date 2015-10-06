@@ -1,0 +1,18 @@
+#!/bin/bash
+
+exit_usage() {
+	echo "Usage: $0 <address>"
+	exit 1
+}
+
+[ -z $1 ] && exit_usage
+
+WC=$(ip netns | wc -l)
+for ((i=1;i<$WC+1;i++))
+do
+	NAMESPACE=$(ip netns | sed -n "$i"p)
+	if [ `ip netns exec $NAMESPACE ip a | grep $1 | wc -l` -gt 0 ]
+	then
+ 		echo $NAMESPACE
+	fi
+done

@@ -1,0 +1,4 @@
+{%- from "opencontrail/map.jinja" import common with context %}
+export OS_USERNAME=admin
+export SERVICE_TOKEN={{ common.identity.token }}
+export OS_SERVICE_ENDPOINT=http://{{ common.identity.host }}:{{ common.identity.port }}/v2.0

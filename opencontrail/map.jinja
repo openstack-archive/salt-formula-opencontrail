@@ -1,0 +1,85 @@
+
+{% set common = salt['grains.filter_by']({
+    'Debian': {
+        'source': {'engine': 'pkg', 'address': 'http://'},
+        'pkgs': ['dpkg-dev','contrail-utils'],
+    },
+    'RedHat': {
+        'source': {'engine': 'pkg', 'address': 'http://'},
+    },
+}, merge=salt['pillar.get']('opencontrail:common')) %}
+
+{% set collector = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['contrail-analytics'],
+        'services': ['supervisor-analytics','redis-server']
+    },
+    'RedHat': {
+        'pkgs': ['contrail-analytics'],
+        'services': ['supervisor-analytics']
+    },
+}, merge=salt['pillar.get']('opencontrail:collector')) %}
+
+{% set compute = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['contrail-vrouter','contrail-vrouter-dkms', 'iproute2', 'haproxy','contrail-nova-driver'],
+        'services': ['supervisor-vrouter']
+    },
+    'RedHat': {
+        'pkgs': ['contrail-vrouter'],
+        'services': ['supervisor-vrouter']
+    },
+}, merge=salt['pillar.get']('opencontrail:compute')) %}
+
+{% set config = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['contrail-config-openstack','ifmap-server'],
+        'services': ['zookeeper', 'supervisor-config']
+    },
+    'RedHat': {
+        'pkgs': ['contrail-config-openstack'],
+        'services': ['zookeeper', 'supervisor-config']
+    },
+}, merge=salt['pillar.get']('opencontrail:config')) %}
+
+{% set control = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['contrail-control','contrail-dns'],
+        'services': ['contrail-control', 'supervisor-control']
+    },
+    'RedHat': {
+        'pkgs': ['contrail-control'],
+        'services': ['contrail-control', 'supervisor-control']
+    },
+}, merge=salt['pillar.get']('opencontrail:control')) %}
+
+{% set database = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['cassandra', 'zookeeper', 'supervisor', 'openjdk-7-jre-headless','contrail-database'],
+        'services': ['supervisord-contrail-database','zookeeper']
+    },
+    'RedHat': {
+        'pkgs': ['cassandra', 'zookeeper', 'supervisor', 'openjdk-7-jre-headless'],
+        'services': ['supervisord-contrail-database','zookeeper']
+    },
+}, merge=salt['pillar.get']('opencontrail:database')) %}
+
+{% set web = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['contrail-web-controller'],
+        'services': ['contrail-webui-webserver','contrail-webui-jobserver']
+    },
+    'RedHat': {
+        'pkgs': ['contrail-web-controller'],
+        'services': ['contrail-webui-webserver','contrail-webui-jobserver']
+    },
+}, merge=salt['pillar.get']('opencontrail:web')) %}
+
+{% set tor = salt['grains.filter_by']({
+    'Debian': {
+        'agents': 1,
+        'bind': {
+           'port': 8086
+        }
+    },
+}, merge=salt['pillar.get']('opencontrail:tor')) %}
