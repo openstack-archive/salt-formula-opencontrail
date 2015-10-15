@@ -21,6 +21,9 @@ include:
 {% if pillar.opencontrail.tor is defined %}
 - opencontrail.tor
 {% endif %}
+{%- if pillar.opencontrail.client is defined %}
+- opencontrail.client
+{%- endif %}
 {% if pillar.opencontrail.common is defined %}
 - opencontrail.common
 {% endif %}

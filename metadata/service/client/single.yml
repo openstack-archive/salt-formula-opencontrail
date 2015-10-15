@@ -1,0 +1,16 @@
+applications:
+- opencontrail
+parameters:
+  opencontrail:
+    client:
+      identity:
+        engine: keystone
+        host: ${_param:cluster_local_address}
+        port: 35357
+        tenant: admin
+        user: admin
+        password: ${_param:keystone_admin_password}
+      api:
+        engine: contrail
+        host: ${_param:cluster_local_address}
+        port: 8082

@@ -83,3 +83,9 @@
         }
     },
 }, merge=salt['pillar.get']('opencontrail:tor')) %}
+
+{% set client = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['python-contrail'],
+    }
+}, merge=salt['pillar.get']('opencontrail:client')) %}
