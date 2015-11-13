@@ -265,3 +265,6 @@ config.getDomainsFromApiServer = false;
 
 // Export this as a module.
 module.exports = config;
+
+config.features = {};
+config.features.disabled = [];
