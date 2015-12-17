@@ -17,6 +17,8 @@ opencontrail_compute_packages:
 /etc/network/if-pre-up.d/if-vhost0:
   file.symlink:
     - target: /usr/lib/contrail/if-vhost0
+    - require:
+      - pkg: opencontrail_compute_packages
 
 {% if compute.version == 2.2 %}
 
