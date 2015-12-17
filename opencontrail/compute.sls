@@ -14,6 +14,10 @@ opencontrail_compute_packages:
   pkg.installed:
   - names: {{ compute.pkgs }}
 
+/etc/network/if-pre-up.d/if-vhost0:
+  file.symlink:
+    - target: /usr/lib/contrail/if-vhost0
+
 {% if compute.version == 2.2 %}
 
 /etc/contrail/contrail-vrouter-nodemgr.conf:
