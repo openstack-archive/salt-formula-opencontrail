@@ -1,3 +1,8 @@
+{%- macro set_param(param_name, param_dict) -%}
+{%- if param_dict.get(param_name, False) -%}
+- {{ param_name }}: {{ param_dict[param_name] }}
+{%- endif -%}
+{%- endmacro -%}
 {%- from "opencontrail/map.jinja" import compute with context %}
 {%- from "linux/map.jinja" import network with context %}
 {%- if compute.enabled %}
@@ -52,12 +57,6 @@ opencontrail_compute_packages:
 
 {%- if network.interface.get('vhost0', {}).get('enabled', False) %}
 
-{%- macro set_param(param_name, param_dict) -%}
-{%- if param_dict.get(param_name, False) -%}
-- {{ param_name }}: {{ param_dict[param_name] }}
-{%- endif -%}
-{%- endmacro -%}
-
 contrail_load_vrouter_kernel_module:
   cmd.run:
   - name: modprobe vrouter
@@ -65,6 +64,8 @@ contrail_load_vrouter_kernel_module:
   - cwd: /root
   - require:
     - pkg: opencontrail_compute_packages
+
+{#
 
 {% set interface_params = [
     'gateway',
@@ -120,6 +121,7 @@ contrail_interface_{{ interface_name }}:
 
 {%- endif %}
 {%- endfor %}
+#}
 
 {%- endif %}
 
