@@ -20,6 +20,14 @@ opencontrail_compute_packages:
     - require:
       - pkg: opencontrail_compute_packages
 
+net.ipv4.ip_local_reserved_ports:
+  sysctl.present:
+    - value: 8085,9090
+    - require:
+      - pkg: opencontrail_compute_packages
+    - require_in:
+      - service: opencontrail_compute_services
+
 {% if compute.version == 2.2 %}
 
 /etc/contrail/contrail-vrouter-nodemgr.conf:
