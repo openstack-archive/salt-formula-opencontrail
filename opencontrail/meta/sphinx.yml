@@ -58,7 +58,7 @@ doc:
           value: {{ control.version }}
         database_host:
           name: "Database members"
-          value: {%- for member in control.members %}{{ member.host }},{%- endfor %}
+          value: {% for member in control.members %}{{ member.host }},{% endfor %}
         packages:
           value: |
             {%- for pkg in control.pkgs %}
@@ -72,7 +72,7 @@ doc:
       name: database
       param:
         bind:
-          value: {{ database.bind.address }}{{ database.bind.port }}
+          value: {{ database.bind.host }}{{ database.bind.port }}
         discovery:
           name: "Discovery host"
           value: {{ database.discovery.host }}
@@ -84,7 +84,7 @@ doc:
           value: {{ database.data_dirs }}
         database_host:
           name: "Database members"
-          value: {%- for member in database.members %}{{ member.host }},{%- endfor %}
+          value: {% for member in database.members %}{{ member.host }},{% endfor %}
         packages:
           value: |
             {%- for pkg in database.pkgs %}
@@ -99,9 +99,6 @@ doc:
       param:
         bind:
           value: {{ web.bind.address }}
-        discovery:
-          name: "Discovery host"
-          value: {{ web.discovery.host }}
         analytics:
           name: "Analytics host"
           value: {{ web.analytics.host }}
@@ -116,7 +113,7 @@ doc:
           value: {{ web.identity.user }}@{{ web.identity.host }}:{{ web.identity.port }}
         database_host:
           name: "Database members"
-          value: {%- for member in web.members %}{{ member.host }},{%- endfor %}
+          value: {% for member in web.members %}{{ member.host }},{% endfor %}
         packages:
           value: |
             {%- for pkg in web.pkgs %}
