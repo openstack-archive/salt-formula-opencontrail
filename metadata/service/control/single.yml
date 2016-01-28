@@ -65,6 +65,20 @@ parameters:
       members:
       - host: ${_param:single_address}
         id: 1
+    collector:
+      version: ${_param:opencontrail_version}
+      enabled: true
+      bind:
+        address: ${_param:single_address}
+      master:
+        host: ${_param:single_address}
+      discovery:
+        host: ${_param:single_address}
+      data_ttl: 1
+      database:
+        members:
+        - host: ${_param:single_address}
+          port: 9160
     database:
       version: ${_param:opencontrail_version}
       cassandra:
