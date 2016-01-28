@@ -8,4 +8,4 @@ parameters:
       sensu:
         enabled: true
       sphinx:
-        enabled: false
+        enabled: true

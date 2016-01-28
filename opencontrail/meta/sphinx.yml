@@ -1,0 +1,179 @@
+doc:
+  name: OpenContrail
+  description: OpenContrail is an open source network virtualization platform for the cloud.
+  role:
+  {%- if pillar.opencontrail.config is defined %}
+  {%- from "opencontrail/map.jinja" import config with context %}
+    config:
+      name: config
+      param:
+        bind:
+          value: {{ config.bind.address }}
+        discovery:
+          name: "Discovery host"
+          value: {{ config.discovery.host }}
+        analytics:
+          name: "Analytics host"
+          value: {{ config.analytics.host }}
+        cache:
+          name: "Cache host"
+          value: {{ config.cache.host }}
+        version:
+          name: "Contrail version"
+          value: {{ config.version }}
+        database_host:
+          name: "Database members"
+          value: {% for member in config.database.members %}{{ member.host }}:{{ member.port }} {% endfor %}
+        network_host:
+          name: "Network service"
+          value: {{ config.network.host }}:{{ config.network.port }}
+        message_queue_ip:
+          name: "Message queue"
+          value: {{ config.message_queue.host }}:{{ config.message_queue.port }}
+        identity_host:
+          name: "Identity host ip"
+          value: {{ config.identity.user }}@{{ config.identity.host }}:{{ config.identity.port }}
+        packages:
+          value: |
+            {%- for pkg in config.pkgs %}
+            {%- set pkg_version = "dpkg -l "+pkg+" | grep "+pkg+" | awk '{print $3}'" %}
+            * {{ pkg }}: {{ salt['cmd.run'](pkg_version) }}
+            {%- endfor %}
+  {%- endif %}
+  {%- if pillar.opencontrail.control is defined %}
+  {%- from "opencontrail/map.jinja" import control with context %}
+    control:
+      name: control
+      param:
+        bind:
+          value: {{ control.bind.address }}
+        discovery:
+          name: "Discovery host"
+          value: {{ control.discovery.host }}
+        master:
+          name: "Master host"
+          value: {{ control.master.host }}
+        version:
+          name: "Contrail version"
+          value: {{ control.version }}
+        database_host:
+          name: "Database members"
+          value: {%- for member in control.members %}{{ member.host }},{%- endfor %}
+        packages:
+          value: |
+            {%- for pkg in control.pkgs %}
+            {%- set pkg_version = "dpkg -l "+pkg+" | grep "+pkg+" | awk '{print $3}'" %}
+            * {{ pkg }}: {{ salt['cmd.run'](pkg_version) }}
+            {%- endfor %}
+  {%- endif %}
+  {%- if pillar.opencontrail.database is defined %}
+  {%- from "opencontrail/map.jinja" import database with context %}
+    database:
+      name: database
+      param:
+        bind:
+          value: {{ database.bind.address }}{{ database.bind.port }}
+        discovery:
+          name: "Discovery host"
+          value: {{ database.discovery.host }}
+        version:
+          name: "Contrail version"
+          value: {{ database.version }}
+        data_dirs:
+          name: "Data dir for cassandra"
+          value: {{ database.data_dirs }}
+        database_host:
+          name: "Database members"
+          value: {%- for member in database.members %}{{ member.host }},{%- endfor %}
+        packages:
+          value: |
+            {%- for pkg in database.pkgs %}
+            {%- set pkg_version = "dpkg -l "+pkg+" | grep "+pkg+" | awk '{print $3}'" %}
+            * {{ pkg }}: {{ salt['cmd.run'](pkg_version) }}
+            {%- endfor %}
+  {%- endif %}
+  {%- if pillar.opencontrail.web is defined %}
+  {%- from "opencontrail/map.jinja" import web with context %}
+    web:
+      name: web
+      param:
+        bind:
+          value: {{ web.bind.address }}
+        discovery:
+          name: "Discovery host"
+          value: {{ web.discovery.host }}
+        analytics:
+          name: "Analytics host"
+          value: {{ web.analytics.host }}
+        cache:
+          name: "Cache host"
+          value: {{ web.cache.host }}{{ web.cache.port }}
+        version:
+          name: "Contrail version"
+          value: {{ web.version }}
+        identity_host:
+          name: "Identity host ip"
+          value: {{ web.identity.user }}@{{ web.identity.host }}:{{ web.identity.port }}
+        database_host:
+          name: "Database members"
+          value: {%- for member in web.members %}{{ member.host }},{%- endfor %}
+        packages:
+          value: |
+            {%- for pkg in web.pkgs %}
+            {%- set pkg_version = "dpkg -l "+pkg+" | grep "+pkg+" | awk '{print $3}'" %}
+            * {{ pkg }}: {{ salt['cmd.run'](pkg_version) }}
+            {%- endfor %}
+  {%- endif %}
+  {%- if pillar.opencontrail.collector is defined %}
+  {%- from "opencontrail/map.jinja" import collector with context %}
+    analytics:
+      name: analytics
+      param:
+        bind:
+          value: {{ collector.bind.address }}
+        discovery:
+          name: "Discovery host"
+          value: {{ collector.discovery.host }}
+        data_ttl:
+          name: "Data TTL hours"
+          value: {{ collector.data_ttl }}
+        version:
+          name: "Contrail version"
+          value: {{ collector.version }}
+        database_host:
+          name: "Database members"
+          value: {% for member in collector.database.members %}{{ member.host }}:{{ member.port }} {% endfor %}
+        packages:
+          value: |
+            {%- for pkg in collector.pkgs %}
+            {%- set pkg_version = "dpkg -l "+pkg+" | grep "+pkg+" | awk '{print $3}'" %}
+            * {{ pkg }}: {{ salt['cmd.run'](pkg_version) }}
+            {%- endfor %}
+  {%- endif %}
+  {%- if pillar.opencontrail.compute is defined %}
+  {%- from "opencontrail/map.jinja" import compute with context %}
+    vrouter:
+      name: vrouter
+      param:
+        discovery:
+          name: "Discovery host"
+          value: {{ compute.discovery.host }}
+        disable_flow_collection:
+          name: "Disable flow collection"
+          value: {{ compute.disable_flow_collection }}
+        version:
+          name: "Contrail version"
+          value: {{ compute.version }}
+        compute_interface:
+          name: vrouter vhost0 interface
+          value: |
+            * interface binded: {{ compute.interface.dev }}
+            * ip address: {{ compute.interface.address }}
+            * MTU: {{ compute.interface.mtu }}
+        packages:
+          value: |
+            {%- for pkg in compute.pkgs %}
+            {%- set pkg_version = "dpkg -l "+pkg+" | grep "+pkg+" | awk '{print $3}'" %}
+            * {{ pkg }}: {{ salt['cmd.run'](pkg_version) }}
+            {%- endfor %}
+  {%- endif %}

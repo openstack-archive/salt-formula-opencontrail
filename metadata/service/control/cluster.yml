@@ -1,5 +1,7 @@
 applications:
 - opencontrail
+classes:
+- service.opencontrail.support
 parameters:
   _param:
     opencontrail_version: 2.2
