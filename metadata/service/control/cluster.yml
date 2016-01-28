@@ -8,9 +8,6 @@ parameters:
   opencontrail:
     common:
       version: ${_param:opencontrail_version}
-      source:
-        engine: pkg
-        address: http://mirror.robotice.cz/contrail-havana/
       identity:
         engine: keystone
         host: ${_param:cluster_vip_address}
