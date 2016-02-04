@@ -3,4 +3,4 @@ version: "0.2"
 source: "https://github.com/tcpcloud/salt-formula-opencontrail"
 dependencies:
 - name: linux
-  source: "https://github.com/tcpcloud/salt-formula-linux"
+  source: "https://github.com/tcpcloud/salt-formula-linux.git"
