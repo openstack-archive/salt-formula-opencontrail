@@ -6,39 +6,57 @@ include:
 
 {% if database.cassandra.version == 1 %}
 
-/etc/cassandra/cassandra.yaml:
+{{ database.cassandra_config }}cassandra.yaml:
   file.managed:
   - source: salt://opencontrail/files/cassandra.yaml.1
   - template: jinja
   - makedirs: True
+{% if grains.os_family == "RedHat" %}
+  - require:
+    - pkg: opencontrail_database_packages
+{% endif %}
 
-/etc/cassandra/cassandra-env.sh:
+{{ database.cassandra_config }}cassandra-env.sh:
   file.managed:
   - source: salt://opencontrail/files/cassandra-env.sh.1
   - makedirs: True
+{% if grains.os_family == "RedHat" %}
+  - require:
+    - pkg: opencontrail_database_packages
+{% endif %}
 
 {% else %}
 
-/etc/cassandra/cassandra.yaml:
+{{ database.cassandra_config }}cassandra.yaml:
   file.managed:
   - source: salt://opencontrail/files/{{ database.version }}/cassandra.yaml
   - template: jinja
   - makedirs: True
+{% if grains.os_family == "RedHat" %}
+  - require:
+    - pkg: opencontrail_database_packages
+{% endif %}
 
-/etc/cassandra/cassandra-env.sh:
+{{ database.cassandra_config }}cassandra-env.sh:
   file.managed:
   - source: salt://opencontrail/files/{{ database.version }}/database/cassandra-env.sh
   - template: jinja
   - makedirs: True
+{% if grains.os_family == "RedHat" %}
+  - require:
+    - pkg: opencontrail_database_packages
+{% endif %}
 
 {% endif %}
 
 opencontrail_database_packages:
   pkg.installed:
   - names: {{ database.pkgs }}
+{% if grains.os_family == "Debian" %}
   - require:
-    - file: /etc/cassandra/cassandra.yaml
-    - file: /etc/cassandra/cassandra-env.sh
+    - file: {{ database.cassandra_config }}cassandra.yaml
+    - file: {{ database.cassandra_config }}cassandra-env.sh
+{% endif %}
 
 /etc/zookeeper/conf/log4j.properties:
   file.managed:
@@ -80,8 +98,8 @@ opencontrail_database_services:
   - enable: true
   - name: supervisor-database
   - watch: 
-    - file: /etc/cassandra/cassandra.yaml
-    - file: /etc/cassandra/cassandra-env.sh
+    - file: {{ database.cassandra_config }}cassandra.yaml
+    - file: {{ database.cassandra_config }}cassandra-env.sh
     - file: /etc/zookeeper/conf/zoo.cfg
     - file: /etc/contrail/contrail-database-nodemgr.conf
     - file: /var/lib/zookeeper/myid

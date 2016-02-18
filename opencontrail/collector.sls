@@ -48,7 +48,7 @@ opencontrail_collector_packages:
 
 {% endif %}
 
-/etc/redis/redis.conf:
+{{ collector.redis_config }}:
   file.managed:
   - source: salt://opencontrail/files/{{ collector.version }}/collector/redis.conf
   - require:
@@ -83,6 +83,6 @@ opencontrail_collector_services:
     - file: /etc/contrail/contrail-analytics-api.conf
     - file: /etc/contrail/contrail-query-engine.conf
     - file: /etc/contrail/contrail-collector.conf
-    - file: /etc/redis/redis.conf
+    - file: {{ collector.redis_config }}
 
 {%- endif %}

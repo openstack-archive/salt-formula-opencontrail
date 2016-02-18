@@ -208,6 +208,7 @@ config.maxActiveJobs = 10;
 /* Redis DB index for Web-UI */
 config.redisDBIndex = 3;
 
+{% if grains.os_family == "Debian" %}
 /* Logo File: Use complete path of logo file location */
 config.logo_file = '/var/lib/contrail-webui/contrail-web-core/webroot/img/opencontrail-logo.png';
 
@@ -219,6 +220,22 @@ config.featurePkg = {};
 config.featurePkg.webController = {};
 config.featurePkg.webController.path = '/var/lib/contrail-webui/contrail-web-controller';
 config.featurePkg.webController.enable = true;
+
+{% else %}
+
+config.logo_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-logo.png';
+
+/* Favicon File: Use complete path of favicon file location */
+config.favicon_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-favicon.ico';
+
+config.featurePkg = {};
+/* Add new feature Package Config details below */
+config.featurePkg.webController = {};
+config.featurePkg.webController.path = '/usr/src/contrail/contrail-web-controller';
+config.featurePkg.webController.enable = true;
+
+
+{% endif %}
 
 /* Enable/disable Stat Query Links in Sidebar*/
 config.qe = {};
