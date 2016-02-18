@@ -6,17 +6,20 @@
     },
     'RedHat': {
         'source': {'engine': 'pkg', 'address': 'http://'},
+        'pkgs': ['contrail-utils', 'contrail-nodemgr'],
     },
 }, merge=salt['pillar.get']('opencontrail:common')) %}
 
 {% set collector = salt['grains.filter_by']({
     'Debian': {
         'pkgs': ['contrail-analytics'],
+        'redis_config': '/etc/redis/redis.conf',
         'services': ['supervisor-analytics','redis-server']
     },
     'RedHat': {
         'pkgs': ['contrail-analytics'],
-        'services': ['supervisor-analytics']
+        'redis_config': '/etc/redis.conf',
+        'services': ['supervisor-analytics','redis']
     },
 }, merge=salt['pillar.get']('opencontrail:collector')) %}
 
@@ -26,7 +29,7 @@
         'services': ['supervisor-vrouter']
     },
     'RedHat': {
-        'pkgs': ['contrail-vrouter'],
+        'pkgs': ['contrail-openstack-vrouter', 'haproxy', 'contrail-vrouter-source'],
         'services': ['supervisor-vrouter']
     },
 }, merge=salt['pillar.get']('opencontrail:compute')) %}
@@ -37,7 +40,7 @@
         'services': ['zookeeper', 'supervisor-config']
     },
     'RedHat': {
-        'pkgs': ['contrail-config-openstack'],
+        'pkgs': ['contrail-openstack-config'],
         'services': ['zookeeper', 'supervisor-config']
     },
 }, merge=salt['pillar.get']('opencontrail:config')) %}
@@ -48,7 +51,7 @@
         'services': ['contrail-control', 'supervisor-control']
     },
     'RedHat': {
-        'pkgs': ['contrail-control'],
+        'pkgs': ['contrail-openstack-control'],
         'services': ['contrail-control', 'supervisor-control']
     },
 }, merge=salt['pillar.get']('opencontrail:control')) %}
@@ -56,10 +59,12 @@
 {% set database = salt['grains.filter_by']({
     'Debian': {
         'pkgs': ['cassandra', 'zookeeper', 'supervisor', 'openjdk-7-jre-headless','contrail-database'],
+        'cassandra_config': '/etc/cassandra/',
         'services': ['supervisord-contrail-database','zookeeper']
     },
     'RedHat': {
-        'pkgs': ['cassandra', 'zookeeper', 'supervisor', 'openjdk-7-jre-headless'],
+        'pkgs': ['contrail-openstack-database', 'zookeeper', 'supervisor', 'java-1.7.0-openjdk-headless'],
+        'cassandra_config': '/etc/cassandra/conf/',
         'services': ['supervisord-contrail-database','zookeeper']
     },
 }, merge=salt['pillar.get']('opencontrail:database')) %}
@@ -71,7 +76,7 @@
     },
     'RedHat': {
         'pkgs': ['contrail-web-controller'],
-        'services': ['contrail-webui-webserver','contrail-webui-jobserver']
+        'services': ['supervisor-webui']
     },
 }, merge=salt['pillar.get']('opencontrail:web')) %}
 
