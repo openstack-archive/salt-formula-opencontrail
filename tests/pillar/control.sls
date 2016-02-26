@@ -40,6 +40,7 @@ opencontrail:
       host: 127.0.0.1
     identity:
       engine: keystone
+      version: '2.0'
       region: RegionOne
       host: 127.0.0.1
       port: 35357
@@ -116,6 +117,7 @@ opencontrail:
       id: 3
     identity:
       engine: keystone
+      version: '2.0'
       host: 127.0.0.1
       port: 35357
       user: admin

@@ -7,6 +7,33 @@ Contrail Controller is an open, standards-based software solution that delivers 
 Sample pillars
 ==============
 
+Keystone v3
+-------------
+
+To enable support for keystone v3 in opencontrail, there must be defined version for config and web role.
+
+.. code-block:: yaml
+
+    opencontrail:
+      config:
+        version: 2.2
+        enabled: true
+        ...
+        identity:
+          engine: keystone
+          version: '3'
+        ...
+
+    opencontrail:
+      web:
+        version: 2.2
+        enabled: true
+        ...
+        identity:
+          engine: keystone
+          version: '3'
+        ...
+
 Usage
 =====
 

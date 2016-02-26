@@ -47,6 +47,7 @@ parameters:
         host: ${_param:cluster_local_address}
       identity:
         engine: keystone
+        version: '2.0'
         region: RegionOne
         host: ${_param:cluster_vip_address}
         port: 35357
@@ -123,6 +124,7 @@ parameters:
         id: 3
       identity:
         engine: keystone
+        version: '2.0'
         host: ${_param:cluster_vip_address}
         port: 35357
         user: admin

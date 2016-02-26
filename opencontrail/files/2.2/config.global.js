@@ -8,6 +8,10 @@ var config = {};
 config.orchestration = {};
 config.orchestration.Manager = 'openstack'
 
+{%- if web.identity.version == "3" %}
+config.multi_tenancy = {};
+config.multi_tenancy.enabled = true;
+{%- endif %}
 /****************************************************************************
  * This boolean flag indicates to communicate with Orchestration
  * modules(networkManager, imageManager, computeManager, identityManager,
@@ -108,7 +112,7 @@ config.identityManager.authProtocol = 'http';
  * If want to use with default apiVersion(v2.0), then can specify it as 
  * empty array.
 ******************************************************************************/
-config.identityManager.apiVersion = ['v2.0'];
+config.identityManager.apiVersion = ['v{{ web.identity.version }}'];
 config.identityManager.strictSSL = false;
 config.identityManager.ca = '';
 

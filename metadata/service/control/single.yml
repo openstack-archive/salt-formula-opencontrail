@@ -43,6 +43,7 @@ parameters:
         host: ${_param:single_address}
       identity:
         engine: keystone
+        version: '2.0'
         region: RegionOne
         host: ${_param:single_address}
         port: 35357
@@ -117,6 +118,7 @@ parameters:
         id: 1
       identity:
         engine: keystone
+        version: '2.0'
         host: ${_param:single_address}
         port: 35357
         user: admin
