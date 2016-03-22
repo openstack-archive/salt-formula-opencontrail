@@ -95,8 +95,6 @@ publisher_init:
   - watch_in:
     - service: opencontrail_config_services
 
-{% if config.version == 2.2 %}
-
 /etc/contrail/contrail-config-nodemgr.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ config.version }}/contrail-config-nodemgr.conf
@@ -105,8 +103,6 @@ publisher_init:
     - pkg: opencontrail_config_packages
   - watch_in:
     - service: opencontrail_config_services
-
-{% endif %}
 
 /etc/sudoers.d/contrail_sudoers:
   file.managed:

@@ -130,8 +130,8 @@ config.cnfg.ca = '';
 
 // Analytics API server and port.
 config.analytics = {};
-config.analytics.server_ip = '{{ web.master.host }}';
-config.analytics.server_port = '8081';
+config.analytics.server_ip = '{{ web.analytics.host }}';
+config.analytics.server_port = '9081';
 config.analytics.authProtocol = 'http';
 config.analytics.strictSSL = false;
 config.analytics.ca = '';
@@ -145,7 +145,7 @@ config.vcenter.datacenter = 'vcenter';          //datacenter name
 config.vcenter.dvsswitch = 'vswitch';           //dvsswitch name
 config.vcenter.strictSSL = false;               //Validate the certificate or ignore
 config.vcenter.ca = '';                         //specify the certificate key file
-config.vcenter.wsdl = '/usr/src/contrail/contrail-web-core/webroot/js/vim.wsdl';
+config.vcenter.wsdl = '/var/lib/contrail-webui/contrail-web-core/webroot/js/vim.wsdl';
 
 /* Discovery Service */
 config.discoveryService = {};
@@ -208,8 +208,22 @@ config.maxActiveJobs = 10;
 /* Redis DB index for Web-UI */
 config.redisDBIndex = 3;
 
+{% if grains.os_family == "Debian" %}
 /* Logo File: Use complete path of logo file location */
-config.logo_file = '/usr/src/contrail/contrail-web-core/webroot/img/opencontrail-logo.png';
+config.logo_file = '/var/lib/contrail-webui/contrail-web-core/webroot/img/opencontrail-logo.png';
+
+/* Favicon File: Use complete path of favicon file location */
+config.favicon_file = '/var/lib/contrail-webui/contrail-web-core/webroot/img/juniper-networks-favicon.ico';
+
+config.featurePkg = {};
+/* Add new feature Package Config details below */
+config.featurePkg.webController = {};
+config.featurePkg.webController.path = '/var/lib/contrail-webui/contrail-web-controller';
+config.featurePkg.webController.enable = true;
+
+{% elif grains.os_family == "RedHat" %}
+
+config.logo_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-logo.png';
 
 /* Favicon File: Use complete path of favicon file location */
 config.favicon_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-favicon.ico';
@@ -219,6 +233,9 @@ config.featurePkg = {};
 config.featurePkg.webController = {};
 config.featurePkg.webController.path = '/usr/src/contrail/contrail-web-controller';
 config.featurePkg.webController.enable = true;
+
+
+{% endif %}
 
 /* Enable/disable Stat Query Links in Sidebar*/
 config.qe = {};
@@ -248,5 +265,23 @@ config.getDomainProjectsFromApiServer = false;
 *****************************************************************************/
 config.network = {};
 config.network.L2_enable = false;
+
+/******************************************************************************
+ * Boolean flag getDomainsFromApiServer indicates wheather the domain
+ * list should come from API Server or Identity Manager.
+ * If Set
+ *      - true, then domain list will come from API Server
+ *      - false, then domain list will come from Identity Manager
+ * Default: true
+ * NOTE: if config.identityManager.apiVersion is set as v2.0, then this flag
+ *       does not have any effect, in that case the domain list is retrieved
+ *       from API Server.
+ *
+ *****************************************************************************/
+config.getDomainsFromApiServer = false;
+
 // Export this as a module.
 module.exports = config;
+
+config.features = {};
+config.features.disabled = [];

@@ -10,3 +10,9 @@ AUTH_PROTOCOL=http
 QUANTUM_PROTOCOL=http
 AMQP_SERVER={{ common.identity.host }}
 INTERNAL_VIP={{ common.identity.host }}
+HYPERVISOR=libvirt
+NOVA_PASSWORD={{ common.identity.password }}
+NEUTRON_PASSWORD={{ common.identity.password }}
+SERVICE_TENANT_NAME=service
+
+
