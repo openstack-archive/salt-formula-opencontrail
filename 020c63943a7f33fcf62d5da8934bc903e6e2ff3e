@@ -1,0 +1,8 @@
+Code-Review+2: Ales Komarek <ales.komarek@tcpcloud.eu>
+Workflow+1: Ales Komarek <ales.komarek@tcpcloud.eu>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 22 Mar 2016 13:25:28 +0000
+Reviewed-on: https://review.openstack.org/295786
+Project: openstack/salt-formula-opencontrail
+Branch: refs/heads/master
