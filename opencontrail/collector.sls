@@ -8,8 +8,6 @@ opencontrail_collector_packages:
   pkg.installed:
   - names: {{ collector.pkgs }}
 
-{% if collector.version == 2.2 %}
-
 /etc/contrail/contrail-analytics-nodemgr.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ collector.version }}/contrail-analytics-nodemgr.conf
@@ -45,8 +43,6 @@ opencontrail_collector_packages:
     - pkg: opencontrail_collector_packages
   - watch_in:
     - service: opencontrail_collector_services
-
-{% endif %}
 
 {{ collector.redis_config }}:
   file.managed:

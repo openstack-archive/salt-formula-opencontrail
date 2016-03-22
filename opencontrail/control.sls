@@ -8,8 +8,6 @@ opencontrail_control_packages:
   pkg.installed:
   - names: {{ control.pkgs }}
 
-{% if control.version == 2.2 %}
-
 /etc/contrail/contrail-control-nodemgr.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ control.version }}/contrail-control-nodemgr.conf
@@ -18,8 +16,6 @@ opencontrail_control_packages:
     - pkg: opencontrail_control_packages
   - watch_in:
     - service: opencontrail_control_services
-
-{% endif %}
 
 /etc/contrail/contrail-control.conf:
   file.managed:

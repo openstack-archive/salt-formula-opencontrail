@@ -64,17 +64,6 @@ opencontrail_database_packages:
   - require:
     - pkg: opencontrail_database_packages
 
-{% if database.version != 2.2 %}
-
-/etc/contrail/database_nodemgr_param:
-  file.managed:
-  - source: salt://opencontrail/files/{{ database.version }}/database_nodemgr_param
-  - template: jinja
-  - require:
-    - pkg: opencontrail_database_packages
-
-{% endif %}
-
 /etc/contrail/contrail-database-nodemgr.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ database.version }}/contrail-database-nodemgr.conf

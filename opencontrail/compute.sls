@@ -32,8 +32,6 @@ net.ipv4.ip_local_reserved_ports:
     - require_in:
       - service: opencontrail_compute_services
 
-{% if compute.version == 2.2 %}
-
 /etc/contrail/contrail-vrouter-nodemgr.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ compute.version }}/contrail-vrouter-nodemgr.conf
@@ -42,8 +40,6 @@ net.ipv4.ip_local_reserved_ports:
     - pkg: opencontrail_compute_packages
   - watch_in:
     - service: opencontrail_compute_services
-
-{% endif %}
 
 /etc/contrail/vrouter_nodemgr_param:
   file.managed:

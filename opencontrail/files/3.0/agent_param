@@ -1,8 +1,8 @@
 {%- from "opencontrail/map.jinja" import compute with context %}
 LOG=/var/log/contrail.log
-CONFIG=/etc/contrail/agent.conf
+CONFIG=/etc/contrail/contrail-vrouter-agent.conf
 prog=/usr/bin/contrail-vrouter-agent
-kmod=vrouter
+kmod="vrouter vr_flow_entries=1048576"
 pname=contrail-vrouter-agent
 LIBDIR=/usr/lib64
 DEVICE=vhost0

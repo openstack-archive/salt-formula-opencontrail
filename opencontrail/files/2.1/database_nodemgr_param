@@ -1,2 +1,0 @@
-{%- from "opencontrail/map.jinja" import database with context %}
-DISCOVERY={{ database.discovery.host }}

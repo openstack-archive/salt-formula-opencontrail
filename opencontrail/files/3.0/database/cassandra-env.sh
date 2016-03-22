@@ -1,4 +1,4 @@
-# Licensed to the Apache Software Foundation (ASF) under one
+{%- from "opencontrail/map.jinja" import database with context %}# Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
 # regarding copyright ownership.  The ASF licenses this file
@@ -142,6 +142,13 @@ esac
 
 #MAX_HEAP_SIZE="4G"
 #HEAP_NEWSIZE="800M"
+
+{%- if database.max_heap_size is defined %}
+MAX_HEAP_SIZE="{{ database.max_heap_size }}"
+{%- endif %}
+{%- if database.heap_newsize is defined %}
+HEAP_NEWSIZE="{{ database.heap_newsize }}"
+{%- endif %}
 
 # Set this to control the amount of arenas per-thread in glibc
 #export MALLOC_ARENA_MAX=4
