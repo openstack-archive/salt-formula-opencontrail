@@ -1,4 +1,5 @@
 {%- from "opencontrail/map.jinja" import common with context %}
+{%- if common.identity.engine == "keystone" %}
 CONTROLLER_MGMT={{ common.identity.host }}
 SERVICE_TOKEN={{ common.identity.token }}
 ADMIN_TOKEN={{ common.identity.password }}
@@ -14,5 +15,4 @@ HYPERVISOR=libvirt
 NOVA_PASSWORD={{ common.identity.password }}
 NEUTRON_PASSWORD={{ common.identity.password }}
 SERVICE_TENANT_NAME=service
-
-
+{%- endif %}

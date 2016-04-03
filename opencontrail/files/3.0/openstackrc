@@ -1,6 +1,8 @@
 {%- from "opencontrail/map.jinja" import common with context %}
+{%- if common.identity.engine == "keystone" %}
 export OS_USERNAME=admin
 export OS_PASSWORD={{ common.identity.password }}
 export OS_TENANT_NAME=admin
 export OS_AUTH_URL=http://{{ common.identity.host }}:5000/v2.0/
 export OS_NO_CACHE=1
+{%- endif %}

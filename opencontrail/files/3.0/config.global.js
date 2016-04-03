@@ -5,9 +5,13 @@
 
 var config = {};
 
-config.orchestration = {};
-config.orchestration.Manager = 'openstack'
 
+config.orchestration = {};
+{%- if web.identity.engine == "keystone" %}
+config.orchestration.Manager = 'openstack'
+{%- else %}
+config.orchestration.Manager = 'none'
+{%- endif %}
 /****************************************************************************
  * This boolean flag indicates to communicate with Orchestration
  * modules(networkManager, imageManager, computeManager, identityManager,
@@ -73,6 +77,7 @@ config.serviceEndPointTakePublicURL = true;
  *      An authority certificate to check the remote host against,
  *      if you do not want to specify then use ''
 *****************************************************************************/
+{%- if web.identity.engine == "keystone" %}
 config.networkManager = {};
 config.networkManager.ip = '{{ web.master.host }}';
 config.networkManager.port = '9696'
@@ -119,6 +124,7 @@ config.storageManager.authProtocol = 'http';
 config.storageManager.apiVersion = ['v1'];
 config.storageManager.strictSSL = false;
 config.storageManager.ca = '';
+{%- if web.identity.engine == "keystone" %}
 
 // VNConfig API server and port.
 config.cnfg = {};
