@@ -3,6 +3,7 @@ applications:
 parameters:
   opencontrail:
     client:
+      version: 2.21
       identity:
         engine: keystone
         host: ${_param:cluster_local_address}
