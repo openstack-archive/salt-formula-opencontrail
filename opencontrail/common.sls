@@ -85,12 +85,14 @@ vm.overcommit_memory:
 /etc/contrail:
   file.directory
 
+{%- if common.identity.engine == "keystone" %}
 /etc/contrail/service.token:
   file.managed:
   - contents: "{{ common.identity.token }}"
   - require:
     - file: /etc/contrail
 
+{%- if common.identity.engine == "keystone" %}
 /etc/contrail/ctrl-details:
   file.managed:
   - source: salt://opencontrail/files/{{ common.version }}/ctrl-details
@@ -111,3 +113,5 @@ vm.overcommit_memory:
   - template: jinja
   - require:
     - file: /etc/contrail
+{%- endif %}
+{%- endif %}
