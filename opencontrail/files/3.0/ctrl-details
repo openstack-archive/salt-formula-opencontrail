@@ -14,5 +14,3 @@ HYPERVISOR=libvirt
 NOVA_PASSWORD={{ common.identity.password }}
 NEUTRON_PASSWORD={{ common.identity.password }}
 SERVICE_TENANT_NAME=service
-
-
