@@ -111,12 +111,14 @@ publisher_init:
   - require:
     - pkg: opencontrail_config_packages
 
+{%- if config.identity.engine == "keystone" %}
 /etc/contrail/contrail-keystone-auth.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ config.version }}/contrail-keystone-auth.conf
   - template: jinja
   - require:
     - pkg: opencontrail_config_packages
+{%- endif %}
 
 /etc/contrail/contrail-schema.conf:
   file.managed:
