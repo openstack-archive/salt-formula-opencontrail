@@ -85,4 +85,25 @@ opencontrail_compute_services:
   service.enabled:
   - names: {{ compute.services }}
 
+{%- if compute.engine == 'kubernetes' %}
+
+bridge_utils:
+  pkg.installed:
+    - name: bridge-utils
+
+ethtool:
+  pkg.installed:
+    - name: ethtool
+
+opencontrail_kubelet:
+  pkg.installed:
+    - name: opencontrail-kubelet
+
+/usr/libexec/kubernetes/kubelet-plugins/net/exec/opencontrail/opencontrail:
+  file.symlink:
+    - target: /usr/local/bin/opencontrail-kubelet-plugin
+    - makedirs: true
+
+{%- endif %}
+
 {%- endif %}
