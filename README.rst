@@ -588,6 +588,20 @@ Without Keystone
           password: none
           token: none
         ...
+
+Kubernetes vrouter nodes
+------------------------
+
+Vrouter configuration on a kubernetes node(s)
+
+.. code-block:: yaml
+
+    opencontrail:
+      ...
+      compute:
+        engine: kubernetes
+      ...
+
 Usage
 =====
 
