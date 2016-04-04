@@ -533,8 +533,6 @@ Vrouter configuration on a compute node(s)
           dns: 127.0.0.1
           mtu: 9000
 
-
-
 Keystone v3
 -------------
 
@@ -562,6 +560,34 @@ To enable support for keystone v3 in opencontrail, there must be defined version
           version: '3'
         ...
 
+Without Keystone
+----------------
+
+.. code-block:: yaml
+
+    opencontrail:
+      ...
+      common:
+        ...
+        identity:
+          engine: none
+          token: none
+          password: none
+        ...
+      config:
+        ...
+        identity:
+          engine: none
+          password: none
+          token: none
+        ...
+      web:
+        ...
+        identity:
+          engine: none
+          password: none
+          token: none
+        ...
 Usage
 =====
 
