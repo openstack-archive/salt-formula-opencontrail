@@ -1,0 +1,25 @@
+applications:
+- opencontrail
+classes:
+- service.opencontrail.support
+parameters:
+  _param:
+    opencontrail_version: 2.2
+  opencontrail:
+      common:
+        version: ${_param:opencontrail_version}
+        identity:
+          engine: kubernetes
+      compute:
+        engine: kubernetes
+        version: ${_param:opencontrail_version}
+        enabled: True
+        discovery:
+          host: ${_param:contrail_discovery_host}
+        interface:
+          address: ${_param:opencontrail_compute_address}
+          dev: ${_param:opencontrail_compute_iface}
+          gateway: ${_param:opencontrail_compute_gateway}
+          mask: ${_param:opencontrail_compute_iface_mask}
+          dns: ${_param:opencontrail_compute_dns}
+          mtu: 9000
