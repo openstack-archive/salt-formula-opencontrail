@@ -82,6 +82,19 @@ opencontrail_database_packages:
   file.managed:
   - contents: '{{ database.id }}'
 
+{% if database.version == 3.0 %}
+
+/usr/share/kafka/config/server.properties:
+  file.managed:
+  - source: salt://opencontrail/files/{{ database.version }}/server.properties
+  - template: jinja
+  - require:
+    - pkg: opencontrail_database_packages
+  - require_in:
+    - service: opencontrail_database_services
+
+{% endif %}
+
 opencontrail_database_services:
   service.running:
   - enable: true
