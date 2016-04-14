@@ -66,7 +66,7 @@ net.ipv4.tcp_keepalive_intvl:
 
 fs.file-max:
   sysctl.present:
-  - value: 65535
+  - value: 124165
 
 security_limits_conf:
   cmd.run:

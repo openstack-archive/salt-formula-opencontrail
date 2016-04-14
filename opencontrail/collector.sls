@@ -71,6 +71,26 @@ opencontrail_collector_packages:
   - require:
     - pkg: opencontrail_collector_packages
 
+{% if collector.version == 3.0 %}
+
+/etc/contrail/supervisord_analytics_files/contrail-analytics-nodemgr.ini:
+  file.managed:
+  - source: salt://opencontrail/files/{{ collector.version }}/collector/contrail-analytics-nodemgr.ini
+  - require:
+    - pkg: opencontrail_collector_packages
+  - require_in:
+    - service: opencontrail_collector_services
+
+/etc/contrail/supervisord_analytics.conf:
+  file.managed:
+  - source: salt://opencontrail/files/{{ collector.version }}/collector/supervisord_analytics.conf
+  - require:
+    - pkg: opencontrail_collector_packages
+  - require_in:
+    - service: opencontrail_collector_services
+
+{% endif %}
+
 opencontrail_collector_services:
   service.running:
   - enable: true

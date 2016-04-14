@@ -93,6 +93,14 @@ opencontrail_database_packages:
   - require_in:
     - service: opencontrail_database_services
 
+/etc/contrail/supervisord_database_files/contrail-database-nodemgr.ini:
+  file.managed:
+  - source: salt://opencontrail/files/{{ database.version }}/database/contrail-database-nodemgr.ini
+  - require:
+    - pkg: opencontrail_database_packages
+  - require_in:
+    - service: opencontrail_database_services
+
 {% endif %}
 
 opencontrail_database_services:
