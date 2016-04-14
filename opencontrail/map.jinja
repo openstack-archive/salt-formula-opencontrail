@@ -12,7 +12,7 @@
 
 {% set collector = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['contrail-analytics'],
+        'pkgs': ['contrail-analytics', 'python-kafka-python', 'python-cassandra'],
         'redis_config': '/etc/redis/redis.conf',
         'services': ['supervisor-analytics','redis-server']
     },
@@ -71,7 +71,7 @@
 
 {% set web = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['contrail-web-controller'],
+        'pkgs': ['contrail-web-controller', 'nodejs-legacy'],
         'services': ['contrail-webui-webserver','contrail-webui-jobserver']
     },
     'RedHat': {

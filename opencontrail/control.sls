@@ -44,6 +44,26 @@ opencontrail_control_packages:
   - require:
     - pkg: opencontrail_control_packages
 
+{% if control.version == 3.0 %}
+
+/etc/contrail/supervisord_control_files/contrail-control-nodemgr.ini:
+  file.managed:
+  - source: salt://opencontrail/files/{{ control.version }}/control/contrail-control-nodemgr.ini
+  - require:
+    - pkg: opencontrail_control_packages
+  - require_in:
+    - service: opencontrail_control_services
+
+/etc/contrail/supervisord_control.conf:
+  file.managed:
+  - source: salt://opencontrail/files/{{ control.version }}/control/supervisord_control.conf
+  - require:
+    - pkg: opencontrail_control_packages
+  - require_in:
+    - service: opencontrail_control_services
+
+{% endif %}
+
 opencontrail_control_services:
   service.running:
   - enable: true

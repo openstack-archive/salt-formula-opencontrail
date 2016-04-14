@@ -134,6 +134,33 @@ publisher_init:
   - require:
     - pkg: opencontrail_config_packages
 
+{% if config.version == 3.0 %}
+
+/etc/contrail/supervisord_config_files/contrail-config-nodemgr.ini:
+  file.managed:
+  - source: salt://opencontrail/files/{{ config.version }}/config/contrail-config-nodemgr.ini
+  - require:
+    - pkg: opencontrail_config_packages
+  - require_in:
+    - service: opencontrail_config_services
+
+/etc/contrail/supervisord_config_files/ifmap.ini:
+  file.absent:
+  - require:
+    - pkg: opencontrail_config_packages
+  - require_in:
+    - service: opencontrail_config_services
+
+/etc/contrail/supervisord_config.conf:
+  file.managed:
+  - source: salt://opencontrail/files/{{ config.version }}/config/supervisord_config.conf
+  - require:
+    - pkg: opencontrail_config_packages
+  - require_in:
+    - service: opencontrail_config_services
+
+{% endif %}
+
 opencontrail_config_services:
   service.running:
   - enable: true
