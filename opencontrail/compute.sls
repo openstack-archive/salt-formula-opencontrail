@@ -69,6 +69,18 @@ net.ipv4.ip_local_reserved_ports:
   - source: salt://opencontrail/files/findns
   - mode: 755
 
+{% if compute.version == 3.0 %}
+
+/etc/contrail/supervisord_vrouter_files/contrail-vrouter-nodemgr.ini:
+  file.managed:
+  - source: salt://opencontrail/files/{{ compute.version }}/contrail-vrouter-nodemgr.ini
+  - require:
+    - pkg: opencontrail_compute_packages
+  - require_in:
+    - service: opencontrail_compute_services
+
+{% endif %}
+
 {%- if network.interface.get('vhost0', {}).get('enabled', False) %}
 
 contrail_load_vrouter_kernel_module:
