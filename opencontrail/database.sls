@@ -103,6 +103,14 @@ opencontrail_database_packages:
 
 {% endif %}
 
+{% if grains.os_family == "Debian" %}
+#Stop cassandra started by init script - replaced by contrail-database
+disable-cassandra-service:
+  service.dead:
+    - name: cassandra
+    - enable: None
+{% endif %}
+
 opencontrail_database_services:
   service.running:
   - enable: true

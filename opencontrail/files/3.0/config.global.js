@@ -9,6 +9,12 @@ var config = {};
 config.orchestration = {};
 {%- if web.identity.engine == "keystone" %}
 config.orchestration.Manager = 'openstack'
+
+{%- if web.identity.version == "3" %}
+config.multi_tenancy = {};
+config.multi_tenancy.enabled = true;
+{%- endif %}
+
 {%- else %}
 config.orchestration.Manager = 'none'
 {%- endif %}
@@ -113,7 +119,7 @@ config.identityManager.authProtocol = 'http';
  * If want to use with default apiVersion(v2.0), then can specify it as 
  * empty array.
 ******************************************************************************/
-config.identityManager.apiVersion = ['v2.0'];
+config.identityManager.apiVersion = ['v{{ web.identity.version }}'];
 config.identityManager.strictSSL = false;
 config.identityManager.ca = '';
 
