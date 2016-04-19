@@ -21,6 +21,7 @@ parameters:
     config:
       version: ${_param:opencontrail_version}
       enabled: true
+      multi_tenancy: true
       network:
         engine: neutron
         host: ${_param:cluster_vip_address}

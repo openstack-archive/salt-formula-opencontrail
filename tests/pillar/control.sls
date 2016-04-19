@@ -14,6 +14,7 @@ opencontrail:
   config:
     version: 2.2
     enabled: true
+    multi_tenancy: false
     network:
       engine: neutron
       host: 127.0.0.1

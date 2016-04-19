@@ -602,6 +602,20 @@ Vrouter configuration on a kubernetes node(s)
         engine: kubernetes
       ...
 
+Disable Contrail API authentication
+-----------------------------------
+
+Contrail version must >=3.0. It is useful especially for Keystone v3.
+
+.. code-block:: yaml
+
+    opencontrail:
+      ...
+      config:
+        multi_tenancy: false
+      ...
+
+
 Usage
 =====
 

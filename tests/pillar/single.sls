@@ -16,6 +16,7 @@ opencontrail:
       port: 9696
   config:
     version: 2.2
+    multi_tenancy: false
     enabled: true
     network:
       engine: neutron
