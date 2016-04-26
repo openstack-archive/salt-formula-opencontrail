@@ -1,0 +1,44 @@
+orchestrate:
+  database:
+    priority: 600
+    args:
+      - batch: 1
+      - require:
+        - salt: keystone.server
+        - salt: neutron.server
+  config:
+    priority: 610
+    args:
+      - batch: 1
+      - require:
+        - salt: opencontrail.database
+  control:
+    priority: 620
+    args:
+      - batch: 1
+      - require:
+        - salt: opencontrail.database
+  collector:
+    priority: 630
+    args:
+      - batch: 1
+      - require:
+        - salt: opencontrail.database
+  compute:
+    priority: 640
+    args:
+      - batch: 1
+      - require:
+        - salt: opencontrail.config
+        - salt: opencontrail.control
+  tor:
+    priority: 650
+  client:
+    priority: 660
+  web:
+    priority: 670
+    args:
+      - batch: 1
+      - require:
+        - salt: opencontrail.database
+
