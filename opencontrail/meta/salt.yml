@@ -1,0 +1,32 @@
+orchestrate:
+  database:
+    priority: 600
+    require:
+      - salt: keystone.server
+      - salt: neutron.server
+  config:
+    priority: 610
+    require:
+      - salt: opencontrail.database
+  control:
+    priority: 620
+    require:
+      - salt: opencontrail.database
+  collector:
+    priority: 630
+    require:
+      - salt: opencontrail.database
+  compute:
+    priority: 640
+    require:
+      - salt: opencontrail.config
+      - salt: opencontrail.control
+  tor:
+    priority: 650
+  client:
+    priority: 660
+  web:
+    priority: 670
+    require:
+      - salt: opencontrail.database
+
