@@ -2,7 +2,13 @@
 OpenContrail
 ============
 
-Contrail Controller is an open, standards-based software solution that delivers network virtualization and service automation for federated cloud networks. It provides self-service provisioning, improves network troubleshooting and diagnostics, and enables service chaining for dynamic application environments across enterprise virtual private cloud (VPC), managed Infrastructure as a Service (IaaS), and Networks Functions Virtualization (NFV) use cases. 
+Contrail Controller is an open, standards-based software solution that
+delivers network virtualization and service automation for federated cloud
+networks. It provides self-service provisioning, improves network
+troubleshooting and diagnostics, and enables service chaining for dynamic
+application environments across enterprise virtual private cloud (VPC),
+managed Infrastructure as a Service (IaaS), and Networks Functions
+Virtualization (NFV) use cases.
 
 
 Sample pillars
@@ -148,7 +154,8 @@ Config, control, analytics, database, web -- altogether on one node.
 All-in-one cluster
 ~~~~~~~~~~~~~~~~~~
 
-Config, control, analytics, database, web -- altogether, clustered on multiple nodes.
+Config, control, analytics, database, web -- altogether, clustered on multiple
+nodes.
 
 .. code-block:: yaml
 
@@ -536,7 +543,8 @@ Vrouter configuration on a compute node(s)
 Keystone v3
 -------------
 
-To enable support for keystone v3 in opencontrail, there must be defined version for config and web role.
+To enable support for keystone v3 in opencontrail, there must be defined
+version for config and web role.
 
 .. code-block:: yaml
 
@@ -672,10 +680,28 @@ Trace XMPP requests
 
 	http://<compute-node>:8085/Snh_SandeshTraceRequest?x=XmppMessageTrace
 
-Read more
-=========
+Documentation and Bugs
+============================
 
-* http://opencontrail.org
-* http://juniper.github.io/contrail-vnc/README.html
-* http://www.juniper.net/techpubs/en_US/contrail1.0/information-products/topic-collections/release-notes/index.html
-* http://www.juniper.net/support/downloads/?p=contrail#sw
+To learn how to deploy OpenStack Salt, consult the documentation available
+online at:
+
+    https://wiki.openstack.org/wiki/OpenStackSalt
+
+In the unfortunate event that bugs are discovered, they should be reported to
+the appropriate bug tracker. If you obtained the software from a 3rd party
+operating system vendor, it is often wise to use their own bug tracker for
+reporting problems. In all other cases use the master OpenStack bug tracker,
+available at:
+
+    http://bugs.launchpad.net/openstack-salt
+
+Developers wishing to work on the OpenStack Salt project should always base
+their work on the latest formulas code, available from the master GIT
+repository at:
+
+    https://git.openstack.org/cgit/openstack/salt-formula-opencontrail
+
+Developers should also join the discussion on the IRC list, at:
+
+    https://wiki.openstack.org/wiki/Meetings/openstack-salt
