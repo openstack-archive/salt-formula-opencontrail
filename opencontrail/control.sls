@@ -14,8 +14,6 @@ opencontrail_control_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_control_packages
-  - watch_in:
-    - service: opencontrail_control_services
 
 /etc/contrail/contrail-control.conf:
   file.managed:
@@ -51,18 +49,24 @@ opencontrail_control_packages:
   - source: salt://opencontrail/files/{{ control.version }}/control/contrail-control-nodemgr.ini
   - require:
     - pkg: opencontrail_control_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_control_services
+{%- endif %}
 
 /etc/contrail/supervisord_control.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ control.version }}/control/supervisord_control.conf
   - require:
     - pkg: opencontrail_control_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_control_services
+{%- endif %}
 
 {% endif %}
+
+{%- if not grains.get('noservices', False) %}
 
 opencontrail_control_services:
   service.running:
@@ -72,5 +76,19 @@ opencontrail_control_services:
     - file: /etc/contrail/dns/contrail-rndc.conf
     - file: /etc/contrail/contrail-dns.conf
     - file: /etc/contrail/contrail-control.conf
+    - file: /etc/contrail/contrail-control-nodemgr.conf
+
+{%- endif %}
+
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+opencontrail_control_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://opencontrail/files/entrypoint.sh.control
+  - mode: 755
+
+{%- endif %}
 
 {%- endif %}
