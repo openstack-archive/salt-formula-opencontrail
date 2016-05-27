@@ -4,13 +4,16 @@ opencontrail_common_packages:
   pkg.installed:
   - names: {{ common.pkgs }}
 
+
+/var/crashes:
+  file.directory
+
+{%- if not grains.get('noservices', False) %}
+
 iptables:
   service.dead:
   - enable: false
   - name: iptables
-
-/var/crashes:
-  file.directory
 
 net.ipv4.ip_forward:
   sysctl.present:
@@ -81,6 +84,8 @@ security_limits_conf:
 vm.overcommit_memory:
   sysctl.present:
     - value: 1
+
+{% endif %}
 
 /etc/contrail:
   file.directory

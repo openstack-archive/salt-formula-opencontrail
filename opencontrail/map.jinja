@@ -2,7 +2,7 @@
 {% set common = salt['grains.filter_by']({
     'Debian': {
         'source': {'engine': 'pkg', 'address': 'http://'},
-        'pkgs': ['dpkg-dev','contrail-utils', 'contrail-nodemgr'],
+        'pkgs': ['dpkg-dev','contrail-utils', 'contrail-nodemgr', 'gettext-base'],
     },
     'RedHat': {
         'source': {'engine': 'pkg', 'address': 'http://'},

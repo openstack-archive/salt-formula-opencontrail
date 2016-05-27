@@ -92,8 +92,10 @@ publisher_init:
   - template: jinja
   - require:
     - pkg: opencontrail_config_packages
+{%- if not grains.get('noservices', False) %}
   - watch_in:
     - service: opencontrail_config_services
+{%- endif %}
 
 /etc/contrail/contrail-config-nodemgr.conf:
   file.managed:
@@ -101,8 +103,10 @@ publisher_init:
   - template: jinja
   - require:
     - pkg: opencontrail_config_packages
+{%- if not grains.get('noservices', False) %}
   - watch_in:
     - service: opencontrail_config_services
+{%- endif %}
 
 /etc/sudoers.d/contrail_sudoers:
   file.managed:
@@ -141,25 +145,33 @@ publisher_init:
   - source: salt://opencontrail/files/{{ config.version }}/config/contrail-config-nodemgr.ini
   - require:
     - pkg: opencontrail_config_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_config_services
+{%- endif %}
 
 /etc/contrail/supervisord_config_files/ifmap.ini:
   file.absent:
   - require:
     - pkg: opencontrail_config_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_config_services
+{%- endif %}
 
 /etc/contrail/supervisord_config.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ config.version }}/config/supervisord_config.conf
   - require:
     - pkg: opencontrail_config_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_config_services
+{%- endif %}
 
 {% endif %}
+
+{%- if not grains.get('noservices', False) %}
 
 opencontrail_config_services:
   service.running:
@@ -175,5 +187,17 @@ opencontrail_config_services:
     - file: /etc/contrail/contrail-keystone-auth.conf
     - file: /etc/sudoers.d/contrail_sudoers
 
+{%- endif %}
+
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+opencontrail_config_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://opencontrail/files/entrypoint.sh.config
+  - mode: 755
+
+{%- endif %}
 
 {%- endif %}
