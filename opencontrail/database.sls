@@ -90,16 +90,20 @@ opencontrail_database_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_database_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_database_services
+{%- endif %}
 
 /etc/contrail/supervisord_database_files/contrail-database-nodemgr.ini:
   file.managed:
   - source: salt://opencontrail/files/{{ database.version }}/database/contrail-database-nodemgr.ini
   - require:
     - pkg: opencontrail_database_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_database_services
+{%- endif %}
 
 {% endif %}
 
@@ -110,6 +114,8 @@ disable-cassandra-service:
     - name: cassandra
     - enable: None
 {% endif %}
+
+{%- if not grains.get('noservices', False) %}
 
 opencontrail_database_services:
   service.running:
@@ -122,5 +128,18 @@ opencontrail_database_services:
     - file: /etc/contrail/contrail-database-nodemgr.conf
     - file: /var/lib/zookeeper/myid
     - file: /etc/zookeeper/conf/log4j.properties
+
+{%- endif %}
+
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+opencontrail_database_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://opencontrail/files/entrypoint.sh.database
+  - mode: 755
+
+{%- endif %}
 
 {%- endif %}

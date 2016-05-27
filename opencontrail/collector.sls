@@ -14,8 +14,6 @@ opencontrail_collector_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_collector_packages
-  - watch_in:
-    - service: opencontrail_collector_services
 
 /etc/contrail/contrail-alarm-gen.conf:
   file.managed:
@@ -23,8 +21,6 @@ opencontrail_collector_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_collector_packages
-  - watch_in:
-    - service: opencontrail_collector_services
 
 /etc/contrail/contrail-snmp-collector.conf:
   file.managed:
@@ -32,8 +28,6 @@ opencontrail_collector_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_collector_packages
-  - watch_in:
-    - service: opencontrail_collector_services
 
 /etc/contrail/contrail-topology.conf:
   file.managed:
@@ -41,8 +35,6 @@ opencontrail_collector_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_collector_packages
-  - watch_in:
-    - service: opencontrail_collector_services
 
 {{ collector.redis_config }}:
   file.managed:
@@ -78,18 +70,24 @@ opencontrail_collector_packages:
   - source: salt://opencontrail/files/{{ collector.version }}/collector/contrail-analytics-nodemgr.ini
   - require:
     - pkg: opencontrail_collector_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_collector_services
+{%- endif %}
 
 /etc/contrail/supervisord_analytics.conf:
   file.managed:
   - source: salt://opencontrail/files/{{ collector.version }}/collector/supervisord_analytics.conf
   - require:
     - pkg: opencontrail_collector_packages
+{%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_collector_services
+{%- endif %}
 
 {% endif %}
+
+{%- if not grains.get('noservices', False) %}
 
 opencontrail_collector_services:
   service.running:
@@ -100,5 +98,22 @@ opencontrail_collector_services:
     - file: /etc/contrail/contrail-query-engine.conf
     - file: /etc/contrail/contrail-collector.conf
     - file: {{ collector.redis_config }}
+    - file: /etc/contrail/contrail-topology.conf
+    - file: /etc/contrail/contrail-snmp-collector.conf
+    - file: /etc/contrail/contrail-analytics-nodemgr.conf
+    - file: /etc/contrail/contrail-alarm-gen.conf
+
+{%- endif %}
+
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+opencontrail_collector_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://opencontrail/files/entrypoint.sh.collector
+  - mode: 755
+
+{%- endif %}
 
 {%- endif %}
