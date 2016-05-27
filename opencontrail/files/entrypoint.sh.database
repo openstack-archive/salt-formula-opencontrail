@@ -1,0 +1,17 @@
+{%- from "opencontrail/map.jinja" import database with context %}
+#!/bin/bash -e
+
+cat /srv/salt/pillar/opencontrail-database.sls | envsubst > /tmp/opencontrail-database.sls
+mv /tmp/opencontrail-database.sls /srv/salt/pillar/opencontrail-database.sls
+
+salt-call --local --retcode-passthrough state.highstate
+
+{% for service in server.services %}
+service {{ service }} stop || true
+{% endfor %}
+
+/usr/bin/supervisord --nodaemon -c /etc/contrail/supervisord_database.conf
+
+{#-
+vim: syntax=jinja
+-#}
