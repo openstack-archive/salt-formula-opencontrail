@@ -32,6 +32,8 @@ parameters:
         host: ${_param:single_address}
       bind:
         address: ${_param:single_address}
+        api_port: 9100
+        discovery_port: 9110
       message_queue:
         engine: rabbitmq
         host: ${_param:single_address}
@@ -72,6 +74,7 @@ parameters:
       enabled: true
       bind:
         address: ${_param:single_address}
+        port: 9081
       master:
         host: ${_param:single_address}
       discovery:
