@@ -623,6 +623,18 @@ Contrail version must >=3.0. It is useful especially for Keystone v3.
         multi_tenancy: false
       ...
 
+Cassandra listen interface
+------------------------------
+
+.. code-block:: yaml
+  
+    database:
+      ....
+      bind:
+        interface: eth0
+        port: 9042
+        rpc_port: 9160
+      ....
 
 Usage
 =====
