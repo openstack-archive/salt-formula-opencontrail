@@ -1,0 +1,10 @@
+Workflow+1: Jakub Pavlik <pavlk.jakub@gmail.com>
+Code-Review+2: Jakub Pavlik <pavlk.jakub@gmail.com>
+Code-Review+2: Ales Komarek <ales.komarek@tcpcloud.eu>
+Workflow+1: Ales Komarek <ales.komarek@tcpcloud.eu>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 14 Jun 2016 08:56:46 +0000
+Reviewed-on: https://review.openstack.org/328263
+Project: openstack/salt-formula-opencontrail
+Branch: refs/heads/master
