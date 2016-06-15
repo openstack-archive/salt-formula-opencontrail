@@ -1,0 +1,8 @@
+name: opencontrail
+os: Debian, RedHat
+os_family: Debian, RedHat
+version: 201606
+release: 1
+summary: OpenContrail Salt formula
+description: Install and configure OpenContrail server and client.
+top_level_dir: opencontrail
