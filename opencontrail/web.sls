@@ -1,9 +1,6 @@
 {%- from "opencontrail/map.jinja" import web with context %}
 {%- if web.enabled %}
 
-include:
-- opencontrail.common
-
 opencontrail_web_packages:
   pkg.installed:
   - names: {{ web.pkgs }}
@@ -21,6 +18,7 @@ opencontrail_web_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_web_packages
+{%- if not grains.get('noservices', False) %}
   - watch_in:
     - service: opencontrail_web_services
 
@@ -30,5 +28,18 @@ opencontrail_web_services:
   - names: {{ web.services }}
   - watch: 
     - file: /etc/contrail/config.global.js
+
+{%- endif %}
+
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+opencontrail_web_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://opencontrail/files/entrypoint.sh.web
+  - mode: 755
+
+{%- endif %}
 
 {%- endif %}

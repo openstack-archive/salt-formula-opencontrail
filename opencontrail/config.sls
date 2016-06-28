@@ -150,6 +150,8 @@ publisher_init:
     - service: opencontrail_config_services
 {%- endif %}
 
+{%- if not grains.get('virtual_subtype', None) == "Docker" %}
+
 /etc/contrail/supervisord_config_files/ifmap.ini:
   file.absent:
   - require:
@@ -157,6 +159,8 @@ publisher_init:
 {%- if not grains.get('noservices', False) %}
   - require_in:
     - service: opencontrail_config_services
+{%- endif %}
+
 {%- endif %}
 
 /etc/contrail/supervisord_config.conf:

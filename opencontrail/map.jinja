@@ -71,7 +71,7 @@
 
 {% set web = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['contrail-web-controller', 'nodejs-legacy'],
+        'pkgs': ['contrail-web-controller', 'nodejs-legacy', 'gettext-base'],
         'services': ['contrail-webui-webserver','contrail-webui-jobserver']
     },
     'RedHat': {

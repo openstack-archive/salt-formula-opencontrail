@@ -85,7 +85,7 @@ config.serviceEndPointTakePublicURL = true;
 *****************************************************************************/
 {%- if web.identity.engine == "keystone" %}
 config.networkManager = {};
-config.networkManager.ip = '{{ web.master.host }}';
+config.networkManager.ip = '{{ web.network.host }}';
 config.networkManager.port = '9696'
 config.networkManager.authProtocol = 'http';
 config.networkManager.apiVersion = [];
@@ -143,7 +143,7 @@ config.cnfg.ca = '';
 // Analytics API server and port.
 config.analytics = {};
 config.analytics.server_ip = '{{ web.analytics.host }}';
-config.analytics.server_port = '9081';
+config.analytics.server_port = '8081';
 config.analytics.authProtocol = 'http';
 config.analytics.strictSSL = false;
 config.analytics.ca = '';
@@ -165,7 +165,7 @@ config.discoveryService.server_port = '5998';
 /* Specifiy true if subscription to discovery server should be enabled, else
  * specify false. Other than true/false value here is treated as true
  */
-config.discoveryService.enable = true;
+config.discoveryService.enable = {{ web.get('enable_discovery', 'true')|lower }};
 
 /* Job Server */
 config.jobServer = {};
@@ -178,7 +178,7 @@ config.files.download_path = '/tmp';
 
 /* WebUI Redis Server */
 config.redis_server_port = '6379';
-config.redis_server_ip = '127.0.0.1';
+config.redis_server_ip = '{{ web.cache.host }}';
 config.redis_dump_file = '/var/lib/redis/dump-webui.rdb';
 config.redis_password = '';
 
