@@ -6,7 +6,7 @@ parameters:
     opencontrail_tor_agents: 1
   opencontrail:
     common:
-      version: 2.2
+      version: ${_param:opencontrail_version}
       identity:
         engine: keystone
         host: 127.0.0.1

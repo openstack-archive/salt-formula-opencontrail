@@ -1,9 +1,11 @@
 applications:
 - opencontrail
 parameters:
+  _param:
+    opencontrail_version: 2.2
   opencontrail:
     client:
-      version: 2.21
+      version: ${_param:opencontrail_version}
       identity:
         engine: keystone
         host: ${_param:cluster_local_address}
