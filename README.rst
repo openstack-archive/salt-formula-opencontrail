@@ -64,7 +64,9 @@ Config, control, analytics, database, web -- altogether on one node.
           - host: 127.0.0.1
             port: 9160
         cache:
-          host: 127.0.0.1
+          members:
+          - host: 127.0.0.1
+            port: 11211
         identity:
           engine: keystone
           version: '2.0'
@@ -201,7 +203,13 @@ nodes.
           - host: 127.0.0.1
             port: 9160
         cache:
-          host: 127.0.0.1
+          members:
+          - host: 127.0.0.1
+            port: 11211
+          - host: 127.0.0.1
+            port: 11211
+          - host: 127.0.0.1
+            port: 11211
         identity:
           engine: keystone
           version: '2.0'
@@ -354,7 +362,13 @@ Config, control, database, web.
           - host: 127.0.0.1
             port: 9160
         cache:
-          host: 127.0.0.1
+          members:
+          - host: 127.0.0.1
+            port: 11211
+          - host: 127.0.0.1
+            port: 11211
+          - host: 127.0.0.1
+            port: 11211
         identity:
           engine: keystone
           version: '2.0'

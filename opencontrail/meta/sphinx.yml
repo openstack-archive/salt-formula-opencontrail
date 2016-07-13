@@ -15,9 +15,6 @@ doc:
         analytics:
           name: "Analytics host"
           value: {{ config.analytics.host }}
-        cache:
-          name: "Cache host"
-          value: {{ config.cache.host }}
         version:
           name: "Contrail version"
           value: {{ config.version }}
