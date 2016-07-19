@@ -25,7 +25,7 @@
 
 {% set compute = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['contrail-vrouter','contrail-vrouter-dkms', 'iproute2', 'haproxy','contrail-nova-driver'],
+        'pkgs': ['contrail-vrouter','contrail-vrouter-dkms', 'iproute2', 'haproxy'],
         'services': ['supervisor-vrouter']
     },
     'RedHat': {
