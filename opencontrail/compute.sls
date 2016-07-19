@@ -14,16 +14,6 @@ opencontrail_compute_packages:
   pkg.installed:
   - names: {{ compute.pkgs }}
 
-{%- if grains.os_family == "Debian" %}
-
-/etc/network/if-pre-up.d/if-vhost0:
-  file.symlink:
-    - target: /usr/lib/contrail/if-vhost0
-    - require:
-      - pkg: opencontrail_compute_packages
-
-{%- endif %}
-
 net.ipv4.ip_local_reserved_ports:
   sysctl.present:
     - value: 8085,9090
