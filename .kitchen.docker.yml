@@ -1,0 +1,12 @@
+---
+driver:
+  name: docker
+  hostname: opencontrail.ci.local
+  use_sudo: true
+
+
+provisioner:
+  grains:
+    noservices: True
+
+

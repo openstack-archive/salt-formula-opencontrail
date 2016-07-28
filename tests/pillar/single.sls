@@ -1,6 +1,6 @@
 opencontrail:
   common:
-    version: 2.2
+    version: 3.0
     source:
       engine: pkg
       address: http://mirror.robotice.cz/contrail-havana/
@@ -15,7 +15,7 @@ opencontrail:
       host: 127.0.0.1
       port: 9696
   config:
-    version: 2.2
+    version: 3.0
     multi_tenancy: false
     enabled: true
     network:
@@ -54,7 +54,7 @@ opencontrail:
     - host: 127.0.0.1
       id: 1
   control:
-    version: 2.2
+    version: 3.0
     enabled: true
     bind:
       address: 127.0.0.1
@@ -66,7 +66,7 @@ opencontrail:
     - host: 127.0.0.1
       id: 1
   collector:
-    version: 2.2
+    version: 3.0
     enabled: true
     bind:
       address: 127.0.0.1
@@ -80,7 +80,7 @@ opencontrail:
       - host: 127.0.0.1
         port: 9160
   database:
-    version: 2.2
+    version: 3.0
     cassandra:
       version: 2
     enabled: true
@@ -100,7 +100,7 @@ opencontrail:
     - host: 127.0.0.1
       id: 1
   web:
-    version: 2.2
+    version: 3.0
     enabled: True
     bind:
       address: 127.0.0.1
