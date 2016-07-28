@@ -1,6 +1,6 @@
 opencontrail:
   common:
-    version: 2.2
+    version: 3.0
     identity:
       engine: keystone
       host: 127.0.0.1
@@ -13,7 +13,7 @@ opencontrail:
       port: 9696
   tor:
     enabled: true
-    version: 2.2
+    version: 3.0
     agents: 1
     control:
       address: 127.0.0.1
