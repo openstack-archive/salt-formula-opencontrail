@@ -122,6 +122,10 @@ publisher_init:
   - template: jinja
   - require:
     - pkg: opencontrail_config_packages
+{%- if not grains.get('noservices', False) %}
+  - watch_in:
+    - service: opencontrail_config_services
+{%- endif %}
 {%- endif %}
 
 /etc/contrail/contrail-schema.conf:
@@ -188,7 +192,6 @@ opencontrail_config_services:
     - file: /etc/contrail/contrail-api.conf
     - file: /etc/contrail/vnc_api_lib.ini
     - file: /etc/ifmap-server/basicauthusers.properties
-    - file: /etc/contrail/contrail-keystone-auth.conf
     - file: /etc/sudoers.d/contrail_sudoers
 
 {%- endif %}
