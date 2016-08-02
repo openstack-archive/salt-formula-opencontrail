@@ -188,7 +188,9 @@ opencontrail_config_services:
     - file: /etc/contrail/contrail-api.conf
     - file: /etc/contrail/vnc_api_lib.ini
     - file: /etc/ifmap-server/basicauthusers.properties
+{%- if config.identity.engine == "keystone" %}
     - file: /etc/contrail/contrail-keystone-auth.conf
+{%- endif %}
     - file: /etc/sudoers.d/contrail_sudoers
 
 {%- endif %}
