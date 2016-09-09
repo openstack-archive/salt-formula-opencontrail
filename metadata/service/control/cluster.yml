@@ -46,14 +46,6 @@ parameters:
           port: 9160
         - host: ${_param:cluster_node03_address}
           port: 9160
-      cache:
-        members:
-        - host: ${_param:cluster_node01_address}
-          port: 11211
-        - host: ${_param:cluster_node02_address}
-          port: 11211
-        - host: ${_param:cluster_node03_address}
-          port: 11211
       identity:
         engine: keystone
         version: '2.0'
