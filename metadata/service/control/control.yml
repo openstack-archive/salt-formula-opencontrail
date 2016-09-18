@@ -79,6 +79,7 @@ parameters:
         id: 2
       - host: ${_param:cluster_node03_address}
         id: 3
+      id: ${_param:opencontrail_control_id}
     database:
       version: ${_param:opencontrail_version}
       cassandra:
