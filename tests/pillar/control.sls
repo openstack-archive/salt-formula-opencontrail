@@ -1,6 +1,6 @@
 opencontrail:
   common:
-    version: 3.0
+    version: 2.2
     identity:
       engine: keystone
       host: 127.0.0.1
@@ -12,7 +12,7 @@ opencontrail:
       host: 127.0.0.1
       port: 9696
   config:
-    version: 3.0
+    version: 2.2
     enabled: true
     multi_tenancy: false
     network:
@@ -63,7 +63,7 @@ opencontrail:
     - host: 127.0.0.1
       id: 3
   control:
-    version: 3.0
+    version: 2.2
     enabled: true
     bind:
       address: 127.0.0.1
@@ -103,7 +103,7 @@ opencontrail:
     - host: 127.0.0.1
       id: 3
   web:
-    version: 3.0
+    version: 2.2
     enabled: True
     bind:
       address: 127.0.0.1
