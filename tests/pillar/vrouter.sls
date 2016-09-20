@@ -1,6 +1,6 @@
 opencontrail:
   common:
-    version: 2.2
+    version: 3.0
     identity:
       engine: keystone
       host: 127.0.0.1
@@ -12,7 +12,7 @@ opencontrail:
       host: 127.0.0.1
       port: 9696
   compute:
-    version: 2.2
+    version: 3.0
     enabled: True
     discovery:
       host: 127.0.0.1

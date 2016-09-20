@@ -1,11 +1,11 @@
 opencontrail:
   common:
-    version: 2.2
+    version: 3.0
     identity:
       engine: kubernetes
   compute:
     engine: kubernetes
-    version: 2.2
+    version: 3.0
     enabled: True
     discovery:
       host: 127.0.0.1
