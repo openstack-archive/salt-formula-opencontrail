@@ -1,0 +1,110 @@
+parameters:
+  kubernetes:
+    control:
+      configmap:
+        opencontrail-control:
+          grains:
+            os_family: Debian
+          pillar:
+            opencontrail:
+              control:
+                version: ${_param:opencontrail_version}
+                enabled: true
+                bind:
+                  address: $OPENCONTRAIL_CONTROL_LOCAL_HOST
+                discovery:
+                  host: ${_param:opencontrail_config_service_host}
+                name: $HOSTNAME
+        opencontrail-config:
+          grains:
+            os_family: Debian
+          pillar:
+            opencontrail:
+              config:
+                version: ${_param:opencontrail_version}
+                enabled: true
+                multi_tenancy: true
+                discovery:
+                  host: ${_param:opencontrail_config_service_host}
+                analytics:
+                  host: ${_param:opencontrail_collector_service_host}
+                bind:
+                  address: $IP
+                message_queue:
+                  engine: rabbitmq
+                  host: ${_param:rabbitmq_service_host}
+                  port: 5672
+                identity:
+                  engine: keystone
+                  version: '2.0'
+                  region: RegionOne
+                  host: ${_param:keystone_service_host}
+                  port: 35357
+                  user: admin
+                  password: '${_param:keystone_admin_password}'
+                  token: '${_param:keystone_service_token}'
+                  tenant: admin
+        opencontrail-collector:
+          grains:
+            os_family: Debian
+          pillar:
+            opencontrail:
+              collector:
+                version: ${_param:opencontrail_version}
+                enabled: true
+                bind:
+                  address: $IP
+                  port: 9081
+                discovery:
+                  host: ${_param:opencontrail_config_service_host}
+                data_ttl: 1
+        opencontrail-database:
+          grains:
+            os_family: Debian
+          pillar:
+            opencontrail:
+              database:
+                version: ${_param:opencontrail_version}
+                cassandra:
+                  version: 2
+                enabled: true
+                name: 'Contrail'
+                minimum_disk: 10
+                discovery:
+                  host: ${_param:opencontrail_config_service_host}
+                bind:
+                  host: $IP
+                  port: 9042
+                  rpc_port: 9160
+                id: $ID
+        opencontrail-web:
+          grains:
+            os_family: Debian
+          pillar:
+            opencontrail:
+              web:
+                version: ${_param:opencontrail_version}
+                enabled: True
+                enable_discovery: False
+                bind:
+                  address: 0.0.0.0
+                analytics:
+                  host: ${_param:opencontrail_collector_service_host}
+                cache:
+                  engine: redis
+                  host: 0.0.0.0
+                  port: 6379
+                identity:
+                  engine: keystone
+                  version: '2.0'
+                  host: ${_param:keystone_service_host}
+                  port: 35357
+                  user: admin
+                  password: '${_param:keystone_admin_password}'
+                  token: '${_param:keystone_service_token}'
+                  tenant: admin
+                network:
+                  engine: neutron
+                  host: ${_param:neutron_service_host}
+                master:
+                  host: ${_param:opencontrail_config_service_host}

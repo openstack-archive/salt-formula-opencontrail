@@ -8,7 +8,7 @@
         'source': {'engine': 'pkg', 'address': 'http://'},
         'pkgs': ['contrail-utils', 'contrail-nodemgr'],
     },
-}, merge=salt['pillar.get']('opencontrail:common')) %}
+}, merge=pillar.opencontrail.get('common', {})) %}
 
 {% set collector = salt['grains.filter_by']({
     'Debian': {
@@ -21,7 +21,7 @@
         'redis_config': '/etc/redis.conf',
         'services': ['supervisor-analytics','redis']
     },
-}, merge=salt['pillar.get']('opencontrail:collector')) %}
+}, merge=pillar.opencontrail.get('collector', {})) %}
 
 {% set compute = salt['grains.filter_by']({
     'Debian': {
@@ -32,7 +32,7 @@
         'pkgs': ['contrail-openstack-vrouter', 'haproxy', 'contrail-vrouter-source'],
         'services': ['supervisor-vrouter']
     },
-}, merge=salt['pillar.get']('opencontrail:compute')) %}
+}, merge=pillar.opencontrail.get('compute', {})) %}
 
 {% set config = salt['grains.filter_by']({
     'Debian': {
@@ -43,7 +43,7 @@
         'pkgs': ['contrail-openstack-config'],
         'services': ['supervisor-config']
     },
-}, merge=salt['pillar.get']('opencontrail:config')) %}
+}, merge=pillar.opencontrail.get('config', {})) %}
 
 {% set control = salt['grains.filter_by']({
     'Debian': {
@@ -54,7 +54,7 @@
         'pkgs': ['contrail-openstack-control'],
         'services': ['contrail-control', 'supervisor-control']
     },
-}, merge=salt['pillar.get']('opencontrail:control')) %}
+}, merge=pillar.opencontrail.get('control', {})) %}
 
 {% set database = salt['grains.filter_by']({
     'Debian': {
@@ -67,7 +67,7 @@
         'cassandra_config': '/etc/cassandra/conf/',
         'services': ['supervisord-contrail-database','zookeeper']
     },
-}, merge=salt['pillar.get']('opencontrail:database')) %}
+}, merge=pillar.opencontrail.get('database', {})) %}
 
 {% set web = salt['grains.filter_by']({
     'Debian': {
@@ -78,7 +78,7 @@
         'pkgs': ['contrail-web-controller'],
         'services': ['supervisor-webui']
     },
-}, merge=salt['pillar.get']('opencontrail:web')) %}
+}, merge=pillar.opencontrail.get('web', {})) %}
 
 {% set tor = salt['grains.filter_by']({
     'Debian': {
@@ -93,4 +93,4 @@
     'Debian': {
         'pkgs': ['python-contrail'],
     }
-}, merge=salt['pillar.get']('opencontrail:client')) %}
+}, merge=pillar.opencontrail.get('client', {})) %}

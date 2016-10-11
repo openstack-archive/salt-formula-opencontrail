@@ -1,0 +1,129 @@
+config:
+  {%- if pillar.opencontrail.config is defined %}
+  {%- from "opencontrail/map.jinja" import config with context %}
+  publisher.properties:
+    source: "salt://opencontrail/files/{{ config.version }}/config/publisher.properties"
+    template: jinja
+  log4j.properties:
+    source: "salt://opencontrail/files/{{ config.version }}/config/log4j.properties"
+    template: jinja
+  basicauthusers.properties:
+    source: "salt://opencontrail/files/{{ config.version }}/basicauthusers.properties"
+    template: jinja
+  contrail-api.conf:
+    source: "salt://opencontrail/files/{{ config.version }}/contrail-api.conf"
+    template: jinja
+  contrail-discovery.conf:
+    source: "salt://opencontrail/files/{{ config.version }}/contrail-discovery.conf"
+    template: jinja
+  vnc-api-lib.ini:
+    source: "salt://opencontrail/files/{{ config.version }}/vnc_api_lib.ini"
+    template: jinja
+  contrail-device-manager.conf:
+    source: "salt://opencontrail/files/{{ config.version }}/contrail-device-manager.conf"
+    template: jinja
+  contrail-sudoers:
+    source: "salt://opencontrail/files/{{ config.version }}/config/contrail_sudoers"
+    template: jinja
+  {%- if config.identity.engine == "keystone" %}
+  contrail-keystone-auth.conf:
+    source: "salt://opencontrail/files/{{ config.version }}/contrail-keystone-auth.conf"
+    template: jinja
+  {%- endif %}
+  contrail-config-nodemgr.ini:
+    source: "salt://opencontrail/files/{{ config.version }}/config/contrail-config-nodemgr.ini"
+    template: jinja
+  contrail-schema.conf:
+    source: "salt://opencontrail/files/{{ config.version }}/contrail-schema.conf"
+    template: jinja
+  contrail-svc-monitor.conf:
+    source: "salt://opencontrail/files/{{ config.version }}/contrail-svc-monitor.conf"
+    template: jinja
+  {%- endif %}
+  {%- if pillar.opencontrail.control is defined %}
+  {%- from "opencontrail/map.jinja" import control with context %}
+  contrail-control-nodemgr.conf:
+    source: "salt://opencontrail/files/{{ control.version }}/contrail-control-nodemgr.conf"
+    template: jinja
+  contrail-control.conf:
+    source: "salt://opencontrail/files/{{ control.version }}/contrail-control.conf"
+    template: jinja
+  contrail-dns.conf:
+    source: "salt://opencontrail/files/{{ control.version }}/contrail-dns.conf"
+    template: jinja
+  contrail-control-nodemgr.ini:
+    source: "salt://opencontrail/files/{{ control.version }}/control/contrail-control-nodemgr.ini"
+    template: jinja
+  {%- endif %}
+  {%- if pillar.opencontrail.database is defined %}
+  {%- from "opencontrail/map.jinja" import database with context %}
+  cassandra.yaml:
+    source: "salt://opencontrail/files/{{ database.version }}/cassandra.yaml"
+    template: jinja
+  cassandra-env.sh:
+    source: "salt://opencontrail/files/{{ database.version }}/database/cassandra-env.sh"
+    template: jinja
+  contrail-database-nodemgr.conf:
+    source: "salt://opencontrail/files/{{ database.version }}/contrail-database-nodemgr.conf"
+    template: jinja
+  zoo.cfg:
+    source: "salt://opencontrail/files/{{ database.version }}/zoo.cfg"
+    template: jinja
+  server.properties:
+    source: "salt://opencontrail/files/{{ database.version }}/server.properties"
+    template: jinja
+  {%- endif %}
+  {%- if pillar.opencontrail.collector is defined %}
+  {%- from "opencontrail/map.jinja" import collector with context %}
+  contrail-analytics-nodemgr.conf:
+    source: "salt://opencontrail/files/{{ collector.version }}/contrail-analytics-nodemgr.conf"
+    template: jinja
+  contrail-alarm-gen.conf:
+    source: "salt://opencontrail/files/{{ collector.version }}/contrail-alarm-gen.conf"
+    template: jinja
+  contrail-snmp-collector.conf:
+    source: "salt://opencontrail/files/{{ collector.version }}/contrail-snmp-collector.conf"
+    template: jinja
+  contrail-topology.conf:
+    source: "salt://opencontrail/files/{{ collector.version }}/contrail-topology.conf"
+    template: jinja
+  contrail-collector.conf:
+    source: "salt://opencontrail/files/{{ collector.version }}/contrail-collector.conf"
+    template: jinja
+  contrail-query-engine.conf:
+    source: "salt://opencontrail/files/{{ collector.version }}/contrail-query-engine.conf"
+    template: jinja
+  contrail-analytics-api.conf:
+    source: "salt://opencontrail/files/{{ collector.version }}/contrail-analytics-api.conf"
+    template: jinja
+  contrail-analytics-nodemgr.ini:
+    source: "salt://opencontrail/files/{{ collector.version }}/collector/contrail-analytics-nodemgr.ini"
+    template: jinja
+  {%- endif %}
+  {%- if pillar.opencontrail.web is defined %}
+  {%- from "opencontrail/map.jinja" import web with context %}
+  config.global.js:
+    source: "salt://opencontrail/files/{{ web.version }}/config.global.js"
+    template: jinja
+  contrail-webui-userauth.js:
+    source: "salt://opencontrail/files/{{ web.version }}/contrail-webui-userauth.js"
+    template: jinja
+  {%- endif %}
+  {%- if pillar.opencontrail.compute is defined %}
+  {%- from "opencontrail/map.jinja" import compute with context %}
+  contrail-vrouter-nodemgr.conf:
+    source: "salt://opencontrail/files/{{ compute.version }}/contrail-vrouter-nodemgr.conf"
+    template: jinja
+  vrouter-nodemgr-param:
+    source: "salt://opencontrail/files/{{ compute.version }}/vrouter_nodemgr_param"
+    template: jinja
+  agent-param:
+    source: "salt://opencontrail/files/{{ compute.version }}/agent_param"
+    template: jinja
+  contrail-vrouter-agent.conf:
+    source: "salt://opencontrail/files/{{ compute.version }}/contrail-vrouter-agent.conf"
+    template: jinja
+  contrail-vrouter-nodemgr.ini:
+    source: "salt://opencontrail/files/{{ compute.version }}/contrail-vrouter-nodemgr.ini"
+    template: jinja
+  {%- endif %}
