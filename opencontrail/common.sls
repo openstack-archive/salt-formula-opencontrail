@@ -74,7 +74,7 @@ fs.file-max:
 security_limits_conf:
   cmd.run:
   - names:
-    - sed -i '/^root\s*soft\s*nproc\s*.*/d' /etc/security/limits.conf && printf printf "root soft nofile 65535\n" >> /etc/security/limits.conf
+    - sed -i '/^root\s*soft\s*nofile\s*.*/d' /etc/security/limits.conf && printf "root soft nofile 65535\n" >> /etc/security/limits.conf
     - sed -i '/^*\s*hard\s*nofile\s*.*/d' /etc/security/limits.conf && printf "* hard nofile 65535\n" >> /etc/security/limits.conf
     - sed -i '/^*\s*soft\s*nofile\s*.*/d' /etc/security/limits.conf && printf "* soft nofile 65535\n" >> /etc/security/limits.conf
     - sed -i '/^*\s*hard\s*nproc\s*.*/d' /etc/security/limits.conf && printf "* hard nproc 65535\n" >> /etc/security/limits.conf
