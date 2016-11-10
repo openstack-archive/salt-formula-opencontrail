@@ -14,6 +14,7 @@ iptables:
   service.dead:
   - enable: false
   - name: iptables
+  - onlyif: service iptables status
 
 net.ipv4.ip_forward:
   sysctl.present:
