@@ -1,0 +1,17 @@
+applications:
+- opencontrail
+classes:
+- service.opencontrail.support
+parameters:
+  _param:
+    opencontrail_version: 2.2
+  opencontrail:
+    compute:
+      version: ${_param:opencontrail_version}
+      enabled: True
+  nova:
+    compute:
+      networking: contrail
+  neutron:
+    switch:
+      enabled: false

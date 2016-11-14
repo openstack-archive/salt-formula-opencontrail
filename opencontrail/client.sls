@@ -1,5 +1,5 @@
 {%- from "opencontrail/map.jinja" import client with context %}
-{%- if client.enabled %}
+{%- if client.get('enabled', False) %}
 
 opencontrail_client_packages:
   pkg.installed:
