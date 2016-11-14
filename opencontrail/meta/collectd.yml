@@ -1,0 +1,89 @@
+{%- if pillar.opencontrail is defined %}
+{%- if pillar.opencontrail.control is defined %}
+{%- from "opencontrail/map.jinja" import collector, config with context %}
+local_plugin:
+  collectd_check_local_endpoint:
+    endpoint:
+{%- if config.get('enabled', False) %}
+      contrail-api:
+        expected_code: 401
+        url: "http://{{ config.bind.address|replace('0.0.0.0', '127.0.0.1') }}:{{ config.bind.api_port }}/"
+      contrail-discovery:
+        expected_code: 200
+        url: "http://{{ config.bind.address|replace('0.0.0.0', '127.0.0.1') }}:{{ config.bind.discovery_port }}/"
+{%- endif %}
+{%- if collector.get('enabled', False) %}
+      contrail-collector:
+        expected_code: 200
+        url: "http://{{ collector.bind.address|replace('0.0.0.0', '127.0.0.1') }}:{{ collector.bind.port }}/"
+{%- endif %}
+  collectd_processes:
+    process:
+      contrail-alarm-gen:
+        match: 'python.*contrail-alarm-gen'
+      contrail-analytics-api:
+        match: 'python.*contrail-analytics-api'
+      contrail-api:
+        match: 'python.*contrail-api'
+      contrail-collector:
+        match: 'contrail-collector'
+      contrail-control:
+        match: 'contrail-control'
+      contrail-device-manager:
+        match: 'python.*contrail-device-manager'
+      contrail-discovery:
+        match: 'python.*contrail-discovery'
+      contrail-dns:
+        match: 'contrail-dns'
+      contrail-ifmap-server:
+        match: 'sh.*ifmap-server'
+      contrail-irond:
+        match: 'java.*irond'
+      contrail-job-server:
+        match: 'node.*jobServerStart'
+      contrail-named:
+        match: 'contrail-named'
+      contrail-nodemgr:
+        match: 'python.*contrail-nodemgr'
+      contrail-query-engine:
+        match: 'contrail-query-engine'
+      contrail-schema:
+        match: 'python.*contrail-schema'
+      contrail-snmp-collector:
+        match: 'python.*contrail-snmp-collector'
+      contrail-supervisord:
+        match: 'python.*supervisord'
+      contrail-svc-monitor:
+        match: 'python.*contrail-svc-monitor'
+      contrail-topology:
+        match: 'python.*contrail-topology'
+      contrail-web-server:
+        match: 'node.*webServerStart'
+      zookeeper:
+        match: 'java.*zookeeper.server'
+      kafka-zookeeper:
+        match: 'java.*kafka.Kafka'
+      redis-server:
+        match: 'redis-server'
+      cassandra-server:
+        match: 'java.*service.CassandraDaemon'
+{%- elif pillar.opencontrail.compute is defined %}
+local_plugin:
+  collectd_check_local_endpoint:
+    endpoint:
+      contrail-node-manager:
+        expected_code: 200
+        url: "http://127.0.0.1:8102/"
+      contrail-vrouter:
+        expected_code: 200
+        url: "http://127.0.0.1:8085/"
+  collectd_processes:
+    process:
+      contrail-nodemgr:
+        match: 'python.*contrail-nodemgr'
+      contrail-supervisord:
+        match: 'python.*supervisord'
+      contrail-vrouter-agent:
+        match: 'contrail-vrouter-agent'
+{%- endif %}
+{%- endif %}

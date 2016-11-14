@@ -2,7 +2,7 @@ parameters:
   opencontrail:
     _support:
       collectd:
-        enabled: false
+        enabled: true
       heka:
         enabled: false
       sensu:
