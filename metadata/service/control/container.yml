@@ -11,7 +11,7 @@ parameters:
                 version: ${_param:opencontrail_version}
                 enabled: true
                 bind:
-                  address: $OPENCONTRAIL_CONTROL_LOCAL_HOST
+                  address: $LOCAL_IP
                 discovery:
                   host: ${_param:opencontrail_config_service_host}
                 name: $HOSTNAME
@@ -29,7 +29,7 @@ parameters:
                 analytics:
                   host: ${_param:opencontrail_collector_service_host}
                 bind:
-                  address: $IP
+                  address: $LOCAL_IP
                 message_queue:
                   engine: rabbitmq
                   host: ${_param:rabbitmq_service_host}
@@ -53,7 +53,7 @@ parameters:
                 version: ${_param:opencontrail_version}
                 enabled: true
                 bind:
-                  address: $IP
+                  address: $LOCAL_IP
                   port: 9081
                 discovery:
                   host: ${_param:opencontrail_config_service_host}
@@ -73,7 +73,7 @@ parameters:
                 discovery:
                   host: ${_param:opencontrail_config_service_host}
                 bind:
-                  host: $IP
+                  host: $LOCAL_IP
                   port: 9042
                   rpc_port: 9160
                 id: $ID
