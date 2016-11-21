@@ -10,10 +10,6 @@ opencontrail_common_packages:
 
 {%- if not grains.get('noservices', False) %}
 
-iptables:
-  service.dead:
-  - enable: false
-  - name: iptables
 
 net.ipv4.ip_forward:
   sysctl.present:
