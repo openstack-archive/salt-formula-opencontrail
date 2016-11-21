@@ -60,6 +60,9 @@ config:
   cassandra.yaml:
     source: "salt://opencontrail/files/{{ database.version }}/cassandra.yaml"
     template: jinja
+  logback.xml:
+    source: "salt://opencontrail/files/{{ database.version }}/database/logback.xml"
+    template: jinja
   cassandra-env.sh:
     source: "salt://opencontrail/files/{{ database.version }}/database/cassandra-env.sh"
     template: jinja
