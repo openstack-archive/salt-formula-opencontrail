@@ -1,0 +1,83 @@
+{%- if pillar.opencontrail is defined %}
+{%- if pillar.opencontrail.control is defined %}
+{%- from "opencontrail/map.jinja" import control with context %}
+{%- if control.get('enabled', False) %}
+{%- set controller = control %}
+{%- endif %}
+{%- elif pillar.opencontrail.compute is defined %}
+{%- from "opencontrail/map.jinja" import compute with context %}
+{%- if compute.get('enabled', False) %}
+{%- set compute = compute %}
+{%- endif %}
+{%- endif %}
+{%- endif %}
+
+{%- if controller is defined or compute is defined %}
+log_collector:
+  decoder:
+    contrail:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/contrail_log.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+    contrail_supervisor:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/contrail_supervisor_log.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+{%- if controller is defined %}
+    contrail_collector:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/contrail_collector_log.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+    contrail_api_stdout:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/contrail_api_stdout_log.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+{%- endif %}
+  input:
+    contrail_supervisor_log:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'contrail/(?P<Service>supervisord-.+)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "contrail_supervisor_decoder"
+      splitter: "TokenSplitter"
+    contrail_named_log:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'contrail/contrail-(?P<Service>named)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "contrail_supervisor_decoder"
+      splitter: "TokenSplitter"
+{%- if controller is defined %}
+    contrail_collector_log:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'contrail/contrail-(?P<Service>collector|control|dns|query-engine)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "contrail_collector_decoder"
+      splitter: "TokenSplitter"
+    contrail_api_stdout_log:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'contrail/contrail-(?P<Service>discovery-0-stdout)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "contrail_api_stdout_decoder"
+      splitter: "TokenSplitter"
+{%- endif %}
+    contrail_main_log:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'contrail/contrail-(?P<Service>alarm-gen.*|api|.*-stderr|.*svc-monitor.*|snmp.*)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "contrail_decoder"
+      splitter: "TokenSplitter"
+{%- endif %}
