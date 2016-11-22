@@ -1,7 +1,35 @@
 {%- if pillar.opencontrail is defined %}
 {%- if pillar.opencontrail.control is defined %}
-{%- from "opencontrail/map.jinja" import collector, config with context %}
+{%- from "opencontrail/map.jinja" import control, collector, config with context %}
 local_plugin:
+  contrail_apis:
+    plugin: python
+    template: opencontrail/files/collectd_contrail_apis.conf
+    api_checks:
+      bgp-session-count:
+        Url: "http://{{ control.bind.address|replace('0.0.0.0', '127.0.0.1') }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=bgp"
+        XmlElement: "ShowNeighborStatisticsResp"
+        ResultType: "count"
+      bgp-session-up-count:
+        Url: "http://{{ control.bind.address|replace('0.0.0.0', '127.0.0.1') }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=bgp&up_or_down=up"
+        XmlElement: "ShowNeighborStatisticsResp"
+        ResultType: "count"
+      bgp-session-down-count:
+        Url: "http://{{ control.bind.address|replace('0.0.0.0', '127.0.0.1') }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=bgp&up_or_down=down"
+        XmlElement: "ShowNeighborStatisticsResp"
+        ResultType: "count"
+      xmpp-session-count:
+        Url: "http://{{ control.bind.address|replace('0.0.0.0', '127.0.0.1') }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=xmpp"
+        XmlElement: "ShowNeighborStatisticsResp"
+        ResultType: "count"
+      xmpp-session-up-count:
+        Url: "http://{{ control.bind.address|replace('0.0.0.0', '127.0.0.1') }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=xmpp&up_or_down=up"
+        XmlElement: "ShowNeighborStatisticsResp"
+        ResultType: "count"
+      xmpp-session-down-count:
+        Url: "http://{{ control.bind.address|replace('0.0.0.0', '127.0.0.1') }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=xmpp&up_or_down=down"
+        XmlElement: "ShowNeighborStatisticsResp"
+        ResultType: "count"
   collectd_check_local_endpoint:
     endpoint:
 {%- if config.get('enabled', False) %}
@@ -71,6 +99,68 @@ local_plugin:
 {%- from "opencontrail/map.jinja" import compute with context %}
 {%- if compute.get('enabled', False) %}
 local_plugin:
+  contrail_ifmap_elements_count:
+    plugin: python
+    template: opencontrail/files/collectd_contrail_ifmap_elements_count.conf
+  contrail_apis:
+    plugin: python
+    template: opencontrail/files/collectd_contrail_apis.conf
+    api_checks:
+      vrouter-flows-active:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_AgentStatsReq"
+        XmlElement: "FlowStatsResp"
+        ResultType: "flow_active"
+      vrouter-flows-aged:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_AgentStatsReq"
+        XmlElement: "FlowStatsResp"
+        ResultType: "flow_aged"
+      vrouter-flows-created:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_AgentStatsReq"
+        XmlElement: "FlowStatsResp"
+        ResultType: "flow_created"
+      vrouter-flows-composite-invalid-interface:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_invalid_if"
+      vrouter-flows-discard:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_discard"
+      vrouter-flows-flow-action-drop:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_flow_action_drop"
+      vrouter-flows-flow-queue-limit-exceeded:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_flow_queue_limit_exceeded"
+      vrouter-flows-flow-table-full:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_flow_table_full"
+      vrouter-flows-frag-err:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_frag_err"
+      vrouter-flows-invalid-label:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_invalid_label"
+      vrouter-flows-invalid-nh:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_KDropStatsReq"
+        XmlElement: "KDropStatsResp"
+        ResultType: "ds_invalid_nh"
+      vrouter-dns-xmpp:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_AgentDnsXmppConnectionStatusReq"
+        XmlElement: "AgentXmppDnsData"
+        State: "Established"
+      vrouter-lls:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_LinkLocalServiceInfo"
+        XmlElement: "LinkLocalServiceData"
+      vrouter-xmpp:
+        Url: "http://{{ compute.interface.address|replace('0.0.0.0', '127.0.0.1') }}:8085/Snh_AgentXmppConnectionStatusReq"
+        XmlElement: "AgentXmppData"
+        State: "Established"
   collectd_check_local_endpoint:
     endpoint:
       contrail-node-manager:
