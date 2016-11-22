@@ -10,10 +10,23 @@
 {%- set compute = compute %}
 {%- endif %}
 {%- endif %}
+{%- if pillar.opencontrail.web is defined %}
+{%- from "opencontrail/map.jinja" import web with context %}
+{%- if web.get('enabled', False) %}
+{%- set web = web %}
+{%- endif %}
+{%- endif %}
 {%- endif %}
 
 {%- if controller is defined or compute is defined %}
 log_collector:
+{%- if controller is defined %}
+  splitter:
+    java:
+      engine: regex
+      delimiter: '\n([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} - )'
+      delimiter_eol: false
+{%- endif %}
   decoder:
     contrail:
       engine: sandbox
@@ -34,6 +47,23 @@ log_collector:
     contrail_api_stdout:
       engine: sandbox
       module_file: /usr/share/lma_collector/decoders/contrail_api_stdout_log.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+    zookeeper:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/zookeeper.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+    cassandra:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/cassandra.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+{%- endif %}
+{%- if web is defined %}
+    redis:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/redis.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
 {%- endif %}
@@ -71,6 +101,30 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_api_stdout_decoder"
       splitter: "TokenSplitter"
+    zookeeper:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'zookeeper/(?P<Service>zookeeper)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "zookeeper_decoder"
+      splitter: "java_splitter"
+    cassandra_system:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'cassandra/(?P<Service>system)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail_cassandra', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "cassandra_decoder"
+      splitter: "java_splitter"
+    cassandra_status:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'cassandra/(?P<Service>status)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail_cassandra', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "cassandra_decoder"
+      splitter: "java_splitter"
 {%- endif %}
     contrail_main_log:
       engine: logstreamer
@@ -80,4 +134,14 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_decoder"
       splitter: "TokenSplitter"
+{%- if web is defined and web.cache is defined and web.cache.engine is defined and web.cache.engine == 'redis' %}
+    redis_log:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'redis/(?P<Service>redis-server)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "redis_decoder"
+      splitter: "TokenSplitter"
+{%- endif %}
 {%- endif %}
