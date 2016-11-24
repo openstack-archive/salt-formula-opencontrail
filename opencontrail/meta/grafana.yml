@@ -1,0 +1,7 @@
+dashboard:
+  cassandra:
+    format: json
+    template: contrail/files/cassandra_influxdb.json
+  contrail:
+    format: json
+    template: contrail/files/contrail_influxdb.json
