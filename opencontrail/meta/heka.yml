@@ -59,6 +59,11 @@ log_collector:
       module_file: /usr/share/lma_collector/decoders/cassandra.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
+    ifmap:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/ifmap.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
 {%- endif %}
 {%- if web_ref is defined %}
     redis:
@@ -116,6 +121,14 @@ log_collector:
       differentiator: ['contrail.cassandra', '.', 'Service']
       priority: ["^Seq"]
       decoder: "cassandra_decoder"
+      splitter: "java_splitter"
+    ifmap:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'contrail/ifmap-(?P<Service>server.*)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail.ifmap', '.', 'Service']
+      priority: ["^Seq"]
+      decoder: "ifmap_decoder"
       splitter: "java_splitter"
 {%- endif %}
     contrail_main_log:
