@@ -1,8 +1,13 @@
 {%- if pillar.opencontrail is defined %}
 {%- if pillar.opencontrail.control is defined %}
-{%- from "opencontrail/map.jinja" import control, collector, config with context %}
+{%- from "opencontrail/map.jinja" import control, collector, config, database with context %}
 local_plugin:
 {%- if control.get('enabled', False) %}
+{%- if database is defined and database.get('cassandra', False) %}
+  collectd_cassandra_jmx:
+    plugin: java
+    template: opencontrail/files/collectd_cassandra_jmx.conf
+{%- endif %}
 {%- set bind_addr=control.bind.address|replace('0.0.0.0', '127.0.0.1') %}
   collectd_contrail_apis:
     plugin: python
