@@ -1,0 +1,8 @@
+Code-Review+2: Simon Pasquier <spasquier@mirantis.com>
+Workflow+1: Simon Pasquier <spasquier@mirantis.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 25 Nov 2016 11:18:24 +0000
+Reviewed-on: https://review.openstack.org/402327
+Project: openstack/salt-formula-opencontrail
+Branch: refs/heads/stacklight
