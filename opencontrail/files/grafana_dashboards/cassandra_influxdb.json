@@ -3,10 +3,10 @@
     "list": []
   },
   "editable": true,
+  "gnetId": null,
   "hideControls": false,
   "id": null,
   "links": [],
-  "originalTitle": "Cassandra",
   "refresh": "1m",
   "rows": [
     {
@@ -38,6 +38,17 @@
           "interval": ">90s",
           "isNew": true,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -45,6 +56,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 4,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
@@ -87,7 +105,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "thresholds": "1,3",
@@ -182,7 +206,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             },
             {
               "alias": "Endpoint DOWN ($tag_hostname)",
@@ -225,7 +255,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -234,6 +270,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -348,7 +385,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -357,6 +400,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -463,7 +507,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -472,6 +522,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -587,7 +638,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -596,6 +653,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -703,7 +761,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -712,6 +776,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -827,7 +892,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -836,6 +907,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -943,7 +1015,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -952,6 +1030,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1065,7 +1144,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             },
             {
               "alias": "Pending Tasks ($tag_hostname)",
@@ -1108,7 +1193,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -1117,6 +1208,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1228,7 +1320,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -1237,6 +1335,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1340,7 +1439,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -1349,6 +1454,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1435,7 +1541,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "GenericJMX_cassandra_memory-heap_usage_max",
+              "measurement": "GenericJMX_cassandra_memory_memory-heap_usage_max",
               "policy": "default",
               "query": "SELECT mean(\"value\") FROM \"memory-heap_usage_max\" WHERE $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": false,
@@ -1455,7 +1561,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -1464,6 +1576,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1568,7 +1681,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             },
             {
               "alias": "PermGen ($tag_hostname)",
@@ -1611,7 +1730,13 @@
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -1620,6 +1745,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1654,7 +1780,23 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "enable": true,
+    "list": [
+      {
+        "allFormat": "regex values",
+        "current": {},
+        "datasource": null,
+        "hide": 0,
+        "includeAll": false,
+        "name": "environment",
+        "options": [],
+        "query": "show tag values from cpu_idle with key = environment_label",
+        "refresh": 1,
+        "refresh_on_load": true,
+        "regex": "",
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-1h",
@@ -1687,5 +1829,5 @@
   },
   "timezone": "browser",
   "title": "Cassandra",
-  "version": 8
+  "version": 9
 }
