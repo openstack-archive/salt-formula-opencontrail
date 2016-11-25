@@ -37,6 +37,16 @@ include:
     - pkg: opencontrail_database_packages
 {% endif %}
 
+{{ database.cassandra_config }}logback.xml:
+  file.managed:
+  - source: salt://opencontrail/files/{{ database.version }}/database/logback.xml
+  - template: jinja
+  - makedirs: True
+{% if grains.os_family == "RedHat" %}
+  - require:
+    - pkg: opencontrail_database_packages
+{% endif %}
+
 {{ database.cassandra_config }}cassandra-env.sh:
   file.managed:
   - source: salt://opencontrail/files/{{ database.version }}/database/cassandra-env.sh
@@ -56,6 +66,7 @@ opencontrail_database_packages:
   - require:
     - file: {{ database.cassandra_config }}cassandra.yaml
     - file: {{ database.cassandra_config }}cassandra-env.sh
+    - file: {{ database.cassandra_config }}logback.xml
 {% endif %}
 
 /etc/zookeeper/conf/log4j.properties:
@@ -124,6 +135,7 @@ opencontrail_database_services:
   - watch: 
     - file: {{ database.cassandra_config }}cassandra.yaml
     - file: {{ database.cassandra_config }}cassandra-env.sh
+    - file: {{ database.cassandra_config }}logback.xml
     - file: /etc/zookeeper/conf/zoo.cfg
     - file: /etc/contrail/contrail-database-nodemgr.conf
     - file: /var/lib/zookeeper/myid
