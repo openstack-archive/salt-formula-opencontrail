@@ -68,7 +68,7 @@
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
             "lineColor": "rgb(31, 120, 193)",
-            "show": false
+            "show": true
           },
           "targets": [
             {
@@ -266,7 +266,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Endpoint UP/DOWN",
+          "title": "Endpoints UP/DOWN",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -396,7 +396,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Cassandra: Native Clients",
+          "title": "Native Clients",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -518,7 +518,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Cassandra: Thrift Clients",
+          "title": "Thrift Clients",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -1081,7 +1081,7 @@
           "interval": ">90s",
           "isNew": true,
           "legend": {
-            "alignAsTable": true,
+            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
@@ -1204,7 +1204,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Cassandra Compaction Engine",
+          "title": "Compaction Engine",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -1519,7 +1519,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "Heap usage max ($tag_hostname)",
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -1572,7 +1572,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Cassandra Heap Usage",
+          "title": "Heap Usage Max",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -1829,5 +1829,5 @@
   },
   "timezone": "browser",
   "title": "Cassandra",
-  "version": 9
+  "version": 10
 }
