@@ -4,7 +4,7 @@
 local_plugin:
 {%- if control.get('enabled', False) %}
 {%- set bind_addr=control.bind.address|replace('0.0.0.0', '127.0.0.1') %}
-  contrail_apis:
+  collectd_contrail_apis:
     plugin: python
     template: opencontrail/files/collectd_contrail_apis.conf
     api_checks:
@@ -107,7 +107,7 @@ local_plugin:
   contrail_ifmap_elements_count:
     plugin: python
     template: opencontrail/files/collectd_contrail_ifmap_elements_count.conf
-  contrail_apis:
+  collectd_contrail_apis:
     plugin: python
     template: opencontrail/files/collectd_contrail_apis.conf
     api_checks:
