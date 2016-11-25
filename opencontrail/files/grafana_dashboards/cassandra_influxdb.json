@@ -69,7 +69,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "UpEndpointCount",
+              "measurement": "GenericJMX_cassandra_UpEndpointCount",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -164,7 +164,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "UpEndpointCount",
+              "measurement": "GenericJMX_cassandra_UpEndpointCount",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -207,7 +207,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "DownEndpointCount",
+              "measurement": "GenericJMX_cassandra_DownEndpointCount",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -330,7 +330,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "connectedNativeClients",
+              "measurement": "GenericJMX_cassandra_connectedNativeClients",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -445,7 +445,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "connectedThriftClients",
+              "measurement": "GenericJMX_cassandra_connectedThriftClients",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -569,7 +569,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "clientRequest_Read_Mean",
+              "measurement": "GenericJMX_cassandra_clientRequest_Read_Mean",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -685,7 +685,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "clientRequest_Read_50thPercentile",
+              "measurement": "GenericJMX_cassandra_clientRequest_Read_50thPercentile",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -809,7 +809,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "clientRequest_Write_Mean",
+              "measurement": "GenericJMX_cassandra_clientRequest_Write_Mean",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -925,7 +925,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "clientRequest_Write_50thPercentile",
+              "measurement": "GenericJMX_cassandra_clientRequest_Write_50thPercentile",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -1047,7 +1047,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "CompactionCompletedTasks",
+              "measurement": "GenericJMX_cassandra_CompactionCompletedTasks",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -1090,7 +1090,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "CompactionPendingTasks",
+              "measurement": "GenericJMX_cassandra_CompactionPendingTasks",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -1210,7 +1210,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "StorageDBLoad",
+              "measurement": "GenericJMX_cassandra_StorageDBLoad",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -1322,7 +1322,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "StorageExceptionCount",
+              "measurement": "GenericJMX_cassandra_StorageExceptionCount",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -1435,7 +1435,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "memory-heap_usage_max",
+              "measurement": "GenericJMX_cassandra_memory-heap_usage_max",
               "policy": "default",
               "query": "SELECT mean(\"value\") FROM \"memory-heap_usage_max\" WHERE $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": false,
@@ -1550,7 +1550,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "CMSOldGen",
+              "measurement": "GenericJMX_cassandra_CMSOldGen",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -1593,7 +1593,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "CMSPermGen",
+              "measurement": "GenericJMX_cassandra_CMSPermGen",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
