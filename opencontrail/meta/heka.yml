@@ -1,32 +1,32 @@
 {%- if pillar.opencontrail is defined %}
-{%- if pillar.opencontrail.control is defined %}
-{%- from "opencontrail/map.jinja" import control with context %}
-{%- if control.get('enabled', False) %}
-{%- set controller_ref = control %}
-{%- endif %}
-{%- elif pillar.opencontrail.compute is defined %}
-{%- from "opencontrail/map.jinja" import compute with context %}
-{%- if compute.get('enabled', False) %}
-{%- set compute_ref = compute %}
-{%- endif %}
-{%- endif %}
-{%- if pillar.opencontrail.web is defined %}
-{%- from "opencontrail/map.jinja" import web with context %}
-{%- if web.get('enabled', False) %}
-{%- set web_ref = web %}
-{%- endif %}
-{%- endif %}
+  {%- if pillar.opencontrail.control is defined %}
+    {%- from "opencontrail/map.jinja" import control with context %}
+    {%- if control.get('enabled', False) %}
+      {%- set controller_ref = control %}
+    {%- endif %}
+  {%- elif pillar.opencontrail.compute is defined %}
+    {%- from "opencontrail/map.jinja" import compute with context %}
+    {%- if compute.get('enabled', False) %}
+      {%- set compute_ref = compute %}
+    {%- endif %}
+  {%- endif %}
+  {%- if pillar.opencontrail.web is defined %}
+    {%- from "opencontrail/map.jinja" import web with context %}
+    {%- if web.get('enabled', False) %}
+      {%- set web_ref = web %}
+    {%- endif %}
+  {%- endif %}
 {%- endif %}
 
 {%- if controller_ref is defined or compute_ref is defined %}
 log_collector:
-{%- if controller_ref is defined %}
+  {%- if controller_ref is defined %}
   splitter:
     java:
       engine: regex
       delimiter: '\n([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} - )'
       delimiter_eol: false
-{%- endif %}
+  {%- endif %}
   decoder:
     contrail:
       engine: sandbox
@@ -38,7 +38,7 @@ log_collector:
       module_file: /usr/share/lma_collector/decoders/contrail_supervisor_log.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
-{%- if controller_ref is defined %}
+  {%- if controller_ref is defined %}
     contrail_collector:
       engine: sandbox
       module_file: /usr/share/lma_collector/decoders/contrail_collector_log.lua
@@ -64,14 +64,14 @@ log_collector:
       module_file: /usr/share/lma_collector/decoders/ifmap.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
-{%- endif %}
-{%- if web_ref is defined %}
+  {%- endif %}
+  {%- if web_ref is defined %}
     redis:
       engine: sandbox
       module_file: /usr/share/lma_collector/decoders/redis.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
-{%- endif %}
+  {%- endif %}
   input:
     contrail_supervisor_log:
       engine: logstreamer
@@ -89,7 +89,7 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_supervisor_decoder"
       splitter: "TokenSplitter"
-{%- if controller_ref is defined %}
+  {%- if controller_ref is defined %}
     contrail_collector_log:
       engine: logstreamer
       log_directory: "/var/log"
@@ -130,7 +130,7 @@ log_collector:
       priority: ["^Seq"]
       decoder: "ifmap_decoder"
       splitter: "java_splitter"
-{%- endif %}
+  {%- endif %}
     contrail_main_log:
       engine: logstreamer
       log_directory: "/var/log"
@@ -139,7 +139,7 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_decoder"
       splitter: "TokenSplitter"
-{%- if web_ref is defined and web_ref.get('cache', {}).get('engine', '') == 'redis' %}
+  {%- if web_ref is defined and web_ref.get('cache', {}).get('engine', '') == 'redis' %}
     redis_log:
       engine: logstreamer
       log_directory: "/var/log"
@@ -148,5 +148,420 @@ log_collector:
       priority: ["^Seq"]
       decoder: "redis_decoder"
       splitter: "TokenSplitter"
-{%- endif %}
+  {%- endif %}
+metric_collector:
+  trigger:
+  {%- if controller_ref is defined %}
+    {%- for contrail_process in ('contrail-control', 'contrail-control-nodemgr',
+    'contrail-dns', 'contrail-named', 'contrail-alarm-gen', 'contrail-analytics-api',
+    'contrail-analytics-nodemgr', 'contrail-collector', 'contrail-query-engine',
+    'contrail-snmp-collector', 'contrail-topology', 'contrail-api', 'contrail-config-nodemgr',
+    'contrail-device-manager', 'contrail-discovery', 'contrail-schema', 'contrail-svc-monitor',
+    'contrail-database-nodemgr', 'ifmap', 'kafka', 'cassandra', 'zookeeper'
+    ) %}
+    {{ contrail_process }}:
+      description: "There is no {{ contrail_process }} process running"
+      severity: critical
+      rules:
+      - metric: lma_components_processes
+        fields:
+          service: '{{ contrail_process }}'
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: min
+    {%- endfor %}
+    ifmap-elements-zero:
+      description: "There are no ifmap elements available"
+      severity: warning
+      rules:
+      - metric: ifmap-num-elements
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    ifmap-elements-many:
+      description: "There are too many ifmap elements available"
+      severity: warning
+      rules:
+      - metric: ifmap-num-elements
+        relational_operator: '=='
+        threshold: 250000
+        window: 100
+        periods: 0
+        function: min
+    ifmap-elements-diff:
+      description: "Number of IFMap record changed between checks is too high"
+      severity: warning
+      rules:
+      - metric: ifmap-num-elements
+        relational_operator: '>='
+        threshold: 2500
+        window: 100
+        periods: 0
+        function: diff
+    xmpp-number-of-sessions-lo:
+      description: "There are no xmpp-number-of-sessions"
+      severity: warning
+      rules:
+      - metric: xmpp-number-of-sessions
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    xmpp-number-of-sessions-hi:
+      description: "There are too many xmpp-number-of-sessions"
+      severity: warning
+      rules:
+      - metric: xmpp-number-of-sessions
+        relational_operator: '=='
+        threshold: 500
+        window: 100
+        periods: 0
+        function: min
+    xmpp-number-of-sessions-diff:
+      description: "Number of xmpp-number-of-sessions changed between checks is too high"
+      severity: warning
+      rules:
+      - metric: xmpp-number-of-sessions
+        relational_operator: '>='
+        threshold: 100
+        window: 100
+        periods: 0
+        function: diff
+    vrouter-xmpp-of-sessions-lo:
+      description: "There are no vrouter-xmpp sessions"
+      severity: warning
+      rules:
+      - metric: vrouter-xmpp
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    vrouter-xmpp-of-sessions-hi:
+      description: "There are too many vrouter-xmpp sessions"
+      severity: warning
+      rules:
+      - metric: vrouter-xmpps
+        relational_operator: '=='
+        threshold: 10
+        window: 100
+        periods: 0
+        function: min
+    vrouter-xmpp-of-sessions-diff:
+      description: "Number of vrouter-xmpp changed between checks is too high"
+      severity: warning
+      rules:
+      - metric: vrouter-xmpp
+        relational_operator: '>='
+        threshold: 5
+        window: 100
+        periods: 0
+        function: diff
+    vrouter-xmpp-dns-of-sessions-lo:
+      description: "There are no vrouter-dns-xmpp sessions"
+      severity: warning
+      rules:
+      - metric: vrouter-dns-xmpp
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    vrouter-xmpp-dns-of-sessions-hi:
+      description: "There are too many vrouter-dns-xmpp sessions"
+      severity: warning
+      rules:
+      - metric: vrouter-dns-xmpps
+        relational_operator: '=='
+        threshold: 10
+        window: 100
+        periods: 0
+        function: min
+    vrouter-xmpp-dns-of-sessions-diff:
+      description: "Number of vrouter-dns-xmpp changed between checks is too high"
+      severity: warning
+      rules:
+      - metric: vrouter-dns-xmpp
+        relational_operator: '>='
+        threshold: 5
+        window: 100
+        periods: 0
+        function: diff
+    vrouter-lls-sessions-lo:
+      description: "There are no vrouter-vrouter-lls sessions"
+      severity: warning
+      rules:
+      - metric: vrouter-lls
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    vrouter-lls-sessions-hi:
+      description: "There are too many vrouter-vrouter-lls sessions"
+      severity: warning
+      rules:
+      - metric: vrouter-lls
+        relational_operator: '=='
+        threshold: 10
+        window: 100
+        periods: 0
+        function: min
+    vrouter-lls-of-sessions-diff:
+      description: "Number of vrouter-vrouter-lls changed between checks is too high"
+      severity: warning
+      rules:
+      - metric: vrouter-lls
+        relational_operator: '>='
+        threshold: 5
+        window: 100
+        periods: 0
+        function: diff
+    xmpp-number-of-sessions-up:
+      description: "There are no active XMPP sessions "
+      severity: warning
+      rules:
+      - metric: xmpp-number-of-sessions-up
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    xmpp-number-of-sessions-down:
+      description: "There are inactive XMPP sessions"
+      severity: warning
+      rules:
+      - metric: xmpp-number-of-sessions-down
+        relational_operator: '>='
+        threshold: 1
+        window: 100
+        periods: 0
+        function: min
+    bgp-session-number:
+      description: "There are no BGP sessions"
+      severity: warning
+      rules:
+      - metric: bgp-session-number
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    bgp-session-number-up:
+      description: "There are no active BGP sessions "
+      severity: warning
+      rules:
+      - metric: bgp-session-number-up
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    bgp-session-number-down:
+      description: "There are inactive BGP sessions"
+      severity: warning
+      rules:
+      - metric: bgp-session-number-down
+        relational_operator: '>='
+        threshold: 1
+        window: 100
+        periods: 0
+        function: min
+    vrouter-openedsockets:
+      description: "There are too many sockets opened for vRouter"
+      severity: warning
+      rules:
+      - metric: vrouter-openedsockets
+        relational_operator: '>='
+        threshold: 0
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-active:
+      description: "There are too many vrouter flows"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-active
+        relational_operator: '>='
+        threshold: 1200
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-zero-active:
+      description: "There are no active flows"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-active
+        relational_operator: '=='
+        threshold: 0
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-created:
+      description: "There are too many vrouter flows created"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-created
+        relational_operator: '>='
+        threshold: 1000
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-discard:
+      description: "There are too many vrouter flows: discards"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-discard
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-drop:
+      description: "There are too many vrouter flows: drops"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-drop
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-frag-err:
+      description: "There are too many vrouter flows: fragment errors"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-frag-err
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-invalid-nh:
+      description: "There are too many vrouter flows: invalid_nh"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-invalid-nh
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-composite-invalid-interface:
+      description: "There are too many vrouter flows: composite_invalid_interface"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-composite-invalid-interface
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-invalid-label:
+      description: "There are too many vrouter flows: invalid_label"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-invalid-label
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flows-flow-queue-limit-exceeded:
+      description: "There are too many vrouter flows: flow_queue_limit_exceeded"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-flow-queue-limit-exceeded
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    vrouter-flow-full:
+      description: "There are too many vrouter flows: flow_table_full"
+      severity: warning
+      rules:
+      - metric: vrouter-flows-flow-table-full
+        relational_operator: '>='
+        threshold: 100
+        window: 120
+        periods: 0
+        function: min
+    cassandra-cluster-endpoint-down:
+      description: "Cassandra Cluster Endpoint is down"
+      severity: critical
+      rules:
+      - metric: DownEndpointCount
+        relational_operator: '>'
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+  {%- endif %}
+  {%- if web_ref is defined %}
+    {%- for contrail_process in ('contrail-webui', 'contrail-webui-middleware') %}
+    {{ contrail_process }}:
+      description: "There is no {{ contrail_process }} process running"
+      severity: critical
+      rules:
+      - metric: lma_components_processes
+        fields:
+          service: '{{ contrail_process }}'
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: min
+    {%- endfor %}
+  {%- endif %}
+  {%- if compute_ref is defined %}
+    {%- for contrail_process in ('contrail-vrouter-agent', 'contrail-vrouter-nodemgr'
+    ) %}
+    {{ contrail_process }}:
+      description: "There is no {{ contrail_process }} process running"
+      severity: critical
+      rules:
+      - metric: lma_components_processes
+        fields:
+          service: '{{ contrail_process }}'
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: min
+    {%- endfor %}
+  {%- endif %}
+  alarm:
+  {%- if controller_ref is defined %}
+    {%- for contrail_process in ('contrail-control', 'contrail-control-nodemgr',
+    'contrail-dns', 'contrail-named', 'contrail-alarm-gen', 'contrail-analytics-api',
+    'contrail-analytics-nodemgr', 'contrail-collector', 'contrail-query-engine',
+    'contrail-snmp-collector', 'contrail-topology', 'contrail-api', 'contrail-config-nodemgr',
+    'contrail-device-manager', 'contrail-discovery', 'contrail-schema', 'contrail-svc-monitor',
+    'contrail-database-nodemgr', 'ifmap', 'kafka', 'cassandra', 'zookeeper'
+    ) %}
+    {{ contrail_process }}:
+      alerting: enabled
+      triggers:
+      - contrail-vrouter-agent
+      dimension:
+        service: contrail-processes-compute
+    {%- endfor %}
+  {%- endif %}
+  {%- if compute_ref is defined %}
+    {%- for contrail_process in ('contrail-vrouter-agent', 'contrail-vrouter-nodemgr'
+    ) %}
+    {{ contrail_process }}:
+      alerting: enabled
+      triggers:
+      - contrail-vrouter-agent
+      dimension:
+        service: contrail-processes-compute
+    {%- endfor %}
+  {%- endif %}
 {%- endif %}
