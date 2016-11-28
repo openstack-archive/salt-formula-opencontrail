@@ -1,6 +1,21 @@
 {
   "annotations": {
-    "list": []
+    "enable": true,
+    "list": [
+      {
+        "datasource": "lma",
+        "enable": true,
+        "iconColor": "#C0C6BE",
+        "iconSize": 13,
+        "lineColor": "rgba(255, 96, 96, 0.592157)",
+        "name": "Status",
+        "query": "select title,tags,text from annotations where $timeFilter and cluster =~ /^cassandra/",
+        "showLine": true,
+        "tagsColumn": "tags",
+        "textColumn": "text",
+        "titleColumn": "title"
+      }
+    ]
   },
   "editable": true,
   "gnetId": null,
@@ -1939,5 +1954,5 @@
   },
   "timezone": "browser",
   "title": "Cassandra",
-  "version": 11
+  "version": 12
 }
