@@ -3,10 +3,10 @@
     "list": []
   },
   "editable": true,
+  "gnetId": null,
   "hideControls": false,
   "id": null,
   "links": [],
-  "originalTitle": "SDN: Contrail",
   "refresh": "1m",
   "rows": [
     {
@@ -38,6 +38,17 @@
           "interval": null,
           "isNew": true,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -45,6 +56,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 2,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
@@ -58,7 +76,7 @@
               "groupBy": [
                 {
                   "params": [
-                    "$interval"
+                    "10s"
                   ],
                   "type": "time"
                 },
@@ -69,7 +87,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "sum_contrail_api_table",
+              "measurement": "lma_components_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -83,11 +101,23 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "count"
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "service",
+                  "operator": "=",
+                  "value": "contrail-api"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "thresholds": "1,3",
@@ -127,6 +157,17 @@
           "interval": null,
           "isNew": true,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -134,6 +175,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 2,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
@@ -147,7 +195,7 @@
               "groupBy": [
                 {
                   "params": [
-                    "$interval"
+                    "10s"
                   ],
                   "type": "time"
                 },
@@ -158,7 +206,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "sum_contrail_collector_table",
+              "measurement": "lma_components_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -172,11 +220,23 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "count"
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "service",
+                  "operator": "=",
+                  "value": "contrail-collector"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "thresholds": "1,3",
@@ -216,6 +276,17 @@
           "interval": null,
           "isNew": true,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -223,6 +294,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 2,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
@@ -236,7 +314,7 @@
               "groupBy": [
                 {
                   "params": [
-                    "$interval"
+                    "10s"
                   ],
                   "type": "time"
                 },
@@ -247,7 +325,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "sum_contrail_discovery_table",
+              "measurement": "lma_components_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -261,11 +339,23 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "count"
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "service",
+                  "operator": "=",
+                  "value": "contrail-discovery"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "thresholds": "1,3",
@@ -305,6 +395,17 @@
           "interval": null,
           "isNew": true,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -312,6 +413,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 2,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
@@ -325,7 +433,7 @@
               "groupBy": [
                 {
                   "params": [
-                    "$interval"
+                    "10s"
                   ],
                   "type": "time"
                 },
@@ -336,7 +444,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "sum_contrail_schema_table",
+              "measurement": "lma_components_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -350,11 +458,23 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "count"
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "service",
+                  "operator": "=",
+                  "value": "contrail-schema"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "thresholds": "1,3",
@@ -394,6 +514,17 @@
           "interval": null,
           "isNew": true,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -401,6 +532,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 2,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
@@ -414,7 +552,7 @@
               "groupBy": [
                 {
                   "params": [
-                    "$interval"
+                    "10s"
                   ],
                   "type": "time"
                 },
@@ -425,7 +563,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "sum_ifmap_table",
+              "measurement": "lma_components_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -439,11 +577,23 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "count"
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "service",
+                  "operator": "=",
+                  "value": "contrail-ifmap-server"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "thresholds": "1,3",
@@ -483,6 +633,17 @@
           "interval": null,
           "isNew": true,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -490,6 +651,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 2,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
@@ -503,7 +671,7 @@
               "groupBy": [
                 {
                   "params": [
-                    "$interval"
+                    "10s"
                   ],
                   "type": "time"
                 },
@@ -514,7 +682,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "sum_contrail_analytics_api_table",
+              "measurement": "lma_components_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -528,11 +696,23 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "count"
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "service",
+                  "operator": "=",
+                  "value": "contrail-analytics-api"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "thresholds": "1,3",
@@ -612,7 +792,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "sum_contrail_vrouter_agent_table",
+              "measurement": "lma_components_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -626,11 +806,23 @@
                   },
                   {
                     "params": [],
-                    "type": "mean"
+                    "type": "count"
                   }
                 ]
               ],
-              "tags": []
+              "tags": [
+                {
+                  "key": "service",
+                  "operator": "=",
+                  "value": "contrail-vrouter-agent"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
+                }
+              ]
             }
           ],
           "timeFrom": null,
@@ -639,6 +831,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -678,6 +871,7 @@
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
           "id": 43,
+          "interval": "",
           "isNew": true,
           "legend": {
             "avg": false,
@@ -719,12 +913,12 @@
                 },
                 {
                   "params": [
-                    "previous"
+                    "null"
                   ],
                   "type": "fill"
                 }
               ],
-              "measurement": "system-uptime",
+              "measurement": "uptime",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -746,7 +940,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -757,6 +951,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1606,6 +1801,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1719,6 +1915,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1827,7 +2024,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -1838,6 +2035,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -1946,7 +2144,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -1957,6 +2155,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -2065,7 +2264,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -2076,6 +2275,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -2178,7 +2378,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -2189,6 +2389,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -2297,7 +2498,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -2308,6 +2509,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -2411,7 +2613,13 @@
                 {
                   "key": "backend",
                   "operator": "=",
-                  "value": "neutron-api"
+                  "value": "neutron_api"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -2422,6 +2630,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -2527,7 +2736,13 @@
                 {
                   "key": "backend",
                   "operator": "=",
-                  "value": "contrail-analytics-api"
+                  "value": "contrail_analytics"
+                },
+                {
+                  "condition": "AND",
+                  "key": "environment_label",
+                  "operator": "=~",
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -2624,6 +2839,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -2740,7 +2956,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -2782,7 +2998,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -2824,7 +3040,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -2866,7 +3082,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -2908,7 +3124,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -2950,7 +3166,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -2992,7 +3208,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -3034,7 +3250,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -3076,7 +3292,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
@@ -3118,7 +3334,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -3129,6 +3345,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -3227,9 +3444,10 @@
                   "type": "fill"
                 }
               ],
+              "hide": false,
               "measurement": "lma_components_processes",
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-analytics-api' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-analytics-api' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "F",
               "resultFormat": "time_series",
@@ -3251,7 +3469,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 },
                 {
                   "condition": "AND",
@@ -3279,7 +3497,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-analytics-nodemgr ' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-analytics-nodemgr ' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -3317,7 +3535,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-collector' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-collector' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series",
@@ -3355,7 +3573,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-query-engine' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-query-engine' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -3393,7 +3611,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-snmp-collector' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-snmp-collector' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "D",
               "resultFormat": "time_series",
@@ -3431,7 +3649,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-topology' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-topology' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "E",
               "resultFormat": "time_series",
@@ -3469,7 +3687,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-api' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-api' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "G",
               "resultFormat": "time_series",
@@ -3507,7 +3725,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-config-nodemgr' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-config-nodemgr' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "H",
               "resultFormat": "time_series",
@@ -3545,7 +3763,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-device-manager' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-device-manager' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "I",
               "resultFormat": "time_series",
@@ -3583,7 +3801,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-discovery' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-discovery' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "J",
               "resultFormat": "time_series",
@@ -3621,7 +3839,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-schema' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-schema' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "K",
               "resultFormat": "time_series",
@@ -3659,7 +3877,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-svc-monitor' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-svc-monitor' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "L",
               "resultFormat": "time_series",
@@ -3697,7 +3915,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'ifmap' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'ifmap' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "M",
               "resultFormat": "time_series",
@@ -3735,7 +3953,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-webui' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-webui' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "N",
               "resultFormat": "time_series",
@@ -3773,7 +3991,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-webui-middleware' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-webui-middleware' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "O",
               "resultFormat": "time_series",
@@ -3811,7 +4029,7 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-database-nodemgr' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-database-nodemgr' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": true,
               "refId": "P",
               "resultFormat": "time_series",
@@ -3849,8 +4067,8 @@
                 }
               ],
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'kafka' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
-              "rawQuery": true,
+              "query": "SELECT mean(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'kafka' AND $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "rawQuery": false,
               "refId": "Q",
               "resultFormat": "time_series",
               "select": [
@@ -3876,6 +4094,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -3918,7 +4137,7 @@
           "interval": ">90s",
           "isNew": true,
           "legend": {
-            "alignAsTable": true,
+            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
@@ -3941,6 +4160,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -3984,7 +4204,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -3995,6 +4215,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -4037,7 +4258,7 @@
           "interval": ">90s",
           "isNew": true,
           "legend": {
-            "alignAsTable": true,
+            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
@@ -4060,6 +4281,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4103,7 +4325,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -4114,6 +4336,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -4156,7 +4379,7 @@
           "interval": ">90s",
           "isNew": true,
           "legend": {
-            "alignAsTable": true,
+            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
@@ -4179,6 +4402,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4222,7 +4446,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -4233,6 +4457,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "cumulative"
           },
           "type": "graph",
@@ -4298,6 +4523,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4341,7 +4567,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -4352,6 +4578,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -4417,6 +4644,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4460,7 +4688,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -4471,6 +4699,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -4536,6 +4765,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4579,7 +4809,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -4590,6 +4820,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -4655,6 +4886,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4698,7 +4930,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -4709,6 +4941,7 @@
           "tooltip": {
             "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -4801,7 +5034,7 @@
               ],
               "measurement": "ntp-time-drift",
               "policy": "default",
-              "query": "SELECT count(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$Environment$/ AND \"service\" = 'contrail-analytics-api' AND $timeFilter GROUP BY time($interval) fill(null)",
+              "query": "SELECT count(\"value\") FROM \"lma_components_processes\" WHERE \"environment_label\" =~ /^$environment$/ AND \"service\" = 'contrail-analytics-api' AND $timeFilter GROUP BY time($interval) fill(null)",
               "rawQuery": false,
               "refId": "F",
               "resultFormat": "time_series",
@@ -4823,7 +5056,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -4834,6 +5067,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -4914,7 +5148,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "",
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4936,7 +5170,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "bgp-session-number-up",
+              "measurement": "contrail_bgp-session-up-count",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -4958,12 +5192,12 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
             {
-              "alias": "",
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -4985,7 +5219,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "bgp-session-number-down",
+              "measurement": "contrail_bgp-session-down-count",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -5007,7 +5241,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5018,6 +5252,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -5092,6 +5327,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5113,7 +5349,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-dns-xmpp",
+              "measurement": "contrail_vrouter-dns-xmpp",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5135,11 +5371,12 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5161,7 +5398,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-xmpp",
+              "measurement": "contrail_vrouter-xmpp",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -5183,7 +5420,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5194,6 +5431,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -5237,7 +5475,7 @@
           "interval": "> 60s",
           "isNew": true,
           "legend": {
-            "alignAsTable": true,
+            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
@@ -5260,6 +5498,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5281,7 +5520,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-lls",
+              "measurement": "contrail_vrouter-lls",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5303,7 +5542,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5314,6 +5553,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -5381,7 +5621,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "",
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5403,7 +5643,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "xmpp-number-of-sessions-up",
+              "measurement": "contrail_xmpp-session-up-count",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5425,12 +5665,12 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             },
             {
-              "alias": "",
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5452,7 +5692,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "xmpp-number-of-sessions-down",
+              "measurement": "contrail_xmpp-session-down-count",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -5474,7 +5714,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5485,6 +5725,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -5535,7 +5776,7 @@
             "current": false,
             "max": false,
             "min": false,
-            "rightSide": true,
+            "rightSide": false,
             "show": true,
             "total": false,
             "values": false
@@ -5576,7 +5817,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "ifmap-num-elements",
+              "measurement": "contrail_ifmap-elements-count_contrail",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5598,7 +5839,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5609,6 +5850,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -5646,7 +5888,7 @@
           "aliasColors": {
             "vrouter-flows-active.mean {hostname: node-6}": "#447EBC"
           },
-          "bars": true,
+          "bars": false,
           "datasource": null,
           "editable": true,
           "error": false,
@@ -5669,13 +5911,13 @@
             "total": false,
             "values": false
           },
-          "lines": false,
+          "lines": true,
           "linewidth": 2,
           "links": [],
           "nullPointMode": "connected",
           "percentage": false,
-          "pointradius": 5,
-          "points": false,
+          "pointradius": 1,
+          "points": true,
           "renderer": "flot",
           "seriesOverrides": [],
           "span": 12,
@@ -5683,6 +5925,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5704,7 +5947,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-active",
+              "measurement": "contrail_vrouter-flows-active",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5726,7 +5969,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5737,6 +5980,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -5766,7 +6010,7 @@
           "aliasColors": {
             "vrouter-flows-aged.mean {hostname: node-6}": "#705DA0"
           },
-          "bars": true,
+          "bars": false,
           "datasource": null,
           "editable": true,
           "error": false,
@@ -5789,13 +6033,13 @@
             "total": false,
             "values": false
           },
-          "lines": false,
+          "lines": true,
           "linewidth": 2,
           "links": [],
           "nullPointMode": "connected",
           "percentage": false,
-          "pointradius": 5,
-          "points": false,
+          "pointradius": 1,
+          "points": true,
           "renderer": "flot",
           "seriesOverrides": [],
           "span": 12,
@@ -5803,6 +6047,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5824,7 +6069,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-aged",
+              "measurement": "contrail_vrouter-flows-aged",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5846,7 +6091,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5857,6 +6102,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -5923,6 +6169,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -5944,7 +6191,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-composite-invalid-interface",
+              "measurement": "contrail_vrouter-flows-composite-invalid-interface",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5966,7 +6213,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -5977,6 +6224,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6044,6 +6292,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -6065,7 +6314,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-created",
+              "measurement": "contrail_vrouter-flows-created",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6087,7 +6336,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6098,6 +6347,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6166,6 +6416,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -6187,7 +6438,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-discard",
+              "measurement": "contrail_vrouter-flows-discard",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6209,7 +6460,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6220,6 +6471,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6289,6 +6541,7 @@
           "steppedLine": false,
           "targets": [
             {
+              "alias": "($tag_hostname)",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -6310,7 +6563,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-drop",
+              "measurement": "contrail_vrouter-flows-flow-action-drop",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6332,7 +6585,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6343,6 +6596,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6434,7 +6688,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-flow-queue-limit-exceeded",
+              "measurement": "contrail_vrouter-flows-flow-queue-limit-exceeded",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6456,7 +6710,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6467,6 +6721,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6558,7 +6813,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-flow-table-full",
+              "measurement": "contrail_vrouter-flows-flow-table-full",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6580,7 +6835,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6591,6 +6846,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6683,7 +6939,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-frag-err",
+              "measurement": "contrail_vrouter-flows-frag-err",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6705,7 +6961,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6716,6 +6972,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6809,7 +7066,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-invalid-label",
+              "measurement": "contrail_vrouter-flows-invalid-label",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6831,7 +7088,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6842,6 +7099,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -6936,7 +7194,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "vrouter-flows-invalid-nh",
+              "measurement": "contrail_vrouter-flows-invalid-nh",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6958,7 +7216,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -6969,6 +7227,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -7086,7 +7345,7 @@
                 {
                   "key": "environment_label",
                   "operator": "=~",
-                  "value": "/^$Environment$/"
+                  "value": "/^$environment$/"
                 }
               ]
             }
@@ -7097,6 +7356,7 @@
           "tooltip": {
             "msResolution": true,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
@@ -7132,18 +7392,20 @@
   "style": "dark",
   "tags": [],
   "templating": {
+    "enable": true,
     "list": [
       {
+        "allFormat": "regex values",
         "current": {},
         "datasource": null,
         "hide": 0,
         "includeAll": false,
-        "multi": false,
-        "name": "Environment",
+        "name": "environment",
         "options": [],
         "query": "show tag values from cpu_idle with key = environment_label",
-        "refresh": 0,
+        "refresh": 1,
         "refresh_on_load": true,
+        "regex": "",
         "type": "query"
       }
     ]
@@ -7178,6 +7440,6 @@
     ]
   },
   "timezone": "browser",
-  "title": "SDN: Contrail",
-  "version": 14
+  "title": "OpenContrail",
+  "version": 15
 }
