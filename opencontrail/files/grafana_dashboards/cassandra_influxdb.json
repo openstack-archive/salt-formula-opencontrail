@@ -110,6 +110,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -211,6 +217,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             },
@@ -260,6 +272,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -390,6 +408,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -512,6 +536,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -643,6 +673,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -766,6 +802,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -897,6 +939,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1020,6 +1068,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1149,6 +1203,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             },
@@ -1198,6 +1258,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1325,6 +1391,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1444,6 +1516,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1566,6 +1644,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1686,6 +1770,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             },
@@ -1735,6 +1825,12 @@
                   "key": "environment_label",
                   "operator": "=~",
                   "value": "/^$environment$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/$server/"
                 }
               ]
             }
@@ -1795,6 +1891,20 @@
         "refresh_on_load": true,
         "regex": "",
         "type": "query"
+      },
+      {
+        "allFormat": "regex values",
+        "current": {},
+        "datasource": "lma",
+        "hide": 0,
+        "includeAll": true,
+        "name": "server",
+        "options": [],
+        "query": "show tag values from GenericJMX_cassandra_memory with key = hostname where environment_label =~ /^$environment$/ ",
+        "refresh": 1,
+        "refresh_on_load": true,
+        "regex": "",
+        "type": "query"
       }
     ]
   },
@@ -1829,5 +1939,5 @@
   },
   "timezone": "browser",
   "title": "Cassandra",
-  "version": 10
+  "version": 11
 }
