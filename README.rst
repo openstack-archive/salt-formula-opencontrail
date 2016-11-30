@@ -624,6 +624,19 @@ Vrouter configuration on a kubernetes node(s)
         engine: kubernetes
       ...
 
+vRouter with separated control plane
+------------------------------------
+
+Separate XMPP traffic from dataplane interface.
+
+.. code-block:: yaml
+
+    opencontrail:
+      compute:
+        bind:
+          address: 172.16.0.50
+      ...
+
 Disable Contrail API authentication
 -----------------------------------
 

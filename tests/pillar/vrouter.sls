@@ -16,6 +16,8 @@ opencontrail:
     enabled: True
     discovery:
       host: 127.0.0.1
+    bind:
+      address: 127.0.0.1
     interface:
       address: 127.0.0.1
       dev: eth0
