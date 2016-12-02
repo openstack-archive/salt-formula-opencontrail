@@ -1,6 +1,6 @@
 {%- if pillar.opencontrail is defined %}
 {%- if pillar.opencontrail.control is defined %}
-{%- from "opencontrail/map.jinja" import control, collector, config, database with context %}
+{%- from "opencontrail/map.jinja" import control, collector, config, database, web with context %}
 local_plugin:
 {%- if control.get('enabled', False) %}
 {%- if database is defined and database.get('cassandra', False) %}
@@ -81,24 +81,38 @@ local_plugin:
       contrail-named:
         match: 'contrail-named'
       contrail-nodemgr:
-        match: 'python.*contrail-nodemgr'
+        match: 'python.*contrail-nodemgr$'
+      contrail-nodemgr-config:
+        match: 'python.*contrail-nodemgr.*-config'
+      contrail-nodemgr-control:
+        match: 'python.*contrail-nodemgr.*-control'
+      contrail-nodemgr-database:
+        match: 'python.*contrail-nodemgr.*-database'
       contrail-query-engine:
         match: 'contrail-query-engine'
       contrail-schema:
         match: 'python.*contrail-schema'
       contrail-snmp-collector:
         match: 'python.*contrail-snmp-collector'
-      contrail-supervisord:
-        match: 'python.*supervisord'
+      contrail-supervisord-analytics:
+        match: 'python.*supervisord.*_analytics'
+      contrail-supervisord-config:
+        match: 'python.*supervisord.*_config'
+      contrail-supervisord-control:
+        match: 'python.*supervisord.*_control'
+      contrail-supervisord-database:
+        match: 'python.*supervisord.*_database'
       contrail-svc-monitor:
         match: 'python.*contrail-svc-monitor'
       contrail-topology:
         match: 'python.*contrail-topology'
+{%- if web.get('enabled', False) %}
       contrail-web-server:
         match: 'node.*webServerStart'
-      zookeeper:
+{%- endif %}
+      zookeeper-server:
         match: 'java.*zookeeper.server'
-      kafka-zookeeper:
+      kafka-server:
         match: 'java.*kafka.Kafka'
       redis-server:
         match: 'redis-server'
@@ -181,10 +195,10 @@ local_plugin:
         url: "http://127.0.0.1:8085/"
   collectd_processes:
     process:
-      contrail-nodemgr:
-        match: 'python.*contrail-nodemgr'
-      contrail-supervisord:
-        match: 'python.*supervisord'
+      contrail-nodemgr-vrouter:
+        match: 'python.*contrail-nodemgr.*-vrouter'
+      contrail-supervisord-vrouter:
+        match: 'python.*supervisord.*_vrouter'
       contrail-vrouter-agent:
         match: 'contrail-vrouter-agent'
 {%- endif %}
