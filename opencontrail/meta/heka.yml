@@ -3,11 +3,26 @@
     {%- from "opencontrail/map.jinja" import control with context %}
     {%- if control.get('enabled', False) %}
       {%- set controller_ref = control %}
+      {%- set control_processes = (
+            'cassandra-server', 'contrail-alarm-gen', 'contrail-analytics-api',
+            'contrail-api', 'contrail-collector', 'contrail-control',
+            'contrail-device-manager', 'contrail-discovery', 'contrail-dns',
+            'contrail-ifmap-server', 'contrail-irond', 'contrail-job-server',
+            'contrail-named', 'contrail-nodemgr', 'contrail-nodemgr-config',
+            'contrail-nodemgr-control', 'contrail-nodemgr-database', 'contrail-query-engine',
+            'contrail-schema', 'contrail-snmp-collector', 'contrail-supervisord-analytics',
+            'contrail-supervisord-config', 'contrail-supervisord-control', 'contrail-supervisord-database',
+            'contrail-svc-monitor', 'contrail-topology',
+            'kafka-server', 'redis-server', 'zookeeper-server'
+          ) %}
     {%- endif %}
   {%- elif pillar.opencontrail.compute is defined %}
     {%- from "opencontrail/map.jinja" import compute with context %}
     {%- if compute.get('enabled', False) %}
       {%- set compute_ref = compute %}
+      {%- set compute_processes = (
+            'contrail-nodemgr-vrouter', 'contrail-supervisord-vrouter', 'contrail-vrouter-agent'
+          ) %}
     {%- endif %}
   {%- endif %}
   {%- if pillar.opencontrail.web is defined %}
@@ -152,25 +167,55 @@ log_collector:
 metric_collector:
   trigger:
   {%- if controller_ref is defined %}
-    {%- for contrail_process in ('contrail-control', 'contrail-control-nodemgr',
-    'contrail-dns', 'contrail-named', 'contrail-alarm-gen', 'contrail-analytics-api',
-    'contrail-analytics-nodemgr', 'contrail-collector', 'contrail-query-engine',
-    'contrail-snmp-collector', 'contrail-topology', 'contrail-api', 'contrail-config-nodemgr',
-    'contrail-device-manager', 'contrail-discovery', 'contrail-schema', 'contrail-svc-monitor',
-    'contrail-database-nodemgr', 'ifmap', 'kafka', 'cassandra', 'zookeeper'
-    ) %}
+    contrail_api_local_endpoint:
+      description: 'Contrail API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: contrail-api
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    contrail_discovery_api_local_endpoint:
+      description: 'Contrail Discovery API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: contrail-discovery
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    contrail_collector_api_local_endpoint:
+      description: 'Contrail Collector API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: contrail-collector
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    {%- for contrail_process in control_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
       severity: critical
       rules:
       - metric: lma_components_processes
         fields:
-          service: '{{ contrail_process }}'
+          service: {{ contrail_process }}
         relational_operator: '=='
         threshold: 0
         window: 60
         periods: 0
-        function: min
+        function: last
     {%- endfor %}
     xmpp_number_of_sessions_lo:
       description: "There are no xmpp-number-of-sessions"
@@ -473,129 +518,183 @@ metric_collector:
         periods: 0
         function: min
   {%- endif %}
-  {%- if web_ref is defined %}
-    {%- for contrail_process in ('contrail-webui', 'contrail-webui-middleware'
-    ) %}
-    {{ contrail_process|replace("-", "_") }}:
-      description: "There is no {{ contrail_process }} process running"
-      severity: critical
-      rules:
-      - metric: lma_components_processes
-        fields:
-          service: '{{ contrail_process }}'
-        relational_operator: '=='
-        threshold: 0
-        window: 60
-        periods: 0
-        function: min
-    {%- endfor %}
-  {%- endif %}
   {%- if compute_ref is defined %}
-    {%- for contrail_process in ('contrail-vrouter-agent', 'contrail-vrouter-nodemgr'
-    ) %}
+    contrail_node_manager_api_local_endpoint:
+      description: 'Contrail Node Manager API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: contrail-node-manager
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    contrail_vrouter_api_local_endpoint:
+      description: 'Contrail vrouter API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: contrail-vrouter
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    {%- for contrail_process in compute_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
       severity: critical
       rules:
       - metric: lma_components_processes
         fields:
-          service: '{{ contrail_process|replace("-", "_") }}'
+          service: {{ contrail_process }}
         relational_operator: '=='
         threshold: 0
         window: 60
         periods: 0
-        function: min
+        function: last
     {%- endfor %}
   {%- endif %}
   alarm:
   {%- if controller_ref is defined %}
-    {%- for contrail_process in ('contrail-control', 'contrail-control-nodemgr',
-    'contrail-dns', 'contrail-named', 'contrail-alarm-gen', 'contrail-analytics-api',
-    'contrail-analytics-nodemgr', 'contrail-collector', 'contrail-query-engine',
-    'contrail-snmp-collector', 'contrail-topology', 'contrail-api', 'contrail-config-nodemgr',
-    'contrail-device-manager', 'contrail-discovery', 'contrail-schema', 'contrail-svc-monitor',
-    'contrail-database-nodemgr', 'ifmap', 'kafka', 'cassandra', 'zookeeper'
-    ) %}
+    contrail_api_endpoint:
+      alerting: enabled
+      triggers:
+      - contrail_api_local_endpoint
+      dimension:
+        service: contrail-api-endpoint
+    contrail_discovery_api_endpoint:
+      alerting: enabled
+      triggers:
+      - contrail_discovery_api_local_endpoint
+      dimension:
+        service: contrail-discovery-api-endpoint
+    contrail_collector_api_endpoint:
+      alerting: enabled
+      triggers:
+      - contrail_collector_api_local_endpoint
+      dimension:
+        service: contrail-collector-api-endpoint
+    {%- for contrail_process in control_processes %}
     {{ contrail_process|replace("-", "_") }}:
       alerting: enabled
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
-        service: contrail-processes-control
-    {%- endfor %}
-  {%- endif %}
-  {%- if web_ref is defined %}
-    {%- for contrail_process in ('contrail-webui', 'contrail-webui-middleware'
-    ) %}
-    {{ contrail_process|replace("-", "_") }}:
-      alerting: enabled
-      triggers:
-      - {{ contrail_process|replace("-", "_") }}
-      dimension:
-        service: contrail-processes-control
+        service: contrail-control
     {%- endfor %}
   {%- endif %}
   {%- if compute_ref is defined %}
-    {%- for contrail_process in ('contrail-vrouter-agent', 'contrail-vrouter-nodemgr'
-    ) %}
+    contrail_node_manager_api_endpoint:
+      alerting: enabled
+      triggers:
+      - contrail_node_manager_api_local_endpoint
+      dimension:
+        service: contrail-node-manager-api-endpoint
+    contrail_vrouter_api_endpoint:
+      alerting: enabled
+      triggers:
+      - contrail_vrouter_api_local_endpoint
+      dimension:
+        service: contrail-vrouter-api-endpoint
+    {%- for contrail_process in compute_processes %}
     {{ contrail_process|replace("-", "_") }}:
       alerting: enabled
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
-        service: contrail-processes-compute
+        service: contrail-compute
     {%- endfor %}
   {%- endif %}
 aggregator:
   alarm_cluster:
   {%- if controller_ref is defined %}
-    contrail_processes_control:
-      policy: highest_severity
-      group_by: hostname
+    contrail_api_endpoint:
+      policy: availability_of_members
       alerting: enabled
+      group_by: hostname
       match:
-        service: contrail-processes-control
+        service: contrail-api-endpoint
       members:
-    {%- for contrail_process in ('contrail-control', 'contrail-control-nodemgr',
-    'contrail-dns', 'contrail-named', 'contrail-alarm-gen', 'contrail-analytics-api',
-    'contrail-analytics-nodemgr', 'contrail-collector', 'contrail-query-engine',
-    'contrail-snmp-collector', 'contrail-topology', 'contrail-api', 'contrail-config-nodemgr',
-    'contrail-device-manager', 'contrail-discovery', 'contrail-schema', 'contrail-svc-monitor',
-    'contrail-database-nodemgr', 'ifmap', 'kafka', 'cassandra', 'zookeeper'
-    ) %}
-      - {{ contrail_process|replace("-", "_") }}:
-    {%- endfor %}
+      - contrail_api_endpoint
       dimension:
         service: contrail-control
-  {%- endif %}
-  {%- if web_ref is defined %}
-    contrail_processes_compute:
-      policy: highest_severity
-      group_by: hostname
+        nagios_host: 01-service-clusters
+    contrail_discovery_api_endpoint:
+      policy: availability_of_members
       alerting: enabled
+      group_by: hostname
       match:
-        service: contrail-processes-control
+        service: contrail-discovery-api-endpoint
       members:
-    {%- for contrail_process in ('contrail-webui', 'contrail-webui-middleware'
-    ) %}
-      - {{ contrail_process|replace("-", "_") }}:
-    {%- endfor %}
+      - contrail_discovery_api_endpoint
       dimension:
         service: contrail-control
+        nagios_host: 01-service-clusters
+    contrail_collector_api_endpoint:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        service: contrail-collector-api-endpoint
+      members:
+      - contrail_collector_api_endpoint
+      dimension:
+        service: contrail-control
+        nagios_host: 01-service-clusters
+    contrail_control:
+      policy: highest_severity
+      alerting: enabled
+      match:
+        service: contrail-control
+      members:
+      - contrail_api_endpoint
+      - contrail_discovery_api_endpoint
+      - contrail_collector_api_endpoint
+    {%- for contrail_process in control_processes %}
+      - {{ contrail_process|replace("-", "_") }}
+    {%- endfor %}
+      dimension:
+        cluster_name: contrail-control
+        nagios_host: 00-top-clusters
   {%- endif %}
   {%- if compute_ref is defined %}
-    contrail_processes_compute:
-      policy: highest_severity
-      group_by: hostname
+    contrail_node_manager_api_endpoint:
+      policy: availability_of_members
       alerting: enabled
+      group_by: hostname
       match:
-        service: contrail-processes-compute
+        service: contrail-node-manager-api-endpoint
       members:
-    {%- for contrail_process in ('contrail-vrouter-agent', 'contrail-vrouter-nodemgr'
-    ) %}
-      - {{ contrail_process|replace("-", "_") }}:
-    {%- endfor %}
+      - contrail_node_manager_api_endpoint
       dimension:
         service: contrail-compute
+        nagios_host: 01-service-clusters
+    contrail_vrouter_api_endpoint:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        service: contrail-vrouter-api-endpoint
+      members:
+      - contrail_vrouter_api_endpoint
+      dimension:
+        service: contrail-compute
+        nagios_host: 01-service-clusters
+    contrail_compute:
+      policy: highest_severity
+      alerting: enabled
+      match:
+        service: contrail-compute
+      members:
+    {%- for contrail_process in compute_processes %}
+      - {{ contrail_process|replace("-", "_") }}
+    {%- endfor %}
+      dimension:
+        cluster_name: contrail-compute
+        nagios_host: 00-top-clusters
   {%- endif %}
 {%- endif %}
