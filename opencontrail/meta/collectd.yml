@@ -13,27 +13,27 @@ local_plugin:
     plugin: python
     template: opencontrail/files/collectd_contrail_apis.conf
     api_checks:
-      bgp-session-count:
+      bgp_session_count:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=bgp"
         xml_element: "ShowNeighborStatisticsResp"
         result_type: "count"
-      bgp-session-up-count:
+      bgp_session_up_count:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=bgp&up_or_down=up"
         xml_element: "ShowNeighborStatisticsResp"
         result_type: "count"
-      bgp-session-down-count:
+      bgp_session_down_count:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=bgp&up_or_down=down"
         xml_element: "ShowNeighborStatisticsResp"
         result_type: "count"
-      xmpp-session-count:
+      xmpp_session_count:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=xmpp"
         xml_element: "ShowNeighborStatisticsResp"
         result_type: "count"
-      xmpp-session-up-count:
+      xmpp_session_up_count:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=xmpp&up_or_down=up"
         xml_element: "ShowNeighborStatisticsResp"
         result_type: "count"
-      xmpp-session-down-count:
+      xmpp_session_down_count:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=xmpp&up_or_down=down"
         xml_element: "ShowNeighborStatisticsResp"
         result_type: "count"
@@ -130,58 +130,58 @@ local_plugin:
     plugin: python
     template: opencontrail/files/collectd_contrail_apis.conf
     api_checks:
-      vrouter-flows-active:
+      vrouter_flows_active:
         url: "http://{{ bind_addr }}:8085/Snh_AgentStatsReq"
         xml_element: "FlowStatsResp"
         result_type: "flow_active"
-      vrouter-flows-aged:
+      vrouter_flows_aged:
         url: "http://{{ bind_addr }}:8085/Snh_AgentStatsReq"
         xml_element: "FlowStatsResp"
         result_type: "flow_aged"
-      vrouter-flows-created:
+      vrouter_flows_created:
         url: "http://{{ bind_addr }}:8085/Snh_AgentStatsReq"
         xml_element: "FlowStatsResp"
         result_type: "flow_created"
-      vrouter-flows-composite-invalid-interface:
+      vrouter_flows_composite_invalid_interface:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_invalid_if"
-      vrouter-flows-discard:
+      vrouter_flows_discard:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_discard"
-      vrouter-flows-flow-action-drop:
+      vrouter_flows_flow_action_drop:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_flow_action_drop"
-      vrouter-flows-flow-queue-limit-exceeded:
+      vrouter_flows_flow_queue_limit_exceeded:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_flow_queue_limit_exceeded"
-      vrouter-flows-flow-table-full:
+      vrouter_flows_flow_table_full:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_flow_table_full"
-      vrouter-flows-frag-err:
+      vrouter_flows_frag_err:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_frag_err"
-      vrouter-flows-invalid-label:
+      vrouter_flows_invalid_label:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_invalid_label"
-      vrouter-flows-invalid-nh:
+      vrouter_flows_invalid_nh:
         url: "http://{{ bind_addr }}:8085/Snh_KDropStatsReq"
         xml_element: "KDropStatsResp"
         result_type: "ds_invalid_nh"
-      vrouter-dns-xmpp:
+      vrouter_dns_xmpp:
         url: "http://{{ bind_addr }}:8085/Snh_AgentDnsXmppConnectionStatusReq"
         xml_element: "AgentXmppDnsData"
         state: "Established"
-      vrouter-lls:
+      vrouter_lls:
         url: "http://{{ bind_addr }}:8085/Snh_LinkLocalServiceInfo"
         xml_element: "LinkLocalServiceData"
-      vrouter-xmpp:
+      vrouter_xmpp:
         url: "http://{{ bind_addr }}:8085/Snh_AgentXmppConnectionStatusReq"
         xml_element: "AgentXmppData"
         state: "Established"
