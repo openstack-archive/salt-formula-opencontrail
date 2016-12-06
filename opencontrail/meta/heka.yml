@@ -647,7 +647,7 @@ aggregator:
         nagios_host: 01-service-clusters
     contrail_control:
       policy: highest_severity
-      alerting: enabled
+      alerting: enabled_with_notification
       match:
         service: contrail-control
       members:
@@ -686,7 +686,7 @@ aggregator:
         nagios_host: 01-service-clusters
     contrail_compute:
       policy: highest_severity
-      alerting: enabled
+      alerting: enabled_with_notification
       match:
         service: contrail-compute
       members:
