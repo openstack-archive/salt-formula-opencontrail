@@ -1642,9 +1642,9 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "GenericJMX_cassandra_memory_memory-heap_usage_max",
+              "measurement": "GenericJMX_cassandra_memory_heap_usage_max",
               "policy": "default",
-              "query": "SELECT mean(\"value\") FROM \"memory-heap_usage_max\" WHERE $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
+              "query": "SELECT mean(\"value\") FROM \"heap_usage_max\" WHERE $timeFilter GROUP BY time($interval), \"hostname\" fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1963,5 +1963,5 @@
   },
   "timezone": "browser",
   "title": "Cassandra",
-  "version": 13
+  "version": 14
 }

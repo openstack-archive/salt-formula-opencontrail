@@ -4496,10 +4496,10 @@
       "panels": [
         {
           "aliasColors": {
-            "bgp-session-number-down.last {hostname: node-11}": "#508642",
-            "bgp-session-number-down.last {hostname: node-8}": "#D683CE",
-            "bgp-session-number-up.last {hostname: node-11}": "#F29191",
-            "bgp-session-number-up.last {hostname: node-8}": "#5195CE"
+            "bgp_session_number_down.last {hostname: node-11}": "#508642",
+            "bgp_session_number_down.last {hostname: node-8}": "#D683CE",
+            "bgp_session_number_up.last {hostname: node-11}": "#F29191",
+            "bgp_session_number_up.last {hostname: node-8}": "#5195CE"
           },
           "bars": false,
           "datasource": null,
@@ -4563,7 +4563,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_bgp-session-up-count",
+              "measurement": "contrail_bgp_session_up_count",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -4612,7 +4612,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_bgp-session-down-count",
+              "measurement": "contrail_bgp_session_down_count",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -4742,7 +4742,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-dns-xmpp",
+              "measurement": "contrail_vrouter_dns_xmpp",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -4791,7 +4791,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-xmpp",
+              "measurement": "contrail_vrouter_xmpp",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -4913,7 +4913,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-lls",
+              "measurement": "contrail_vrouter_lls",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5036,7 +5036,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_xmpp-session-up-count",
+              "measurement": "contrail_xmpp_session_up_count",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5085,7 +5085,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_xmpp-session-down-count",
+              "measurement": "contrail_xmpp_session_down_count",
               "policy": "default",
               "refId": "B",
               "resultFormat": "time_series",
@@ -5154,7 +5154,7 @@
       "panels": [
         {
           "aliasColors": {
-            "vrouter-flows-active.mean {hostname: node-6}": "#447EBC"
+            "vrouter_flows_active.mean {hostname: node-6}": "#447EBC"
           },
           "bars": false,
           "datasource": null,
@@ -5215,7 +5215,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-active",
+              "measurement": "contrail_vrouter_flows_active",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5276,7 +5276,7 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-aged.mean {hostname: node-6}": "#705DA0"
+            "vrouter_flows_aged.mean {hostname: node-6}": "#705DA0"
           },
           "bars": false,
           "datasource": null,
@@ -5337,7 +5337,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-aged",
+              "measurement": "contrail_vrouter_flows_aged",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5398,7 +5398,7 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C"
           },
           "bars": false,
           "datasource": null,
@@ -5459,7 +5459,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-composite-invalid-interface",
+              "measurement": "contrail_vrouter_flows_composite_invalid_interface",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5520,8 +5520,8 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300"
           },
           "bars": false,
           "datasource": null,
@@ -5582,7 +5582,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-created",
+              "measurement": "contrail_vrouter_flows_created",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5643,9 +5643,9 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300",
-            "vrouter-flows-discard.mean {hostname: node-6}": "#806EB7"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300",
+            "vrouter_flows_discard.mean {hostname: node-6}": "#806EB7"
           },
           "bars": false,
           "datasource": null,
@@ -5706,7 +5706,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-discard",
+              "measurement": "contrail_vrouter_flows_discard",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5767,10 +5767,10 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300",
-            "vrouter-flows-discard.mean {hostname: node-6}": "#806EB7",
-            "vrouter-flows-drop.mean {hostname: node-6}": "#EA6460"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300",
+            "vrouter_flows_discard.mean {hostname: node-6}": "#806EB7",
+            "vrouter_flows_drop.mean {hostname: node-6}": "#EA6460"
           },
           "bars": false,
           "datasource": null,
@@ -5831,7 +5831,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-flow-action-drop",
+              "measurement": "contrail_vrouter_flows_flow_action_drop",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -5892,11 +5892,11 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300",
-            "vrouter-flows-discard.mean {hostname: node-6}": "#806EB7",
-            "vrouter-flows-drop.mean {hostname: node-6}": "#EA6460",
-            "vrouter-flows-flow-queue-limit-exceeded.mean {hostname: node-6}": "#967302"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300",
+            "vrouter_flows_discard.mean {hostname: node-6}": "#806EB7",
+            "vrouter_flows_drop.mean {hostname: node-6}": "#EA6460",
+            "vrouter_flows_flow_queue_limit_exceeded.mean {hostname: node-6}": "#967302"
           },
           "bars": false,
           "datasource": null,
@@ -5956,7 +5956,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-flow-queue-limit-exceeded",
+              "measurement": "contrail_vrouter_flows_flow_queue_limit_exceeded",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6017,11 +6017,11 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300",
-            "vrouter-flows-discard.mean {hostname: node-6}": "#806EB7",
-            "vrouter-flows-drop.mean {hostname: node-6}": "#EA6460",
-            "vrouter-flows-flow-table-full.mean {hostname: node-6}": "#D683CE"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300",
+            "vrouter_flows_discard.mean {hostname: node-6}": "#806EB7",
+            "vrouter_flows_drop.mean {hostname: node-6}": "#EA6460",
+            "vrouter_flows_flow_table_full.mean {hostname: node-6}": "#D683CE"
           },
           "bars": false,
           "datasource": null,
@@ -6081,7 +6081,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-flow-table-full",
+              "measurement": "contrail_vrouter_flows_flow_table_full",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6142,12 +6142,12 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300",
-            "vrouter-flows-discard.mean {hostname: node-6}": "#806EB7",
-            "vrouter-flows-drop.mean {hostname: node-6}": "#EA6460",
-            "vrouter-flows-flow-table-full.mean {hostname: node-6}": "#D683CE",
-            "vrouter-flows-frag-err.mean {hostname: node-6}": "#614D93"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300",
+            "vrouter_flows_discard.mean {hostname: node-6}": "#806EB7",
+            "vrouter_flows_drop.mean {hostname: node-6}": "#EA6460",
+            "vrouter_flows_flow_table_full.mean {hostname: node-6}": "#D683CE",
+            "vrouter_flows_frag_err.mean {hostname: node-6}": "#614D93"
           },
           "bars": false,
           "datasource": null,
@@ -6207,7 +6207,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-frag-err",
+              "measurement": "contrail_vrouter_flows_frag_err",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6268,13 +6268,13 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300",
-            "vrouter-flows-discard.mean {hostname: node-6}": "#806EB7",
-            "vrouter-flows-drop.mean {hostname: node-6}": "#EA6460",
-            "vrouter-flows-flow-table-full.mean {hostname: node-6}": "#D683CE",
-            "vrouter-flows-frag-err.mean {hostname: node-6}": "#614D93",
-            "vrouter-flows-invalid-label.mean {hostname: node-6}": "#F9BA8F"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300",
+            "vrouter_flows_discard.mean {hostname: node-6}": "#806EB7",
+            "vrouter_flows_drop.mean {hostname: node-6}": "#EA6460",
+            "vrouter_flows_flow_table_full.mean {hostname: node-6}": "#D683CE",
+            "vrouter_flows_frag_err.mean {hostname: node-6}": "#614D93",
+            "vrouter_flows_invalid_label.mean {hostname: node-6}": "#F9BA8F"
           },
           "bars": false,
           "datasource": null,
@@ -6334,7 +6334,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-invalid-label",
+              "measurement": "contrail_vrouter_flows_invalid_label",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6395,14 +6395,14 @@
         },
         {
           "aliasColors": {
-            "vrouter-flows-composite-invalid-interface.mean {hostname: node-6}": "#0A437C",
-            "vrouter-flows-created.mean {hostname: node-6}": "#CCA300",
-            "vrouter-flows-discard.mean {hostname: node-6}": "#806EB7",
-            "vrouter-flows-drop.mean {hostname: node-6}": "#EA6460",
-            "vrouter-flows-flow-table-full.mean {hostname: node-6}": "#D683CE",
-            "vrouter-flows-frag-err.mean {hostname: node-6}": "#614D93",
-            "vrouter-flows-invalid-label.mean {hostname: node-6}": "#F9BA8F",
-            "vrouter-flows-invalid-nh.mean {hostname: node-6}": "#962D82"
+            "vrouter_flows_composite_invalid_interface.mean {hostname: node-6}": "#0A437C",
+            "vrouter_flows_created.mean {hostname: node-6}": "#CCA300",
+            "vrouter_flows_discard.mean {hostname: node-6}": "#806EB7",
+            "vrouter_flows_drop.mean {hostname: node-6}": "#EA6460",
+            "vrouter_flows_flow_table_full.mean {hostname: node-6}": "#D683CE",
+            "vrouter_flows_frag_err.mean {hostname: node-6}": "#614D93",
+            "vrouter_flows_invalid_label.mean {hostname: node-6}": "#F9BA8F",
+            "vrouter_flows_invalid_nh.mean {hostname: node-6}": "#962D82"
           },
           "bars": false,
           "datasource": null,
@@ -6462,7 +6462,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "contrail_vrouter-flows-invalid-nh",
+              "measurement": "contrail_vrouter_flows_invalid_nh",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
@@ -6580,5 +6580,5 @@
   },
   "timezone": "browser",
   "title": "OpenContrail",
-  "version": 17
+  "version": 18
 }
