@@ -1,0 +1,9 @@
+Code-Review+2: Eric Lemoine <elemoine@mirantis.com>
+Code-Review+2: Simon Pasquier <spasquier@mirantis.com>
+Workflow+1: Simon Pasquier <spasquier@mirantis.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 07 Dec 2016 09:23:07 +0000
+Reviewed-on: https://review.openstack.org/407446
+Project: openstack/salt-formula-opencontrail
+Branch: refs/heads/master
