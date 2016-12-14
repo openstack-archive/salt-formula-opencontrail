@@ -663,6 +663,31 @@ Cassandra listen interface
         rpc_port: 9160
       ....
 
+RabbitMQ HA hosts
+------------------
+
+.. code-block:: yaml
+
+    opencontrail:
+      config:
+        message_queue:
+          engine: rabbitmq
+          members:
+            - host: 10.0.16.1
+            - host: 10.0.16.2
+            - host: 10.0.16.3
+          port: 5672
+
+.. code-block:: yaml
+
+    database:
+      ....
+      bind:
+        interface: eth0
+        port: 9042
+        rpc_port: 9160
+      ....
+
 Usage
 =====
 
