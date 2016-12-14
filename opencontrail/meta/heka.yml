@@ -206,7 +206,7 @@ metric_collector:
     {%- for contrail_process in control_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
-      severity: critical
+      severity: down
       rules:
       - metric: lma_components_processes
         field:
@@ -536,7 +536,7 @@ metric_collector:
     {%- for contrail_process in compute_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
-      severity: critical
+      severity: down
       rules:
       - metric: lma_components_processes
         field:
@@ -574,7 +574,7 @@ metric_collector:
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
-        service: contrail-control
+        process: {{ contrail_process }}
     {%- endfor %}
   {%- endif %}
   {%- if compute_ref is defined %}
@@ -596,7 +596,7 @@ metric_collector:
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
-        service: contrail-compute
+        process: {{ contrail_process }}
     {%- endfor %}
   {%- endif %}
 aggregator:
@@ -635,6 +635,19 @@ aggregator:
       dimension:
         service: contrail-control
         nagios_host: 01-service-clusters
+    {%- for contrail_process in control_processes %}
+    contrail_{{ contrail_process|replace("-", "_") }}:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        process: {{ contrail_process }}
+      members:
+      - {{ contrail_process|replace("-", "_") }}
+      dimension:
+        service: contrail-control
+        nagios_host: 01-service-clusters
+    {%- endfor %}
     contrail_control:
       policy: highest_severity
       alerting: enabled_with_notification
@@ -645,7 +658,7 @@ aggregator:
       - contrail_discovery_api_endpoint
       - contrail_collector_api_endpoint
     {%- for contrail_process in control_processes %}
-      - {{ contrail_process|replace("-", "_") }}
+      - contrail_{{ contrail_process|replace("-", "_") }}
     {%- endfor %}
       dimension:
         cluster_name: contrail-control
@@ -674,6 +687,19 @@ aggregator:
       dimension:
         service: contrail-compute
         nagios_host: 01-service-clusters
+    {%- for contrail_process in compute_processes %}
+    contrail_{{ contrail_process|replace("-", "_") }}:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        process: {{ contrail_process }}
+      members:
+      - {{ contrail_process|replace("-", "_") }}
+      dimension:
+        service: contrail-compute
+        nagios_host: 01-service-clusters
+    {%- endfor %}
     contrail_compute:
       policy: highest_severity
       alerting: enabled_with_notification
@@ -683,7 +709,7 @@ aggregator:
       - contrail_node_manager_api_endpoint
       - contrail_vrouter_api_endpoint
     {%- for contrail_process in compute_processes %}
-      - {{ contrail_process|replace("-", "_") }}
+      - contrail_{{ contrail_process|replace("-", "_") }}
     {%- endfor %}
       dimension:
         cluster_name: contrail-compute
