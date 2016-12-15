@@ -39,6 +39,7 @@ opencontrail_collector_packages:
 {{ collector.redis_config }}:
   file.managed:
   - source: salt://opencontrail/files/{{ collector.version }}/collector/redis.conf
+  - template: jinja
   - require:
     - pkg: opencontrail_collector_packages
 
