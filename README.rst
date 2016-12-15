@@ -97,6 +97,9 @@ Config, control, analytics, database, web -- altogether on one node.
         enabled: true
         bind:
           address: 127.0.0.1
+        cache:
+            host: 127.0.0.1
+            port: 6379             
         master:
           host: 127.0.0.1
         discovery:
@@ -248,6 +251,9 @@ nodes.
         enabled: true
         bind:
           address: 127.0.0.1
+        cache:
+          host: 127.0.0.1
+          port: 6379           
         master:
           host: 127.0.0.1
         discovery:
@@ -482,6 +488,9 @@ Analytics and database on an analytic node(s)
         enabled: true
         bind:
           address: 127.0.0.1
+        cache:
+          host: 127.0.0.1
+          port: 6379  
         master:
           host: 127.0.0.1
         discovery:

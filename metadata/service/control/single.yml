@@ -74,6 +74,9 @@ parameters:
     collector:
       version: ${_param:opencontrail_version}
       enabled: true
+      cache:
+        host: ${_param:single_address}
+        port: 6379
       bind:
         address: ${_param:single_address}
         port: 9081

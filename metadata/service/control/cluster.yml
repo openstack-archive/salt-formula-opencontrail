@@ -86,6 +86,9 @@ parameters:
       bind:
         address: ${_param:cluster_local_address}
         port: 9081
+      cache:
+        host: ${_param:cluster_local_address}
+        port: 6379  
       master:
         host: ${_param:cluster_local_address}
       discovery:

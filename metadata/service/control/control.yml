@@ -18,6 +18,10 @@ parameters:
         engine: neutron
         host: ${_param:cluster_vip_address}
         port: 9696
+    collector:
+      cache:
+        host: ${_param:cluster_local_address}
+        port: 6379
     config:
       version: ${_param:opencontrail_version}
       enabled: true

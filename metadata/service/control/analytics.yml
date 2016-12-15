@@ -19,6 +19,9 @@ parameters:
         host: ${_param:network_vip_address}
         port: 9696
     collector:
+      cache:
+        host: ${_param:cluster_local_address}
+        port: 6379
       version: ${_param:opencontrail_version}
       enabled: true
       bind:
