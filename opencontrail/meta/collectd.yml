@@ -1,18 +1,23 @@
 {%- if pillar.opencontrail is defined %}
-{%- if pillar.opencontrail.control is defined %}
-{%- from "opencontrail/map.jinja" import control, collector, config, database, web with context %}
+  {%- from "opencontrail/map.jinja" import control, collector, compute, config, database, web with context %}
 local_plugin:
-{%- if control.get('enabled', False) %}
-{%- if database is defined and database.get('cassandra', False) %}
+  {%- if compute.get('enabled', False) %}
+  contrail_ifmap_elements_count:
+    plugin: python
+    template: opencontrail/files/collectd_contrail_ifmap_elements_count.conf
+  {%- endif %}
+  {%- if database.get('cassandra', False) %}
   collectd_cassandra_jmx:
     plugin: java
     template: opencontrail/files/collectd_cassandra_jmx.conf
-{%- endif %}
-{%- set bind_addr=control.bind.address|replace('0.0.0.0', '127.0.0.1') %}
+  {%- endif %}
+  {%- if control.get('enabled', False) or compute.get('enabled', False) %}
   collectd_contrail_apis:
     plugin: python
     template: opencontrail/files/collectd_contrail_apis.conf
     api_checks:
+    {%- if control.get('enabled', False) %}
+      {%- set bind_addr=control.bind.address|replace('0.0.0.0', '127.0.0.1') %}
       bgp_session_count:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=bgp"
         xml_element: "ShowNeighborStatisticsResp"
@@ -37,99 +42,9 @@ local_plugin:
         url: "http://{{ bind_addr }}:8083/Snh_ShowNeighborStatisticsReq?bgp_or_xmpp=xmpp&up_or_down=down"
         xml_element: "ShowNeighborStatisticsResp"
         result_type: "count"
-{%- endif %}
-  collectd_check_local_endpoint:
-    endpoint:
-{%- if config.get('enabled', False) %}
-{%- set bind_addr=config.bind.address|replace('0.0.0.0', '127.0.0.1') %}
-      contrail-api:
-        expected_code: 401
-        url: "http://{{ bind_addr }}:{{ config.bind.api_port }}/"
-      contrail-discovery:
-        expected_code: 200
-        url: "http://{{ bind_addr }}:{{ config.bind.discovery_port }}/"
-{%- endif %}
-{%- if collector.get('enabled', False) %}
-      contrail-collector:
-        expected_code: 200
-        url: "http://{{ collector.bind.address|replace('0.0.0.0', '127.0.0.1') }}:{{ collector.bind.port }}/"
-{%- endif %}
-  collectd_processes:
-    process:
-      contrail-alarm-gen:
-        match: 'python.*contrail-alarm-gen'
-      contrail-analytics-api:
-        match: 'python.*contrail-analytics-api'
-      contrail-api:
-        match: 'python.*contrail-api'
-      contrail-collector:
-        match: 'contrail-collector'
-      contrail-control:
-        match: '[^=]contrail-control$'
-      contrail-device-manager:
-        match: 'python.*contrail-device-manager'
-      contrail-discovery:
-        match: 'python.*contrail-discovery'
-      contrail-dns:
-        match: 'contrail-dns'
-      contrail-ifmap-server:
-        match: 'sh.*ifmap-server'
-      contrail-irond:
-        match: 'java.*irond'
-      contrail-job-server:
-        match: 'node.*jobServerStart'
-      contrail-named:
-        match: 'contrail-named'
-      contrail-nodemgr:
-        match: 'python.*contrail-nodemgr$'
-      contrail-nodemgr-config:
-        match: 'python.*contrail-nodemgr.*-config'
-      contrail-nodemgr-control:
-        match: 'python.*contrail-nodemgr.*-control'
-      contrail-nodemgr-database:
-        match: 'python.*contrail-nodemgr.*-database'
-      contrail-query-engine:
-        match: 'contrail-query-engine'
-      contrail-schema:
-        match: 'python.*contrail-schema'
-      contrail-snmp-collector:
-        match: 'python.*contrail-snmp-collector'
-      contrail-supervisord-analytics:
-        match: 'python.*supervisord.*_analytics'
-      contrail-supervisord-config:
-        match: 'python.*supervisord.*_config'
-      contrail-supervisord-control:
-        match: 'python.*supervisord.*_control'
-      contrail-supervisord-database:
-        match: 'python.*supervisord.*_database'
-      contrail-svc-monitor:
-        match: 'python.*contrail-svc-monitor'
-      contrail-topology:
-        match: 'python.*contrail-topology'
-{%- if web.get('enabled', False) %}
-      contrail-web-server:
-        match: 'node.*webServerStart'
-{%- endif %}
-      zookeeper-server:
-        match: 'java.*zookeeper.server'
-      kafka-server:
-        match: 'java.*kafka.Kafka'
-      redis-server:
-        match: 'redis-server'
-      cassandra-server:
-        match: 'java.*service.CassandraDaemon'
-{%- elif pillar.opencontrail.compute is defined %}
-{%- from "opencontrail/map.jinja" import compute with context %}
-{%- if compute.get('enabled', False) %}
-{%- set bind_addr=compute.interface.address|replace('0.0.0.0', '127.0.0.1') %}
-local_plugin:
-  contrail_ifmap_elements_count:
-    plugin: python
-    template: opencontrail/files/collectd_contrail_ifmap_elements_count.conf
-  collectd_contrail_apis:
-    plugin: python
-    template: opencontrail/files/collectd_contrail_apis.conf
-    api_checks:
+    {%- endif %}
+    {%- if compute.get('enabled', False) %}
+      {%- set bind_addr=compute.interface.address|replace('0.0.0.0', '127.0.0.1') %}
       vrouter_flows_active:
         url: "http://{{ bind_addr }}:8085/Snh_AgentStatsReq"
         xml_element: "FlowStatsResp"
@@ -185,22 +100,115 @@ local_plugin:
         url: "http://{{ bind_addr }}:8085/Snh_AgentXmppConnectionStatusReq"
         xml_element: "AgentXmppData"
         state: "Established"
+    {%- endif %}
+  {%- endif %}
+  {%- if config.get('enabled', False) or collector.get('enabled', False) or compute.get('enabled', False) %}
   collectd_check_local_endpoint:
     endpoint:
+    {%- if config.get('enabled', False) %}
+      {%- set bind_addr=config.bind.address|replace('0.0.0.0', '127.0.0.1') %}
+      contrail-api:
+        expected_code: 401
+        url: "http://{{ bind_addr }}:{{ config.bind.api_port }}/"
+      contrail-discovery:
+        expected_code: 200
+        url: "http://{{ bind_addr }}:{{ config.bind.discovery_port }}/"
+    {%- endif %}
+    {%- if collector.get('enabled', False) %}
+      contrail-collector:
+        expected_code: 200
+        url: "http://{{ collector.bind.address|replace('0.0.0.0', '127.0.0.1') }}:{{ collector.bind.port }}/"
+    {%- endif %}
+    {%- if compute.get('enabled', False) %}
       contrail-node-manager:
         expected_code: 200
         url: "http://127.0.0.1:8102/"
       contrail-vrouter:
         expected_code: 200
         url: "http://127.0.0.1:8085/"
+    {%- endif %}
+  {%- endif %}
+  {%- if collector.get('enabled', False) or database.get('enabled', False) or control.get('enabled', False)
+         or web.get('enabled', False) or compute.get('enabled', False) %}
   collectd_processes:
     process:
+    {%- if collector.get('enabled', False) %}
+      contrail-alarm-gen:
+        match: 'python.*contrail-alarm-gen'
+      contrail-analytics-api:
+        match: 'python.*contrail-analytics-api'
+      contrail-collector:
+        match: 'contrail-collector'
+      contrail-nodemgr:
+        match: 'python.*contrail-nodemgr$'
+      contrail-query-engine:
+        match: 'contrail-query-engine'
+      contrail-snmp-collector:
+        match: 'python.*contrail-snmp-collector'
+      contrail-supervisord-analytics:
+        match: 'python.*supervisord.*_analytics'
+      contrail-topology:
+        match: 'python.*contrail-topology'
+    {%- endif %}
+    {%- if database.get('enabled', False) %}
+      zookeeper-server:
+        match: 'java.*zookeeper.server'
+      kafka-server:
+        match: 'java.*kafka.Kafka'
+      cassandra-server:
+        match: 'java.*service.CassandraDaemon'
+      contrail-nodemgr-database:
+        match: 'python.*contrail-nodemgr.*-database'
+      contrail-supervisord-database:
+        match: 'python.*supervisord.*_database'
+    {%- endif %}
+    {%- if control.get('enabled', False) %}
+      contrail-api:
+        match: 'python.*contrail-api'
+      contrail-control:
+        match: '[^=]contrail-control$'
+      contrail-device-manager:
+        match: 'python.*contrail-device-manager'
+      contrail-discovery:
+        match: 'python.*contrail-discovery'
+      contrail-dns:
+        match: 'contrail-dns'
+      contrail-ifmap-server:
+        match: 'sh.*ifmap-server'
+      contrail-irond:
+        match: 'java.*irond'
+      contrail-job-server:
+        match: 'node.*jobServerStart'
+      contrail-named:
+        match: 'contrail-named'
+      contrail-nodemgr-config:
+        match: 'python.*contrail-nodemgr.*-config'
+      contrail-nodemgr-control:
+        match: 'python.*contrail-nodemgr.*-control'
+      contrail-schema:
+        match: 'python.*contrail-schema'
+      contrail-supervisord-config:
+        match: 'python.*supervisord.*_config'
+      contrail-supervisord-control:
+        match: 'python.*supervisord.*_control'
+      contrail-svc-monitor:
+        match: 'python.*contrail-svc-monitor'
+    {%- endif %}
+    {%- if web.get('enabled', False) %}
+      contrail-web-server:
+        match: 'node.*webServerStart'
+      {%- if web.get('cache', {}).get('engine', '') == 'redis' %}
+      redis-server:
+        match: 'redis-server'
+      {%- endif %}
+    {%- endif %}
+    {%- if compute.get('enabled', False) %}
       contrail-nodemgr-vrouter:
         match: 'python.*contrail-nodemgr.*-vrouter'
       contrail-supervisord-vrouter:
         match: 'python.*supervisord.*_vrouter'
       contrail-vrouter-agent:
         match: 'contrail-vrouter-agent'
-{%- endif %}
-{%- endif %}
+    {%- endif %}
+  {%- endif %}
 {%- endif %}
