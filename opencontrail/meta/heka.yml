@@ -1,41 +1,47 @@
 {%- if pillar.opencontrail is defined %}
-  {%- if pillar.opencontrail.control is defined %}
-    {%- from "opencontrail/map.jinja" import control with context %}
-    {%- if control.get('enabled', False) %}
-      {%- set controller_ref = control %}
-      {%- set control_processes = (
-            'cassandra-server', 'contrail-alarm-gen', 'contrail-analytics-api',
-            'contrail-api', 'contrail-collector', 'contrail-control',
-            'contrail-device-manager', 'contrail-discovery', 'contrail-dns',
-            'contrail-ifmap-server', 'contrail-irond', 'contrail-job-server',
-            'contrail-named', 'contrail-nodemgr', 'contrail-nodemgr-config',
-            'contrail-nodemgr-control', 'contrail-nodemgr-database', 'contrail-query-engine',
-            'contrail-schema', 'contrail-snmp-collector', 'contrail-supervisord-analytics',
-            'contrail-supervisord-config', 'contrail-supervisord-control', 'contrail-supervisord-database',
-            'contrail-svc-monitor', 'contrail-topology',
-            'kafka-server', 'redis-server', 'zookeeper-server'
+  {%- from "opencontrail/map.jinja" import control, collector, compute, config, database, web with context %}
+  {%- if collector.get('enabled', False) %}
+    {%- set collector_processes = (
+        'contrail-alarm-gen', 'contrail-analytics-api', 'contrail-collector',
+        'contrail-nodemgr', 'contrail-query-engine', 'contrail-snmp-collector',
+        'contrail-supervisord-analytics', 'contrail-topology',
+        ) %}
+  {%- endif %}
+  {%- if compute.get('enabled', False) %}
+    {%- set compute_processes = (
+        'contrail-nodemgr-vrouter', 'contrail-supervisord-vrouter', 'contrail-vrouter-agent'
+        ) %}
+  {%- endif %}
+  {%- if control.get('enabled', False) %}
+    {%- set control_processes = (
+        'contrail-api', 'contrail-control', 'contrail-device-manager',
+        'contrail-discovery', 'contrail-dns', 'contrail-ifmap-server',
+        'contrail-irond', 'contrail-job-server', 'contrail-named',
+        'contrail-nodemgr-config', 'contrail-nodemgr-control',
+        'contrail-schema', 'contrail-supervisord-config',
+        'contrail-supervisord-control', 'contrail-svc-monitor',
+        ) %}
+  {%- endif %}
+  {%- if database.get('enabled', False) %}
+    {%- set database_processes = (
+        'zookeeper-server', 'kafka-server', 'cassandra-server',
+        'contrail-nodemgr-database', 'contrail-supervisord-database',
+        ) %}
+  {%- endif %}
+  {%- if web.get('enabled', False) %}
+    {%- if web.get('cache', {}).get('engine', '') == 'redis' %}
+      {%- set web_processes = (
+          'contrail-web-server', 'redis-server'
           ) %}
-    {%- endif %}
-  {%- elif pillar.opencontrail.compute is defined %}
-    {%- from "opencontrail/map.jinja" import compute with context %}
-    {%- if compute.get('enabled', False) %}
-      {%- set compute_ref = compute %}
-      {%- set compute_processes = (
-            'contrail-nodemgr-vrouter', 'contrail-supervisord-vrouter', 'contrail-vrouter-agent'
+    {%- else %}
+      {%- set web_processes = (
+          'contrail-web-server'
           ) %}
     {%- endif %}
   {%- endif %}
-  {%- if pillar.opencontrail.web is defined %}
-    {%- from "opencontrail/map.jinja" import web with context %}
-    {%- if web.get('enabled', False) %}
-      {%- set web_ref = web %}
-    {%- endif %}
-  {%- endif %}
-{%- endif %}
 
-{%- if controller_ref is defined or compute_ref is defined %}
 log_collector:
-  {%- if controller_ref is defined %}
+  {%- if database_processes is defined %}
   splitter:
     java:
       engine: regex
@@ -53,7 +59,7 @@ log_collector:
       module_file: /usr/share/lma_collector/decoders/contrail_supervisor_log.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
-  {%- if controller_ref is defined %}
+  {%- if controller_processes is defined %}
     contrail_collector:
       engine: sandbox
       module_file: /usr/share/lma_collector/decoders/contrail_collector_log.lua
@@ -64,6 +70,13 @@ log_collector:
       module_file: /usr/share/lma_collector/decoders/contrail_api_stdout_log.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
+    ifmap:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/ifmap.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+  {%- endif %}
+  {%- if database_processes is defined %}
     zookeeper:
       engine: sandbox
       module_file: /usr/share/lma_collector/decoders/zookeeper.lua
@@ -74,13 +87,8 @@ log_collector:
       module_file: /usr/share/lma_collector/decoders/cassandra.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
-    ifmap:
-      engine: sandbox
-      module_file: /usr/share/lma_collector/decoders/ifmap.lua
-      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
-      adjust_timezone: true
   {%- endif %}
-  {%- if web_ref is defined %}
+  {%- if web_processes is defined and web.get('cache', {}).get('engine', '') == 'redis' %}
     redis:
       engine: sandbox
       module_file: /usr/share/lma_collector/decoders/redis.lua
@@ -104,7 +112,7 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_supervisor_decoder"
       splitter: "TokenSplitter"
-  {%- if controller_ref is defined %}
+  {%- if controller_processes is defined %}
     contrail_collector_log:
       engine: logstreamer
       log_directory: "/var/log"
@@ -121,22 +129,6 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_api_stdout_decoder"
       splitter: "TokenSplitter"
-    zookeeper:
-      engine: logstreamer
-      log_directory: "/var/log"
-      file_match: 'zookeeper/(?P<Service>zookeeper)\.log\.?(?P<Seq>\d*)$'
-      differentiator: ['contrail', '.', 'Service']
-      priority: ["^Seq"]
-      decoder: "zookeeper_decoder"
-      splitter: "java_splitter"
-    cassandra:
-      engine: logstreamer
-      log_directory: "/var/log"
-      file_match: 'cassandra/(?P<Service>system|status)\.log\.?(?P<Seq>\d*)$'
-      differentiator: ['contrail.cassandra', '.', 'Service']
-      priority: ["^Seq"]
-      decoder: "cassandra_decoder"
-      splitter: "java_splitter"
     ifmap:
       engine: logstreamer
       log_directory: "/var/log"
@@ -154,7 +146,25 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_decoder"
       splitter: "TokenSplitter"
-  {%- if web_ref is defined and web_ref.get('cache', {}).get('engine', '') == 'redis' %}
+  {%- if database_processes is defined %}
+    zookeeper:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'zookeeper/(?P<Service>zookeeper)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail', '.', 'Service']
+      priority: ["^Seq"]
+      decoder: "zookeeper_decoder"
+      splitter: "java_splitter"
+    cassandra:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'cassandra/(?P<Service>system|status)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['contrail.cassandra', '.', 'Service']
+      priority: ["^Seq"]
+      decoder: "cassandra_decoder"
+      splitter: "java_splitter"
+  {%- endif %}
+  {%- if web_processes is defined and web.get('cache', {}).get('engine', '') == 'redis' %}
     redis_log:
       engine: logstreamer
       log_directory: "/var/log"
@@ -166,7 +176,7 @@ log_collector:
   {%- endif %}
 metric_collector:
   trigger:
-  {%- if controller_ref is defined %}
+  {%- if controller_processes is defined %}
     contrail_api_local_endpoint:
       description: 'Contrail API is locally down'
       severity: down
@@ -203,20 +213,6 @@ metric_collector:
         window: 60
         periods: 0
         function: last
-    {%- for contrail_process in control_processes %}
-    {{ contrail_process|replace("-", "_") }}:
-      description: "There is no {{ contrail_process }} process running"
-      severity: down
-      rules:
-      - metric: lma_components_processes
-        field:
-          service: {{ contrail_process }}
-        relational_operator: '=='
-        threshold: 0
-        window: 60
-        periods: 0
-        function: last
-    {%- endfor %}
     xmpp_number_of_sessions_up:
       description: "There are no active XMPP sessions "
       severity: warning
@@ -267,6 +263,76 @@ metric_collector:
         window: 100
         periods: 0
         function: diff
+    bgp_number_of_session_lo:
+      description: "There are no BGP sessions"
+      severity: warning
+      rules:
+      - metric: contrail_bgp_session_count
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    bgp_number_of_sessions__up:
+      description: "There are no active BGP sessions "
+      severity: warning
+      rules:
+      - metric: contrail_bgp_session_up_count
+        relational_operator: '=='
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    bgp_number_of_sessions_down:
+      description: "There are inactive BGP sessions"
+      severity: warning
+      rules:
+      - metric: contrail_bgp_session_down_count
+        relational_operator: '>='
+        threshold: 1
+        window: 100
+        periods: 0
+        function: min
+    {%- for contrail_process in control_processes %}
+    {{ contrail_process|replace("-", "_") }}:
+      description: "There is no {{ contrail_process }} process running"
+      severity: down
+      rules:
+      - metric: lma_components_processes
+        field:
+          service: {{ contrail_process }}
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    {%- endfor %}
+  {%- endif %}
+  {%- if compute_processes is defined %}
+    contrail_node_manager_api_local_endpoint:
+      description: 'Contrail Node Manager API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: contrail-node-manager
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    contrail_vrouter_api_local_endpoint:
+      description: 'Contrail vrouter API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: contrail-vrouter
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
     vrouter_xmpp_of_sessions_lo:
       description: "There are no vrouter XMPP sessions"
       severity: warning
@@ -357,36 +423,6 @@ metric_collector:
         window: 100
         periods: 0
         function: diff
-    bgp_number_of_session_lo:
-      description: "There are no BGP sessions"
-      severity: warning
-      rules:
-      - metric: contrail_bgp_session_count
-        relational_operator: '=='
-        threshold: 0
-        window: 100
-        periods: 0
-        function: min
-    bgp_number_of_sessions__up:
-      description: "There are no active BGP sessions "
-      severity: warning
-      rules:
-      - metric: contrail_bgp_session_up_count
-        relational_operator: '=='
-        threshold: 0
-        window: 100
-        periods: 0
-        function: min
-    bgp_number_of_sessions_down:
-      description: "There are inactive BGP sessions"
-      severity: warning
-      rules:
-      - metric: contrail_bgp_session_down_count
-        relational_operator: '>='
-        threshold: 1
-        window: 100
-        periods: 0
-        function: min
     vrouter_flows_active:
       description: "There are too many active vrouter flows"
       severity: warning
@@ -497,42 +533,6 @@ metric_collector:
         window: 120
         periods: 0
         function: min
-    cassandra_cluster_endpoint_down:
-      description: "Cassandra Cluster Endpoint is down"
-      severity: critical
-      rules:
-      - metric: DownEndpointCount
-        relational_operator: '>'
-        threshold: 0
-        window: 100
-        periods: 0
-        function: min
-  {%- endif %}
-  {%- if compute_ref is defined %}
-    contrail_node_manager_api_local_endpoint:
-      description: 'Contrail Node Manager API is locally down'
-      severity: down
-      rules:
-      - metric: openstack_check_local_api
-        field:
-          service: contrail-node-manager
-        relational_operator: '=='
-        threshold: 0
-        window: 60
-        periods: 0
-        function: last
-    contrail_vrouter_api_local_endpoint:
-      description: 'Contrail vrouter API is locally down'
-      severity: down
-      rules:
-      - metric: openstack_check_local_api
-        field:
-          service: contrail-vrouter
-        relational_operator: '=='
-        threshold: 0
-        window: 60
-        periods: 0
-        function: last
     {%- for contrail_process in compute_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
@@ -548,8 +548,50 @@ metric_collector:
         function: last
     {%- endfor %}
   {%- endif %}
+  {%- if database_processes is defined %}
+    cassandra_cluster_endpoint_down:
+      description: "Cassandra Cluster Endpoint is down"
+      severity: critical
+      rules:
+      - metric: DownEndpointCount
+        relational_operator: '>'
+        threshold: 0
+        window: 100
+        periods: 0
+        function: min
+    {%- for contrail_process in database_processes %}
+    {{ contrail_process|replace("-", "_") }}:
+      description: "There is no {{ contrail_process }} process running"
+      severity: down
+      rules:
+      - metric: lma_components_processes
+        field:
+          service: {{ contrail_process }}
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    {%- endfor %}
+  {%- endif %}
+  {%- if web_processes is defined %}
+    {%- for contrail_process in web_processes %}
+    {{ contrail_process|replace("-", "_") }}:
+      description: "There is no {{ contrail_process }} process running"
+      severity: down
+      rules:
+      - metric: lma_components_processes
+        field:
+          service: {{ contrail_process }}
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    {%- endfor %}
+  {%- endif %}
   alarm:
-  {%- if controller_ref is defined %}
+  {%- if controller_processes is defined %}
     contrail_api_endpoint:
       alerting: enabled
       triggers:
@@ -577,7 +619,7 @@ metric_collector:
         process: {{ contrail_process }}
     {%- endfor %}
   {%- endif %}
-  {%- if compute_ref is defined %}
+  {%- if compute_processes is defined %}
     contrail_node_manager_api_endpoint:
       alerting: enabled
       triggers:
@@ -599,9 +641,29 @@ metric_collector:
         process: {{ contrail_process }}
     {%- endfor %}
   {%- endif %}
+  {%- if database_processes is defined %}
+    {%- for contrail_process in database_processes %}
+    {{ contrail_process|replace("-", "_") }}:
+      alerting: enabled
+      triggers:
+      - {{ contrail_process|replace("-", "_") }}
+      dimension:
+        process: {{ contrail_process }}
+    {%- endfor %}
+  {%- endif %}
+  {%- if web_processes is defined %}
+    {%- for contrail_process in web_processes %}
+    {{ contrail_process|replace("-", "_") }}:
+      alerting: enabled
+      triggers:
+      - {{ contrail_process|replace("-", "_") }}
+      dimension:
+        process: {{ contrail_process }}
+    {%- endfor %}
+  {%- endif %}
 aggregator:
   alarm_cluster:
-  {%- if controller_ref is defined %}
+  {%- if controller_processes is defined %}
     contrail_api_endpoint:
       policy: availability_of_members
       alerting: enabled
@@ -664,7 +726,7 @@ aggregator:
         cluster_name: contrail-control
         nagios_host: 00-top-clusters
   {%- endif %}
-  {%- if compute_ref is defined %}
+  {%- if compute_processes is defined %}
     contrail_node_manager_api_endpoint:
       policy: availability_of_members
       alerting: enabled
