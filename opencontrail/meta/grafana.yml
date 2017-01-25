@@ -1,7 +1,0 @@
-dashboard:
-  cassandra:
-    format: json
-    template: opencontrail/files/grafana_dashboards/cassandra_influxdb.json
-  contrail:
-    format: json
-    template: opencontrail/files/grafana_dashboards/contrail_influxdb.json
