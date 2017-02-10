@@ -661,9 +661,9 @@ metric_collector:
         process: {{ contrail_process }}
     {%- endfor %}
   {%- endif %}
+  {%- if controller_processes is defined %}
 aggregator:
   alarm_cluster:
-  {%- if controller_processes is defined %}
     contrail_api_endpoint:
       policy: availability_of_members
       alerting: enabled
