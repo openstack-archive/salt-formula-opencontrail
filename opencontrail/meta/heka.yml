@@ -59,7 +59,7 @@ log_collector:
       module_file: /usr/share/lma_collector/decoders/contrail_supervisor_log.lua
       module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
       adjust_timezone: true
-  {%- if controller_processes is defined %}
+  {%- if control_processes is defined %}
     contrail_collector:
       engine: sandbox
       module_file: /usr/share/lma_collector/decoders/contrail_collector_log.lua
@@ -112,7 +112,7 @@ log_collector:
       priority: ["^Seq"]
       decoder: "contrail_supervisor_decoder"
       splitter: "TokenSplitter"
-  {%- if controller_processes is defined %}
+  {%- if control_processes is defined %}
     contrail_collector_log:
       engine: logstreamer
       log_directory: "/var/log"
@@ -176,7 +176,7 @@ log_collector:
   {%- endif %}
 metric_collector:
   trigger:
-  {%- if controller_processes is defined %}
+  {%- if control_processes is defined %}
     contrail_api_local_endpoint:
       description: 'Contrail API is locally down'
       severity: down
@@ -591,7 +591,7 @@ metric_collector:
     {%- endfor %}
   {%- endif %}
   alarm:
-  {%- if controller_processes is defined %}
+  {%- if control_processes is defined %}
     contrail_api_endpoint:
       alerting: enabled
       triggers:
@@ -661,7 +661,7 @@ metric_collector:
         process: {{ contrail_process }}
     {%- endfor %}
   {%- endif %}
-  {%- if controller_processes is defined %}
+  {%- if control_processes is defined %}
 aggregator:
   alarm_cluster:
     contrail_api_endpoint:
