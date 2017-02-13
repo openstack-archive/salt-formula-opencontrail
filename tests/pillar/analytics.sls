@@ -1,6 +1,6 @@
 opencontrail:
   common:
-    version: 2.2
+    version: 3.0
     identity:
       engine: keystone
       host: 127.0.0.1
@@ -12,7 +12,7 @@ opencontrail:
       host: 127.0.0.1
       port: 9696
   collector:
-    version: 2.2
+    version: 3.0
     enabled: true
     bind:
       address: 127.0.0.1
@@ -30,7 +30,7 @@ opencontrail:
       - host: 127.0.0.1
         port: 9160
   database:
-    version: 2.2
+    version: 3.0
     cassandra:
       version: 2
     enabled: true
