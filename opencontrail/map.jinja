@@ -1,12 +1,13 @@
-
 {% set common = salt['grains.filter_by']({
     'Debian': {
+        'distribution': 'opencontrail',
         'source': {'engine': 'pkg', 'address': 'http://'},
-        'pkgs': ['dpkg-dev','contrail-utils', 'contrail-nodemgr', 'gettext-base'],
+        'pkgs': ['dpkg-dev','contrail-utils', 'contrail-nodemgr', 'gettext-base', 'python-contrail'],
     },
     'RedHat': {
+        'distribution': 'opencontrail',
         'source': {'engine': 'pkg', 'address': 'http://'},
-        'pkgs': ['contrail-utils', 'contrail-nodemgr'],
+        'pkgs': ['contrail-utils', 'contrail-nodemgr', 'python-contrail'],
     },
 }, merge=pillar.opencontrail.get('common', {})) %}
 

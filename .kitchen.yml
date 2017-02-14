@@ -1,0 +1,121 @@
+---
+driver:
+  name: docker
+  hostname: opencontrail.ci.local
+  use_sudo: false
+
+
+
+provisioner:
+  name: salt_solo
+  salt_install: bootstrap
+  salt_bootstrap_url: https://bootstrap.saltstack.com
+  salt_version: latest
+  require_chef: false
+  log_level: error
+  formula: opencontrail
+  grains:
+    noservices: True
+  vendor_repo:
+    - type: apt
+      url: http://apt-mk.mirantis.com/trusty
+      key_url: http://apt-mk.mirantis.com/public.gpg
+      components: oc303 extra
+      distribution: nightly
+  dependencies:
+    - name: linux
+      repo: git
+      source: https://github.com/salt-formulas/salt-formula-linux
+  state_top:
+    base:
+      "*":
+        - linux
+        - opencontrail
+  pillars:
+    top.sls:
+      base:
+        "*":
+          - linux_repo_cassandra
+          - linux_repo_mos
+          - linux
+          - opencontrail
+          - opencontrail_juniper
+    linux.sls:
+      linux:
+        system:
+          enabled: true
+          name: opencontrail
+        network:
+          enabled: true
+          hostname: opencontrail
+          interface:
+            vhost0:
+              enabled: True
+              type: eth
+    opencontrail_juniper.sls: {}
+  pillars-from-files:
+    linux_repo_mos.sls: tests/pillar/repo_mos8.sls
+    linux_repo_cassandra.sls: tests/pillar/repo_cassandra.sls
+
+verifier:
+  name: inspec
+  sudo: true
+platforms:
+  - name: ubuntu-trusty
+    driver_config:
+      image: trevorj/salty-whales:trusty
+      platform: ubuntu
+
+    #- name: ubuntu-xenial
+    #- driver_config:
+    #-   image: trevorj/salty-whales:xenial
+    #-   platform: ubuntu
+
+suites:
+
+  - name: analytics
+    provisioner:
+      pillars-from-files:
+        opencontrail.sls: tests/pillar/analytics.sls
+
+  - name: cluster
+    provisioner:
+      pillars-from-files:
+        opencontrail.sls: tests/pillar/cluster.sls
+
+  - name: control
+    provisioner:
+      pillars-from-files:
+        opencontrail.sls: tests/pillar/control.sls
+
+  - name: control-juniper
+    provisioner:
+      pillars-from-files:
+        opencontrail.sls: tests/pillar/control.sls
+      pillars:
+        opencontrail_juniper.sls:
+          opencontrail:
+            common:
+              distribution: juniper
+
+#  - name: single
+#    provisioner:
+#      pillars-from-files:
+#        opencontrail.sls: tests/pillar/single.sls
+#
+#  - name: tor
+#    provisioner:
+#      pillars-from-files:
+#        opencontrail.sls: tests/pillar/tor.sls
+#
+#  - name: vrouter_kubernetes
+#    provisioner:
+#      pillars-from-files:
+#        opencontrail.sls: tests/pillar/vrouter_kubernetes.sls
+#
+#  - name: vrouter
+#    provisioner:
+#      pillars-from-files:
+#        opencontrail.sls: tests/pillar/vrouter.sls
+
+# vim: ft=yaml sw=2 ts=2 sts=2 tw=125

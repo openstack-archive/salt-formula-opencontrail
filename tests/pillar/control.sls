@@ -65,6 +65,7 @@ opencontrail:
   control:
     version: 3.0
     enabled: true
+    name: ntw-01
     bind:
       address: 127.0.0.1
     discovery:
@@ -79,7 +80,7 @@ opencontrail:
     - host: 127.0.0.1
       id: 3
   database:
-    version: 127.0.0.1
+    version: 3.0
     cassandra:
       version: 2
     enabled: true
@@ -105,6 +106,8 @@ opencontrail:
   web:
     version: 3.0
     enabled: True
+    network:
+      host: 127.0.0.1
     bind:
       address: 127.0.0.1
     analytics:

@@ -1,4 +1,5 @@
 {%- from "opencontrail/map.jinja" import control with context %}
+{%- from "opencontrail/map.jinja" import common with context %}
 {%- if control.enabled %}
 
 include:
@@ -89,6 +90,20 @@ opencontrail_control_entrypoint:
   - source: salt://opencontrail/files/entrypoint.sh.control
   - mode: 755
 
+{%- endif %}
+
+{%- endif %}
+
+{%- if common.distribution == "juniper" %}
+/etc/contrail/supervisord_config_files/ifmap.ini:
+  file.managed:
+  - template: jinja
+  - source: salt://contrail/files/ifmap.ini
+  - mode: 755
+  - replace: False
+{%- if not grains.get('noservices', False) %}
+  - require:
+    - pkg: contrail_control_packages
 {%- endif %}
 
 {%- endif %}
