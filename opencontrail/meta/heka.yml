@@ -174,9 +174,13 @@ log_collector:
       decoder: "redis_decoder"
       splitter: "TokenSplitter"
   {%- endif %}
+  {%- if control_processes is defined or
+         compute_processes is defined or
+         database_processes is defined or
+         web_processes is defined %}
 metric_collector:
   trigger:
-  {%- if control_processes is defined %}
+    {%- if control_processes is defined %}
     contrail_api_local_endpoint:
       description: 'Contrail API is locally down'
       severity: down
@@ -293,7 +297,7 @@ metric_collector:
         window: 100
         periods: 0
         function: min
-    {%- for contrail_process in control_processes %}
+      {%- for contrail_process in control_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
       severity: down
@@ -306,9 +310,9 @@ metric_collector:
         window: 60
         periods: 0
         function: last
-    {%- endfor %}
-  {%- endif %}
-  {%- if compute_processes is defined %}
+      {%- endfor %}
+    {%- endif %}
+    {%- if compute_processes is defined %}
     contrail_node_manager_api_local_endpoint:
       description: 'Contrail Node Manager API is locally down'
       severity: down
@@ -533,7 +537,7 @@ metric_collector:
         window: 120
         periods: 0
         function: min
-    {%- for contrail_process in compute_processes %}
+      {%- for contrail_process in compute_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
       severity: down
@@ -546,9 +550,9 @@ metric_collector:
         window: 60
         periods: 0
         function: last
-    {%- endfor %}
-  {%- endif %}
-  {%- if database_processes is defined %}
+      {%- endfor %}
+    {%- endif %}
+    {%- if database_processes is defined %}
     cassandra_cluster_endpoint_down:
       description: "Cassandra Cluster Endpoint is down"
       severity: critical
@@ -559,7 +563,7 @@ metric_collector:
         window: 100
         periods: 0
         function: min
-    {%- for contrail_process in database_processes %}
+      {%- for contrail_process in database_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
       severity: down
@@ -572,10 +576,10 @@ metric_collector:
         window: 60
         periods: 0
         function: last
-    {%- endfor %}
-  {%- endif %}
-  {%- if web_processes is defined %}
-    {%- for contrail_process in web_processes %}
+      {%- endfor %}
+    {%- endif %}
+    {%- if web_processes is defined %}
+      {%- for contrail_process in web_processes %}
     {{ contrail_process|replace("-", "_") }}:
       description: "There is no {{ contrail_process }} process running"
       severity: down
@@ -588,10 +592,10 @@ metric_collector:
         window: 60
         periods: 0
         function: last
-    {%- endfor %}
-  {%- endif %}
+      {%- endfor %}
+    {%- endif %}
   alarm:
-  {%- if control_processes is defined %}
+    {%- if control_processes is defined %}
     contrail_api_endpoint:
       alerting: enabled
       triggers:
@@ -610,16 +614,16 @@ metric_collector:
       - contrail_collector_api_local_endpoint
       dimension:
         service: contrail-collector-api-endpoint
-    {%- for contrail_process in control_processes %}
+      {%- for contrail_process in control_processes %}
     {{ contrail_process|replace("-", "_") }}:
       alerting: enabled
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
         process: {{ contrail_process }}
-    {%- endfor %}
-  {%- endif %}
-  {%- if compute_processes is defined %}
+      {%- endfor %}
+    {%- endif %}
+    {%- if compute_processes is defined %}
     contrail_node_manager_api_endpoint:
       alerting: enabled
       triggers:
@@ -632,38 +636,41 @@ metric_collector:
       - contrail_vrouter_api_local_endpoint
       dimension:
         service: contrail-vrouter-api-endpoint
-    {%- for contrail_process in compute_processes %}
+      {%- for contrail_process in compute_processes %}
     {{ contrail_process|replace("-", "_") }}:
       alerting: enabled
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
         process: {{ contrail_process }}
-    {%- endfor %}
-  {%- endif %}
-  {%- if database_processes is defined %}
-    {%- for contrail_process in database_processes %}
+      {%- endfor %}
+    {%- endif %}
+    {%- if database_processes is defined %}
+      {%- for contrail_process in database_processes %}
     {{ contrail_process|replace("-", "_") }}:
       alerting: enabled
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
         process: {{ contrail_process }}
-    {%- endfor %}
-  {%- endif %}
-  {%- if web_processes is defined %}
-    {%- for contrail_process in web_processes %}
+      {%- endfor %}
+    {%- endif %}
+    {%- if web_processes is defined %}
+      {%- for contrail_process in web_processes %}
     {{ contrail_process|replace("-", "_") }}:
       alerting: enabled
       triggers:
       - {{ contrail_process|replace("-", "_") }}
       dimension:
         process: {{ contrail_process }}
-    {%- endfor %}
+      {%- endfor %}
+    {%- endif %}
   {%- endif %}
-  {%- if control_processes is defined %}
+  {%- if control_processes is defined or
+         compute_processes is defined %}
 aggregator:
   alarm_cluster:
+    {%- if control_processes is defined %}
     contrail_api_endpoint:
       policy: availability_of_members
       alerting: enabled
@@ -697,7 +704,7 @@ aggregator:
       dimension:
         service: contrail-control
         nagios_host: 01-service-clusters
-    {%- for contrail_process in control_processes %}
+      {%- for contrail_process in control_processes %}
     contrail_{{ contrail_process|replace("-", "_") }}:
       policy: availability_of_members
       alerting: enabled
@@ -709,7 +716,7 @@ aggregator:
       dimension:
         service: contrail-control
         nagios_host: 01-service-clusters
-    {%- endfor %}
+      {%- endfor %}
     contrail_control:
       policy: highest_severity
       alerting: enabled_with_notification
@@ -719,14 +726,14 @@ aggregator:
       - contrail_api_endpoint
       - contrail_discovery_api_endpoint
       - contrail_collector_api_endpoint
-    {%- for contrail_process in control_processes %}
+      {%- for contrail_process in control_processes %}
       - contrail_{{ contrail_process|replace("-", "_") }}
-    {%- endfor %}
+      {%- endfor %}
       dimension:
         cluster_name: contrail-control
         nagios_host: 00-top-clusters
-  {%- endif %}
-  {%- if compute_processes is defined %}
+    {%- endif %}
+    {%- if compute_processes is defined %}
     contrail_node_manager_api_endpoint:
       policy: availability_of_members
       alerting: enabled
@@ -749,7 +756,7 @@ aggregator:
       dimension:
         service: contrail-compute
         nagios_host: 01-service-clusters
-    {%- for contrail_process in compute_processes %}
+      {%- for contrail_process in compute_processes %}
     contrail_{{ contrail_process|replace("-", "_") }}:
       policy: availability_of_members
       alerting: enabled
@@ -761,7 +768,7 @@ aggregator:
       dimension:
         service: contrail-compute
         nagios_host: 01-service-clusters
-    {%- endfor %}
+      {%- endfor %}
     contrail_compute:
       policy: highest_severity
       alerting: enabled_with_notification
@@ -770,11 +777,12 @@ aggregator:
       members:
       - contrail_node_manager_api_endpoint
       - contrail_vrouter_api_endpoint
-    {%- for contrail_process in compute_processes %}
+      {%- for contrail_process in compute_processes %}
       - contrail_{{ contrail_process|replace("-", "_") }}
-    {%- endfor %}
+      {%- endfor %}
       dimension:
         cluster_name: contrail-compute
         nagios_host: 00-top-clusters
+    {%- endif %}
   {%- endif %}
 {%- endif %}
