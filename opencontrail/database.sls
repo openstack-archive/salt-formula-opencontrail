@@ -128,11 +128,20 @@ disable-cassandra-service:
 
 {%- if not grains.get('noservices', False) %}
 
+zookeeper_service:
+  service.running:
+  - enable: true
+  - name: zookeeper
+  - watch:
+    - file: /etc/zookeeper/conf/zoo.cfg
+    - file: /var/lib/zookeeper/myid
+    - file: /etc/zookeeper/conf/log4j.properties
+
 opencontrail_database_services:
   service.running:
   - enable: true
   - name: supervisor-database
-  - watch: 
+  - watch:
     - file: {{ database.cassandra_config }}cassandra.yaml
     - file: {{ database.cassandra_config }}cassandra-env.sh
     - file: {{ database.cassandra_config }}logback.xml
