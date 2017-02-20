@@ -688,6 +688,21 @@ RabbitMQ HA hosts
         rpc_port: 9160
       ....
 
+DPDK vRouter
+-------------
+
+.. code-block:: yaml
+
+    opencontrail:
+      compute:
+        dpdk:
+          enabled: true
+          taskset: 0x0000003C00003C
+        interface:
+          mac_address: 90:e2:ba:7c:22:e1
+          pci: 0000:81:00.1
+      ...
+
 Usage
 =====
 

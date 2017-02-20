@@ -25,12 +25,18 @@
 
 {% set compute = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['contrail-vrouter','contrail-vrouter-dkms', 'iproute2', 'haproxy'],
-        'services': ['supervisor-vrouter']
+        'pkgs': ['contrail-vrouter-agent', 'contrail-utils', 'iproute2', 'haproxy'],
+        'services': ['supervisor-vrouter'],
+        'dpdk': {
+            'enabled': False
+        }
     },
     'RedHat': {
-        'pkgs': ['contrail-openstack-vrouter', 'haproxy', 'contrail-vrouter-source'],
-        'services': ['supervisor-vrouter']
+        'pkgs': ['contrail-openstack-vrouter', 'contrail-utils', 'haproxy', 'contrail-vrouter-source'],
+        'services': ['supervisor-vrouter'],
+        'dpdk': {
+            'enabled': False
+        }
     },
 }, merge=pillar.opencontrail.get('compute', {})) %}
 
