@@ -185,7 +185,7 @@ metric_collector:
       description: 'Contrail API is locally down'
       severity: down
       rules:
-      - metric: openstack_check_local_api
+      - metric: http_check
         field:
           service: contrail-api
         relational_operator: '=='
@@ -197,7 +197,7 @@ metric_collector:
       description: 'Contrail Discovery API is locally down'
       severity: down
       rules:
-      - metric: openstack_check_local_api
+      - metric: http_check
         field:
           service: contrail-discovery
         relational_operator: '=='
@@ -209,7 +209,7 @@ metric_collector:
       description: 'Contrail Collector API is locally down'
       severity: down
       rules:
-      - metric: openstack_check_local_api
+      - metric: http_check
         field:
           service: contrail-collector
         relational_operator: '=='
@@ -317,7 +317,7 @@ metric_collector:
       description: 'Contrail Node Manager API is locally down'
       severity: down
       rules:
-      - metric: openstack_check_local_api
+      - metric: http_check
         field:
           service: contrail-node-manager
         relational_operator: '=='
@@ -329,7 +329,7 @@ metric_collector:
       description: 'Contrail vrouter API is locally down'
       severity: down
       rules:
-      - metric: openstack_check_local_api
+      - metric: http_check
         field:
           service: contrail-vrouter
         relational_operator: '=='

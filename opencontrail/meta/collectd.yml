@@ -103,8 +103,8 @@ local_plugin:
     {%- endif %}
   {%- endif %}
   {%- if config.get('enabled', False) or collector.get('enabled', False) or compute.get('enabled', False) %}
-  collectd_check_local_endpoint:
-    endpoint:
+  collectd_http_check:
+    url:
     {%- if config.get('enabled', False) %}
       {%- set bind_addr=config.bind.address|replace('0.0.0.0', '127.0.0.1') %}
       contrail-api:

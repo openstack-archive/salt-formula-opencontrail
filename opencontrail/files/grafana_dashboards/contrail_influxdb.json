@@ -375,7 +375,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "openstack_check_local_api",
+              "measurement": "http_check",
               "policy": "default",
               "rawQuery": false,
               "refId": "A",
@@ -3398,7 +3398,7 @@
         "multi": true,
         "name": "server",
         "options": [],
-        "query": "show tag values from openstack_check_local_api with key = hostname where environment_label =~ /^$environment$/ and service =~ /^contrail/",
+        "query": "show tag values from http_check with key = hostname where environment_label =~ /^$environment$/ and service =~ /^contrail/",
         "refresh": 1,
         "refresh_on_load": true,
         "regex": "",
