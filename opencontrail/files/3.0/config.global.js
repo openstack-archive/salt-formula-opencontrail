@@ -17,6 +17,8 @@ config.multi_tenancy.enabled = true;
 
 {%- else %}
 config.orchestration.Manager = 'none'
+config.multi_tenancy = {};
+config.multi_tenancy.enabled = false;
 {%- endif %}
 /****************************************************************************
  * This boolean flag indicates to communicate with Orchestration
