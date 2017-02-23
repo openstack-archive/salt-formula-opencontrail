@@ -69,7 +69,60 @@ net.ipv4.ip_local_reserved_ports:
   - require_in:
     - service: opencontrail_compute_services
 
+/etc/udev/rules.d/vhost-net.rules:
+  file.managed:
+  - contents: 'KERNEL=="vhost-net", GROUP="kvm", MODE="0660"'
+
+/etc/modules:
+  file.append:
+  - text: "vhost-net"
+  - require:
+    - file: /etc/udev/rules.d/vhost-net.rules
+
 {% endif %}
+
+{%- if compute.dpdk.enabled %}
+
+opencontrail_vrouter_package:
+  pkg.installed:
+  - names:
+    - contrail-vrouter-dpdk
+    - contrail-vrouter-dpdk-init
+  - require_in:
+    - pkg: opencontrail_compute_packages
+
+/etc/contrail/supervisord_vrouter_files/contrail-vrouter-dpdk.ini:
+  file.managed:
+  - source: salt://opencontrail/files/{{ compute.version }}/contrail-vrouter-dpdk.ini
+  - template: jinja
+  - require:
+    - pkg: opencontrail_compute_packages
+    - pkg: opencontrail_vrouter_package
+  - require_in:
+    - service: opencontrail_compute_services
+
+modules_dpdk:
+  file.append:
+  - name: /etc/modules
+  - text: uio
+  - require:
+    - pkg: opencontrail_vrouter_package
+
+/usr/lib/contrail/if-vhost0:
+  file.managed:
+  - contents: "# Phony script as nothing to do in DPDK vRouter case."
+
+{%- else %}
+
+opencontrail_vrouter_package:
+  pkg.installed:
+  - name: contrail-vrouter-dkms
+  - require_in:
+    - pkg: opencontrail_compute_packages
+
+/etc/modprobe.d/vrouter.conf:
+  file.managed:
+  - contents: "options vrouter vr_flow_entries=2097152"
 
 {%- if network.interface.get('vhost0', {}).get('enabled', False) %}
 
@@ -80,6 +133,8 @@ contrail_load_vrouter_kernel_module:
   - cwd: /root
   - require:
     - pkg: opencontrail_compute_packages
+
+{%- endif %}
 
 {%- endif %}
 
