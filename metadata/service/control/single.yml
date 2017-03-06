@@ -74,6 +74,7 @@ parameters:
     collector:
       version: ${_param:opencontrail_version}
       enabled: true
+      aaa_mode: no-auth
       bind:
         address: ${_param:single_address}
         port: 9081
@@ -122,6 +123,9 @@ parameters:
       members:
       - host: ${_param:single_address}
         id: 1
+      database:
+        engine: cassandra
+        port: 9160      
       identity:
         engine: keystone
         version: '2.0'

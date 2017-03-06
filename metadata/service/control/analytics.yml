@@ -5,7 +5,6 @@ classes:
 parameters:
   _param:
     opencontrail_version: 2.2
-    opencontrail_api_aaa_mode: no-auth
   opencontrail:
     common:
       version: ${_param:opencontrail_version}
@@ -22,8 +21,7 @@ parameters:
     collector:
       version: ${_param:opencontrail_version}
       enabled: true
-      api:
-        aaa_mode: ${_param:opencontrail_api_aaa_mode}
+      aaa_mode: no-auth
       bind:
         address: ${_param:cluster_local_address}
         port: 9081
