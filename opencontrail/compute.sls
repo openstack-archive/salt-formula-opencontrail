@@ -88,6 +88,7 @@ opencontrail_vrouter_package:
   - names:
     - contrail-vrouter-dpdk
     - contrail-vrouter-dpdk-init
+    - contrail-vrouter-agent
   - require_in:
     - pkg: opencontrail_compute_packages
 
@@ -116,7 +117,9 @@ modules_dpdk:
 
 opencontrail_vrouter_package:
   pkg.installed:
-  - name: contrail-vrouter-dkms
+  - names:
+    - contrail-vrouter-dkms
+    - contrail-vrouter-agent
   - require_in:
     - pkg: opencontrail_compute_packages
 
