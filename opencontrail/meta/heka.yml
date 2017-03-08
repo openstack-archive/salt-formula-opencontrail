@@ -175,11 +175,40 @@ log_collector:
       splitter: "TokenSplitter"
   {%- endif %}
   {%- if control_processes is defined or
+         collector_processes is defined or
          compute_processes is defined or
          database_processes is defined or
          web_processes is defined %}
 metric_collector:
   trigger:
+    {%- if collector_processes is defined %}
+    contrail_collector_api_local_endpoint:
+      description: 'Contrail Collector API is locally down'
+      severity: down
+      rules:
+      - metric: http_check
+        field:
+          service: contrail-collector
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+      {%- for contrail_process in collector_processes %}
+    {{ contrail_process|replace("-", "_") }}:
+      description: "There is no {{ contrail_process }} process running"
+      severity: down
+      rules:
+      - metric: lma_components_processes
+        field:
+          service: {{ contrail_process }}
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+      {%- endfor %}
+    {%- endif %}
     {%- if control_processes is defined %}
     contrail_api_local_endpoint:
       description: 'Contrail API is locally down'
@@ -200,18 +229,6 @@ metric_collector:
       - metric: http_check
         field:
           service: contrail-discovery
-        relational_operator: '=='
-        threshold: 0
-        window: 60
-        periods: 0
-        function: last
-    contrail_collector_api_local_endpoint:
-      description: 'Contrail Collector API is locally down'
-      severity: down
-      rules:
-      - metric: http_check
-        field:
-          service: contrail-collector
         relational_operator: '=='
         threshold: 0
         window: 60
@@ -595,6 +612,22 @@ metric_collector:
       {%- endfor %}
     {%- endif %}
   alarm:
+    {%- if collector_processes is defined %}
+    contrail_collector_api_endpoint:
+      alerting: enabled
+      triggers:
+      - contrail_collector_api_local_endpoint
+      dimension:
+        service: contrail-collector-api-endpoint
+      {%- for contrail_process in collector_processes %}
+    {{ contrail_process|replace("-", "_") }}:
+      alerting: enabled
+      triggers:
+      - {{ contrail_process|replace("-", "_") }}
+      dimension:
+        process: {{ contrail_process }}
+      {%- endfor %}
+    {%- endif %}
     {%- if control_processes is defined %}
     contrail_api_endpoint:
       alerting: enabled
@@ -608,12 +641,6 @@ metric_collector:
       - contrail_discovery_api_local_endpoint
       dimension:
         service: contrail-discovery-api-endpoint
-    contrail_collector_api_endpoint:
-      alerting: enabled
-      triggers:
-      - contrail_collector_api_local_endpoint
-      dimension:
-        service: contrail-collector-api-endpoint
       {%- for contrail_process in control_processes %}
     {{ contrail_process|replace("-", "_") }}:
       alerting: enabled
@@ -667,9 +694,49 @@ metric_collector:
     {%- endif %}
   {%- endif %}
   {%- if control_processes is defined or
+         collector_processes is defined or
          compute_processes is defined %}
 aggregator:
   alarm_cluster:
+    {%- if collector_processes is defined %}
+    contrail_collector_api_endpoint:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        service: contrail-collector-api-endpoint
+      members:
+      - contrail_collector_api_endpoint
+      dimension:
+        service: contrail-collector
+        nagios_host: 01-service-clusters
+      {%- for contrail_process in collector_processes %}
+    contrail_{{ contrail_process|replace("-", "_") }}:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        process: {{ contrail_process }}
+      members:
+      - {{ contrail_process|replace("-", "_") }}
+      dimension:
+        service: contrail-collector
+        nagios_host: 01-service-clusters
+      {%- endfor %}
+    contrail_collector:
+      policy: highest_severity
+      alerting: enabled_with_notification
+      match:
+        service: contrail-collector
+      members:
+      - contrail_collector_api_endpoint
+      {%- for contrail_process in collector_processes %}
+      - contrail_{{ contrail_process|replace("-", "_") }}
+      {%- endfor %}
+      dimension:
+        cluster_name: contrail-collector
+        nagios_host: 00-top-clusters
+    {%- endif %}
     {%- if control_processes is defined %}
     contrail_api_endpoint:
       policy: availability_of_members
@@ -690,17 +757,6 @@ aggregator:
         service: contrail-discovery-api-endpoint
       members:
       - contrail_discovery_api_endpoint
-      dimension:
-        service: contrail-control
-        nagios_host: 01-service-clusters
-    contrail_collector_api_endpoint:
-      policy: availability_of_members
-      alerting: enabled
-      group_by: hostname
-      match:
-        service: contrail-collector-api-endpoint
-      members:
-      - contrail_collector_api_endpoint
       dimension:
         service: contrail-control
         nagios_host: 01-service-clusters
@@ -725,7 +781,6 @@ aggregator:
       members:
       - contrail_api_endpoint
       - contrail_discovery_api_endpoint
-      - contrail_collector_api_endpoint
       {%- for contrail_process in control_processes %}
       - contrail_{{ contrail_process|replace("-", "_") }}
       {%- endfor %}
