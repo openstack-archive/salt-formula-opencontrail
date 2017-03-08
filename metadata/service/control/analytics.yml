@@ -21,6 +21,7 @@ parameters:
     collector:
       version: ${_param:opencontrail_version}
       enabled: true
+      aaa_mode: no-auth
       bind:
         address: ${_param:cluster_local_address}
         port: 9081

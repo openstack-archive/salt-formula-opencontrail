@@ -187,7 +187,7 @@ config.redis_password = '';
 /* Cassandra Server */
 config.cassandra = {};
 config.cassandra.server_ips = [{%- for member in web.members %}'{{ member.host }}'{% if not loop.last %},{% endif %}{%- endfor %}];
-config.cassandra.server_port = '9160';
+config.cassandra.server_port = '{{ web.database.port }}';
 config.cassandra.enable_edit = false;
 
 /* KUE Job Scheduler */

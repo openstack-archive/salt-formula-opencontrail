@@ -83,6 +83,7 @@ parameters:
     collector:
       version: ${_param:opencontrail_version}
       enabled: true
+      aaa_mode: no-auth
       bind:
         address: ${_param:cluster_local_address}
         port: 9081
@@ -143,6 +144,9 @@ parameters:
         id: 2
       - host: ${_param:cluster_node03_address}
         id: 3
+      database:
+        engine: cassandra
+        port: 9160
       identity:
         engine: keystone
         version: '2.0'

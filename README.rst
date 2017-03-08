@@ -651,7 +651,7 @@ Contrail version must >=3.0. It is useful especially for Keystone v3.
       ...
 
 Cassandra listen interface
-------------------------------
+--------------------------
 
 .. code-block:: yaml
   
@@ -662,6 +662,21 @@ Cassandra listen interface
         port: 9042
         rpc_port: 9160
       ....
+
+OpenContrail WebUI version >= 3.1.1
+-----------------------------------
+For OpenContrail version >= 3.1.1 and Cassandra >=2.1 we should override WebUI's cassandra port from 9160 to 9042.
+
+For appropriate node at class level:
+
+.. code-block:: yaml
+    opencontrail:
+      ....
+      web:
+        database:
+          port: 9042
+      ....
+
 
 RabbitMQ HA hosts
 ------------------

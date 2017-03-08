@@ -124,6 +124,9 @@ parameters:
         id: 2
       - host: ${_param:cluster_node03_address}
         id: 3
+      database:
+        engine: cassandra
+        port: 9160
       identity:
         engine: keystone
         version: '2.0'
