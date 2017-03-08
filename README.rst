@@ -697,7 +697,8 @@ DPDK vRouter
       compute:
         dpdk:
           enabled: true
-          taskset: 0x0000003C00003C
+          taskset: "0x0000003C00003C"
+          socket_mem: "1024,1024"
         interface:
           mac_address: 90:e2:ba:7c:22:e1
           pci: 0000:81:00.1

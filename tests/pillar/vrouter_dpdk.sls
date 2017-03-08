@@ -16,7 +16,8 @@ opencontrail:
     enabled: True
     dpdk:
       enabled: True
-      taskset: 0x0000003C00003C
+      taskset: "0x0000003C00003C"
+      socket_mem: "1024,1024"
     discovery:
       host: 127.0.0.1
     bind:
