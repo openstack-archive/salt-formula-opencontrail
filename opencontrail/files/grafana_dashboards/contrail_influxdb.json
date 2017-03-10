@@ -1101,7 +1101,7 @@
         },
         {
           "aliasColors": {
-            "lma_components_processes.mean": "#1F78C1"
+            "process_processes.mean": "#1F78C1"
           },
           "bars": false,
           "datasource": null,
@@ -1152,7 +1152,7 @@
                   "type": "fill"
                 }
               ],
-              "measurement": "lma_components_processes",
+              "measurement": "process_processes",
               "policy": "default",
               "refId": "A",
               "resultFormat": "time_series",
