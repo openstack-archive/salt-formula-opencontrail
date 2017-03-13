@@ -719,30 +719,138 @@ DPDK vRouter
           pci: 0000:81:00.1
       ...
 
+Contrail client
+---------------
+
+Basic parameters with identity and host configs
+
+.. code-block:: bash
+
+  opencontrail:
+    client:
+      identity:
+        user: admin
+        project: admin
+        password: adminpass
+        host: keystone_host
+      config:
+        host: contrail_api_host
+        port: contrail_api_ort
+
+Enforcing virtual routers
+
+.. code-block:: bash
+
+  opencontrail:
+    client:
+      ...
+      virtual_router:
+        cmp01:
+          ip_address: 172.16.0.11
+          dpdk_enabled: True
+        cmp02:
+          ip_address: 172.16.0.12
+          dpdk_enabled: True
+
+Enforcing control nodes
+
+.. code-block:: bash
+
+  opencontrail:
+    client:
+      ...
+      bgp_router:
+        ntw01:
+          type: control-node
+          ip_address: 172.16.0.11
+        nwt02:
+          type: control-node
+          ip_address: 172.16.0.12
+        nwt03:
+          type: control-node
+          ip_address: 172.16.0.13
+
+
+Enforcing edge BGP routers
+
+.. code-block:: bash
+
+  opencontrail:
+    client:
+      ...
+      bgp_router:
+        mx01:
+          type: router
+          ip_address: 172.16.0.21
+          asn: 64512
+        mx02:
+          type: router
+          ip_address: 172.16.0.22
+          asn: 64512
+
+Enforcing config nodes
+
+.. code-block:: bash
+
+  opencontrail:
+    client:
+      ...
+      config_node:
+        ctl01:
+          ip_address: 172.16.0.21
+        ctl02:
+          ip_address: 172.16.0.22
+
+Enforcing database nodes
+
+.. code-block:: bash
+
+  opencontrail:
+    client:
+      ...
+      database_node:
+        ntw01:
+          ip_address: 172.16.0.21
+        ntw02:
+          ip_address: 172.16.0.22
+
+Enforcing analytics nodes
+
+.. code-block:: bash
+
+  opencontrail:
+    client:
+      ...
+      analytics_node:
+        nal01:
+          ip_address: 172.16.0.31
+        nal02:
+          ip_address: 172.16.0.32
+
+
 Usage
 =====
 
 Basic installation
-==================
+------------------
 
 Add control BGP
-===============
+
+.. code-block:: bash
 
     python /etc/contrail/provision_control.py --api_server_ip 192.168.1.11 --api_server_port 8082 --host_name network1.contrail.domain.com --host_ip 192.168.1.11 --router_asn 64512
 
-Compute node installation
-=========================
+Install compute node
 
-.. code-block:: yaml
+.. code-block:: bash
 
     yum install contrail-vrouter contrail-openstack-vrouter
 
     salt-call state.sls nova,opencontrail
 
 Add virtual router
-==================
 
-.. code-block:: yaml
+.. code-block:: bash
 
     python /etc/contrail/provision_vrouter.py --host_name hostnode1.intra.domain.com --host_ip 10.0.100.101 --api_server_ip 10.0.100.30 --oper add --admin_user admin --admin_password cloudlab --admin_tenant_name admin
 
@@ -751,7 +859,7 @@ Add virtual router
     reboot
 
 Service debugging
-=================
+-----------------
 
 Display vhost XMPP connection status
 
@@ -775,31 +883,6 @@ Trace XMPP requests
 
 	http://<compute-node>:8085/Snh_SandeshTraceRequest?x=XmppMessageTrace
 
-Documentation and Bugs
-============================
-
-To learn how to deploy OpenStack Salt, consult the documentation available
-online at:
-
-    https://wiki.openstack.org/wiki/OpenStackSalt
-
-In the unfortunate event that bugs are discovered, they should be reported to
-the appropriate bug tracker. If you obtained the software from a 3rd party
-operating system vendor, it is often wise to use their own bug tracker for
-reporting problems. In all other cases use the master OpenStack bug tracker,
-available at:
-
-    http://bugs.launchpad.net/openstack-salt
-
-Developers wishing to work on the OpenStack Salt project should always base
-their work on the latest formulas code, available from the master GIT
-repository at:
-
-    https://git.openstack.org/cgit/openstack/salt-formula-opencontrail
-
-Developers should also join the discussion on the IRC list, at:
-
-    https://wiki.openstack.org/wiki/Meetings/openstack-salt
 
 Documentation and Bugs
 ======================

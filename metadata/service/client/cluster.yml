@@ -2,18 +2,19 @@ applications:
 - opencontrail
 parameters:
   _param:
-    opencontrail_version: 2.2
+    opencontrail_version: 3.0
   opencontrail:
     client:
+      enabled: True
       version: ${_param:opencontrail_version}
       identity:
         engine: keystone
-        host: ${_param:cluster_vip_address}
+        host: ${_param:openstack_control_address}
         port: 35357
         tenant: admin
         user: admin
         password: ${_param:keystone_admin_password}
       api:
         engine: contrail
-        host: ${_param:cluster_vip_address}
+        host: ${_param:opencontrail_control_address}
         port: 8082

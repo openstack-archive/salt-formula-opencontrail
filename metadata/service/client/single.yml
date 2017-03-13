@@ -2,9 +2,10 @@ applications:
 - opencontrail
 parameters:
   _param:
-    opencontrail_version: 2.2
+    opencontrail_version: 3.0
   opencontrail:
     client:
+      enabled: True
       version: ${_param:opencontrail_version}
       identity:
         engine: keystone
