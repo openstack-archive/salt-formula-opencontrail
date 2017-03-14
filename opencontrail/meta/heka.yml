@@ -199,7 +199,7 @@ metric_collector:
       description: "There is no {{ contrail_process }} process running"
       severity: down
       rules:
-      - metric: lma_components_processes
+      - metric: process_processes
         field:
           service: {{ contrail_process }}
         relational_operator: '=='
