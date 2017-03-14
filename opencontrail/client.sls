@@ -5,6 +5,7 @@ opencontrail_client_packages:
   pkg.installed:
   - names: {{ client.pkgs }}
 
+{%- if not pillar.opencontrail.config is defined %}
 {%- if client.identity.engine == "keystone" %}
 /etc/contrail/vnc_api_lib.ini:
   file.managed:
@@ -12,6 +13,7 @@ opencontrail_client_packages:
   - template: jinja
   - require:
     - pkg: opencontrail_client_packages
+{%- endif %}
 {%- endif %}
 
 {%- for virtual_router_name, virtual_router in client.get('virtual_router', {}).items() %}
