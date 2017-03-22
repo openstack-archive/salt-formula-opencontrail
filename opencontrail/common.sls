@@ -105,6 +105,7 @@ vm.overcommit_memory:
   - require:
     - file: /etc/contrail
 
+{%- if common.version < 3.0 %}
 /etc/contrail/openstackrc:
   file.managed:
   - source: salt://opencontrail/files/{{ common.version }}/openstackrc
@@ -118,4 +119,5 @@ vm.overcommit_memory:
   - template: jinja
   - require:
     - file: /etc/contrail
+{%- endif %}
 {%- endif %}
