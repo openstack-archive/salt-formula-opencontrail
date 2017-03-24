@@ -1,102 +1,227 @@
+{%- set vendor = salt['pillar.get']('opencontrail:common:vendor', 'opencontrail') %}
 
-{% set common = salt['grains.filter_by']({
-    'Debian': {
-        'source': {'engine': 'pkg', 'address': 'http://'},
-        'pkgs': ['dpkg-dev','contrail-utils', 'contrail-nodemgr', 'gettext-base'],
-    },
-    'RedHat': {
-        'source': {'engine': 'pkg', 'address': 'http://'},
-        'pkgs': ['contrail-utils', 'contrail-nodemgr'],
-    },
-}, merge=pillar.opencontrail.get('common', {})) %}
+{%- load_yaml as base_defaults %}
+{%- if vendor in ['opencontrail'] %}
+common:
+  Debian:
+    vendor: opencontrail
+    source: {'engine': 'pkg', 'address': 'http://'}
+    pkgs:
+         ['dpkg-dev', 'contrail-utils', 'contrail-nodemgr', 'gettext-base']
+  RedHat:
+    vendor: opencontrail
+    source: {'engine': 'pkg', 'address': 'http://'}
+    pkgs:
+        ['contrail-utils', 'contrail-nodemgr']
+collector:
+  Debian:
+    pkgs:
+        ['contrail-analytics', 'python-cassandra']
+    redis_config: '/etc/redis/redis.conf'
+    services:
+        ['supervisor-analytics', 'redis-server']
+  RedHat:
+    pkgs:
+        ['contrail-analytics']
+    redis_config: '/etc/redis.conf'
+    services:
+        ['supervisor-analytics', 'redis']
+compute:
+  Debian:
+    pkgs:
+        ['contrail-utils', 'iproute2', 'haproxy']
+    services:
+        ['supervisor-vrouter']
+    dpkg:
+        enabled: False
+  RedHat:
+    pkgs:
+        ['contrail-openstack-vrouter', 'contrail-utils', 'haproxy', 'contrail-vrouter-source']
+    services:
+        ['supervisor-vrouter']
+    dpkg:
+        enabled: False
+config:
+  Debian:
+    pkgs:
+        ['contrail-config-openstack', 'ifmap-server']
+    services:
+        ['supervisor-config']
+  RedHat:
+    pkgs:
+        ['contrail-openstack-config']
+    services:
+        ['supervisor-config']
+control:
+  Debian:
+    pkgs:
+        ['contrail-control', 'contrail-dns']
+    services:
+        ['contrail-control', 'supervisor-control']
+  RedHat:
+    pkgs:
+         ['contrail-openstack-control']
+    services:
+         ['contrail-control', 'supervisor-control']
+database:
+  Debian:
+    pkgs:
+         ['cassandra', 'zookeeper', 'supervisor', 'openjdk-7-jre-headless', 'contrail-database']
+    cassandra_config: '/etc/cassandra/'
+    services:
+         ['supervisord-contrail-database', 'zookeeper']
+  RedHat:
+    pkgs:
+         ['contrail-openstack-database', 'zookeeper', 'supervisor', 'java-1.7.0-openjdk-headless']
+    cassandra_config: '/etc/cassandra/conf/'
+    services:
+         ['supervisord-contrail-database', 'zookeeper']
+web:
+  Debian:
+    pkgs:
+         ['contrail-web-controller', 'nodejs-legacy', 'gettext-base']
+    services:
+         ['contrail-webui-webserver', 'contrail-webui-jobserver']
+    database:
+      engine: cassandra
+      port: 9160
+  RedHat:
+    pkgs:
+         ['contrail-web-controller']
+    services:
+         ['supervisor-webui']
+    database:
+      engine: cassandra
+      port: 9160
+client:
+  Debian:
+    pkgs:
+         ['python-contrail']
+  RedHat:
+    pkgs:
+         []
+tor:
+  Debian:
+    agents: 1
+    bind:
+      port: 8086
 
-{% set collector = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['contrail-analytics', 'python-cassandra'],
-        'redis_config': '/etc/redis/redis.conf',
-        'services': ['supervisor-analytics','redis-server']
-    },
-    'RedHat': {
-        'pkgs': ['contrail-analytics'],
-        'redis_config': '/etc/redis.conf',
-        'services': ['supervisor-analytics','redis']
-    },
-}, merge=pillar.opencontrail.get('collector', {})) %}
+{%- elif vendor == 'juniper' -%}
 
-{% set compute = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['contrail-utils', 'iproute2', 'haproxy'],
-        'services': ['supervisor-vrouter'],
-        'dpdk': {
-            'enabled': False
-        }
-    },
-    'RedHat': {
-        'pkgs': ['contrail-openstack-vrouter', 'contrail-utils', 'haproxy', 'contrail-vrouter-source'],
-        'services': ['supervisor-vrouter'],
-        'dpdk': {
-            'enabled': False
-        }
-    },
-}, merge=pillar.opencontrail.get('compute', {})) %}
+common:
+  Debian:
+    vendor: juniper
+    source: {'engine': 'pkg', 'address': 'http://'}
+    pkgs:
+         ['dpkg-dev', 'contrail-utils', 'contrail-nodemgr', 'gettext-base']
+  RedHat:
+    vendor: juniper
+    source: {'engine': 'pkg', 'address': 'http://'}
+    pkgs:
+         ['contrail-utils', 'contrail-nodemgr']
+collector:
+  Debian:
+    pkgs:
+         ['contrail-analytics', 'python-cassandra-driver']
+    redis_config: '/etc/redis/redis.conf'
+    services:
+        ['supervisor-analytics', 'redis-server']
+  RedHat:
+    pkgs:
+         ['contrail-analytics', 'python-cassandra-driver']
+    redis_config: '/etc/redis.conf'
+    services:
+        ['supervisor-analytics', 'redis']
+compute:
+  Debian:
+    pkgs:
+         ['contrail-utils', 'iproute2', 'haproxy']
+    services:
+        ['supervisor-vrouter']
+    dpkg:
+        enabled: False
+  RedHat:
+    pkgs:
+         ['contrail-openstack-vrouter', 'contrail-utils', 'haproxy', 'contrail-vrouter-source']
+    services:
+        ['supervisor-vrouter']
+    dpkg:
+        enabled: False
+config:
+  Debian:
+    pkgs:
+         ['contrail-config-openstack', 'ifmap-server']
+    services:
+        ['supervisor-config']
+  RedHat:
+    pkgs:
+         ['contrail-openstack-config']
+    services:
+        ['supervisor-config']
+control:
+  Debian:
+    pkgs:
+         ['contrail-control', 'contrail-dns']
+    services:
+         ['contrail-control', 'supervisor-control']
+  RedHat:
+    pkgs:
+         ['contrail-openstack-control']
+    services:
+         ['contrail-control', 'supervisor-control']
+database:
+  Debian:
+    pkgs:
+         ['cassandra', 'zookeeper', 'supervisor', 'openjdk-7-jre-headless', 'contrail-openstack-database']
+    cassandra_config: '/etc/cassandra/'
+    services:
+         ['supervisord-contrail-database', 'zookeeper']
+  RedHat:
+    pkgs:
+         ['contrail-openstack-database', 'zookeeper', 'supervisor', 'java-1.7.0-openjdk-headless']
+    cassandra_config: '/etc/cassandra/conf/'
+    services:
+         ['supervisord-contrail-database', 'zookeeper']
+web:
+  Debian:
+    pkgs:
+         ['contrail-web-controller', 'contrail-openstack-webui', 'nodejs', 'gettext-base']
+    services:
+         ['supervisor-webui']
+    database:
+      engine: cassandra
+      port: 9160
+  RedHat:
+    pkgs:
+         ['contrail-web-controller']
+    services:
+         ['supervisor-webui']
+    database:
+      engine: cassandra
+      port: 9160
+client:
+  Debian:
+    pkgs:
+         ['python-contrail']
+  RedHat:
+    pkgs:
+         []
+tor:
+  Debian:
+    agents: 1
+    bind:
+     port: 8086
 
-{% set config = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['contrail-config-openstack','ifmap-server'],
-        'services': ['supervisor-config']
-    },
-    'RedHat': {
-        'pkgs': ['contrail-openstack-config'],
-        'services': ['supervisor-config']
-    },
-}, merge=pillar.opencontrail.get('config', {})) %}
+{%- endif %}
+{%- endload %}
 
-{% set control = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['contrail-control','contrail-dns'],
-        'services': ['contrail-control', 'supervisor-control']
-    },
-    'RedHat': {
-        'pkgs': ['contrail-openstack-control'],
-        'services': ['contrail-control', 'supervisor-control']
-    },
-}, merge=pillar.opencontrail.get('control', {})) %}
+{% set common    = salt['grains.filter_by'](base_defaults['common'], merge=salt['pillar.get']('opencontrail:common', {}), base='common') %}
+{% set collector = salt['grains.filter_by'](base_defaults['collector'], merge=salt['pillar.get']('opencontrail:collector', {}), base='collector') %}
+{% set compute   = salt['grains.filter_by'](base_defaults['compute'], merge=salt['pillar.get']('opencontrail:compute', {}), base='compute') %}
+{% set config    = salt['grains.filter_by'](base_defaults['config'], merge=salt['pillar.get']('opencontrail:config', {}), base='config') %}
+{% set control   = salt['grains.filter_by'](base_defaults['control'], merge=salt['pillar.get']('opencontrail:control', {}), base='control') %}
+{% set database  = salt['grains.filter_by'](base_defaults['database'], merge=salt['pillar.get']('opencontrail:database', {}), base='database') %}
+{% set web       = salt['grains.filter_by'](base_defaults['web'], merge=salt['pillar.get']('opencontrail:web', {}), base='web') %}
+{% set client    = salt['grains.filter_by'](base_defaults['client'], merge=salt['pillar.get']('opencontrail:client', {}), base='client') %}
+{% set tor       = salt['grains.filter_by'](base_defaults['tor'], merge=salt['pillar.get']('opencontrail:tor', {}), base='tor') %}
 
-{% set database = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['cassandra', 'zookeeper', 'supervisor', 'openjdk-7-jre-headless','contrail-database'],
-        'cassandra_config': '/etc/cassandra/',
-        'services': ['supervisord-contrail-database','zookeeper']
-    },
-    'RedHat': {
-        'pkgs': ['contrail-openstack-database', 'zookeeper', 'supervisor', 'java-1.7.0-openjdk-headless'],
-        'cassandra_config': '/etc/cassandra/conf/',
-        'services': ['supervisord-contrail-database','zookeeper']
-    },
-}, merge=pillar.opencontrail.get('database', {})) %}
-
-{% set web = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['contrail-web-controller', 'nodejs-legacy', 'gettext-base'],
-        'services': ['contrail-webui-webserver','contrail-webui-jobserver']
-    },
-    'RedHat': {
-        'pkgs': ['contrail-web-controller'],
-        'services': ['supervisor-webui']
-    },
-}, merge=pillar.opencontrail.get('web', {})) %}
-
-{% set tor = salt['grains.filter_by']({
-    'Debian': {
-        'agents': 1,
-        'bind': {
-           'port': 8086
-        }
-    },
-}, merge=salt['pillar.get']('opencontrail:tor')) %}
-
-{% set client = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['python-contrail'],
-    }
-}, merge=pillar.opencontrail.get('client', {})) %}

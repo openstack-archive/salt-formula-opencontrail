@@ -7,6 +7,7 @@ include:
 opencontrail_control_packages:
   pkg.installed:
   - names: {{ control.pkgs }}
+  - force_yes: True
 
 /etc/contrail/contrail-control-nodemgr.conf:
   file.managed:
@@ -92,3 +93,4 @@ opencontrail_control_entrypoint:
 {%- endif %}
 
 {%- endif %}
+

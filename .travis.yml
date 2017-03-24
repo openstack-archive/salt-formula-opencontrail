@@ -1,0 +1,42 @@
+sudo: required
+services:
+  - docker
+
+install:
+  - pip install PyYAML
+  - pip install virtualenv
+  - |
+    test -e Gemfile || cat <<EOF > Gemfile
+    source 'https://rubygems.org'
+    gem 'rake'
+    gem 'test-kitchen'
+    gem 'kitchen-docker'
+    gem 'kitchen-vagrant'
+    gem 'kitchen-inspec'
+    gem 'inspec'
+    gem 'kitchen-salt', :git => 'https://github.com/epcim/kitchen-salt.git', :branch => 'dependencis-pkg-repo2'
+    #Waiting for PR#78
+    #gem 'kitchen-salt', '>=0.2.25'
+  - bundle install
+
+env:
+  matrix:
+   - SUITE=analytics
+   - SUITE=control
+   - SUITE=cluster
+   - SUITE=single
+   #- SUITE=vendor-juniper
+   #- SUITE=tor
+   #- SUITE=vrouter_kubernetes
+   #- SUITE=vrouter
+   #- PLATFORM=trevorj/salty-whales:xenial SUITE=analytics
+   #- PLATFORM=trevorj/salty-whales:xenial SUITE=control
+   #- PLATFORM=trevorj/salty-whales:xenial SUITE=cluster
+   #...
+
+before_script:
+  - make test | tail
+
+script:
+  - test ! -e .kitchen.yml || bundle exec kitchen verify $SUITE
+

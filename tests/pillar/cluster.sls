@@ -68,6 +68,7 @@ opencontrail:
   control:
     version: 3.0
     enabled: true
+    name: ntw-01
     bind:
       address: 127.0.0.1
     discovery:
@@ -126,6 +127,8 @@ opencontrail:
   web:
     version: 3.0
     enabled: True
+    network:
+      host: 127.0.0.1
     bind:
       address: 127.0.0.1
     master:

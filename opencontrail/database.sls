@@ -62,6 +62,7 @@ include:
 opencontrail_database_packages:
   pkg.installed:
   - names: {{ database.pkgs }}
+  - force_yes: True
 {% if grains.os_family == "Debian" %}
   - require:
     - file: {{ database.cassandra_config }}cassandra.yaml
@@ -125,6 +126,23 @@ disable-cassandra-service:
     - name: cassandra
     - enable: None
 {% endif %}
+
+/var/lib/cassandra/data:
+  file.directory:
+  - user: cassandra
+  - group: cassandra
+  - makedirs: True
+{%- if not grains.get('noservices', False) %}
+  - require_in:
+    - service: opencontrail_database_services
+{%- endif %}
+
+/var/lib/cassandra:
+  file.directory:
+  - user: cassandra
+  - group: cassandra
+  - require:
+    - file: /var/lib/cassandra/data
 
 {%- if not grains.get('noservices', False) %}
 

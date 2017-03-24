@@ -4,6 +4,7 @@
 opencontrail_web_packages:
   pkg.installed:
   - names: {{ web.pkgs }}
+  - force_yes: True
 
 /etc/contrail/config.global.js:
   file.managed:

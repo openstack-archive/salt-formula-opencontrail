@@ -1,0 +1,52 @@
+---
+driver:
+  name: vagrant
+  vm_hostname: opencontrail.ci.local
+  use_sudo: false
+  customize:
+    memory: 512
+
+
+provisioner:
+  name: salt_solo
+  salt_install: bootstrap
+  salt_bootstrap_url: https://bootstrap.saltstack.com
+  salt_version: latest
+  require_chef: false
+  formula: opencontrail
+  log_level: info
+  state_top:
+    base:
+      "*":
+        - opencontrail
+  pillars:
+    top.sls:
+      base:
+        "*":
+          - opencontrail
+  grains:
+    noservices: True
+
+platforms:
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+
+suites:
+
+  - name: tor
+    provisioner:
+      pillars-from-files:
+        opencontrail.sls: tests/pillar/tor.sls
+
+  - name: vrouter_kubernetes
+    provisioner:
+      pillars-from-files:
+        opencontrail.sls: tests/pillar/vrouter_kubernetes.sls
+
+  - name: vrouter
+    provisioner:
+      pillars-from-files:
+        opencontrail.sls: tests/pillar/vrouter.sls
+
+
+# vim: ft=yaml sw=2 ts=2 sts=2 tw=125

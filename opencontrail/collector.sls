@@ -7,6 +7,7 @@ include:
 opencontrail_collector_packages:
   pkg.installed:
   - names: {{ collector.pkgs }}
+  - force_yes: True
 
 /etc/contrail/contrail-analytics-nodemgr.conf:
   file.managed:

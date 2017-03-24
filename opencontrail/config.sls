@@ -1,4 +1,4 @@
-{%- from "opencontrail/map.jinja" import config with context %}
+{%- from "opencontrail/map.jinja" import common,config with context %}
 {%- if config.enabled %}
 
 include:
@@ -7,6 +7,7 @@ include:
 opencontrail_config_packages:
   pkg.installed:
   - names: {{ config.pkgs }}
+  - force_yes: True
 
 /etc/ifmap-server/authorization.properties:
   file.managed:
@@ -154,7 +155,7 @@ publisher_init:
     - service: opencontrail_config_services
 {%- endif %}
 
-{%- if not grains.get('virtual_subtype', None) == "Docker" %}
+{%- if not common.vendor == "juniper" or not grains.get('virtual_subtype', None) == "Docker" %}
 
 /etc/contrail/supervisord_config_files/ifmap.ini:
   file.absent:

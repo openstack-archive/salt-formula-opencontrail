@@ -54,6 +54,7 @@ opencontrail:
     - host: 127.0.0.1
       id: 1
   control:
+    name: ntw-01
     version: 3.0
     enabled: true
     bind:
@@ -102,6 +103,8 @@ opencontrail:
   web:
     version: 3.0
     enabled: True
+    network:
+      host: 127.0.0.1
     bind:
       address: 127.0.0.1
     analytics:

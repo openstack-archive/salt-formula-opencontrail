@@ -11,6 +11,27 @@ managed Infrastructure as a Service (IaaS), and Networks Functions
 Virtualization (NFV) use cases.
 
 
+Package source
+==============
+Formula support OpenContrail as well as Juniper Contrail package repository in the backend.
+
+Differences withing the configuration and state run are controlled by
+``opencontrail.common.vendor: [opencontrail|juniper]`` pillar attribute.
+
+Default value is set to ``opencontrail``.
+
+Juniper releases tested with this formula:
+ - 3.0.2.x
+
+To use Juniper Contrail repository as a source of packages override pillar as in this example:
+
+.. code-block:: yaml
+
+    opencontrail:
+      common:
+        vendor: juniper
+
+
 Sample pillars
 ==============
 

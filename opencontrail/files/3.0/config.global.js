@@ -1,4 +1,4 @@
-{%- from "opencontrail/map.jinja" import web with context %}
+{%- from "opencontrail/map.jinja" import common,web with context %}
 /*
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
@@ -31,14 +31,14 @@ config.multi_tenancy.enabled = false;
  *
  * true  - These values should be taken from this config
  *         file.
- * false - These values should be taken from auth catalog list 
+ * false - These values should be taken from auth catalog list
  *
 *****************************************************************************/
 config.serviceEndPointFromConfig = true;
 
 /****************************************************************************
  * This boolean flag indicates if serviceEndPointFromConfig is set as false,
- * then to take IP/Port/Protocol/Version information from auth catalog, 
+ * then to take IP/Port/Protocol/Version information from auth catalog,
  * should publicURL OR internalURL will be used.
  *
  * true  - publicURL in endpoint will be used to retrieve IP/Port/Protocol/
@@ -67,7 +67,7 @@ config.serviceEndPointTakePublicURL = true;
  *      IP to connect to for this Server.
  * port:
  *      Port to connect to for this server
- * authProtocol:        
+ * authProtocol:
  *      Specify authProtocol either 'http' or 'https'
  * apiVersion:
  *      REST API Version for this server to connect to.
@@ -81,7 +81,7 @@ config.serviceEndPointTakePublicURL = true;
  *      Not applicable for cnfg/analytics as of now
  * strictSSL:
  *      If true, requires certificates to be valid
- * ca: 
+ * ca:
  *      An authority certificate to check the remote host against,
  *      if you do not want to specify then use ''
 *****************************************************************************/
@@ -115,10 +115,10 @@ config.identityManager.ip = '{{ web.identity.host }}';
 config.identityManager.port = '5000';
 config.identityManager.authProtocol = 'http';
 /******************************************************************************
- * Note: config.identityManager.apiVersion is not controlled by boolean flag 
+ * Note: config.identityManager.apiVersion is not controlled by boolean flag
  * config.serviceEndPointFromConfig. If specified apiVersion here, then these
  * API versions will be used while using REST API to identityManager.
- * If want to use with default apiVersion(v2.0), then can specify it as 
+ * If want to use with default apiVersion(v2.0), then can specify it as
  * empty array.
 ******************************************************************************/
 config.identityManager.apiVersion = ['v{{ web.identity.version }}'];
@@ -159,7 +159,11 @@ config.vcenter.datacenter = 'vcenter';          //datacenter name
 config.vcenter.dvsswitch = 'vswitch';           //dvsswitch name
 config.vcenter.strictSSL = false;               //Validate the certificate or ignore
 config.vcenter.ca = '';                         //specify the certificate key file
+{%- if common.vendor == "juniper" %}
+config.vcenter.wsdl = '/usr/src/contrail/contrail-web-core/webroot/js/vim.wsdl';
+{%- else %}
 config.vcenter.wsdl = '/var/lib/contrail-webui/contrail-web-core/webroot/js/vim.wsdl';
+{%- endif %}
 
 /* Discovery Service */
 config.discoveryService = {};
@@ -181,7 +185,11 @@ config.files.download_path = '/tmp';
 /* WebUI Redis Server */
 config.redis_server_port = '6379';
 config.redis_server_ip = '{{ web.cache.host }}';
+{%- if common.vendor == "juniper" %}
+config.redis_dump_file = '/var/lib/redis/dump.rdb';
+{%- else %}
 config.redis_dump_file = '/var/lib/redis/dump-webui.rdb';
+{%- endif %}
 config.redis_password = '';
 
 /* Cassandra Server */
@@ -197,7 +205,7 @@ config.kue.ui_port = '3002'
 /* IP List to listen on */
 config.webui_addresses = ['0.0.0.0'];
 
-/* Is insecure access to WebUI? 
+/* Is insecure access to WebUI?
  * If set as false, then all http request will be redirected
  * to https, if set true, then no https request will be processed, but only http
  * request
@@ -222,34 +230,32 @@ config.maxActiveJobs = 10;
 /* Redis DB index for Web-UI */
 config.redisDBIndex = 3;
 
-{% if grains.os_family == "Debian" %}
+config.featurePkg = {};
+config.featurePkg.webController = {};
+
+{%- if common.vendor == "juniper" %}
+/* Logo File: Use complete path of logo file location */
+config.logo_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-logo.png';
+
+/* Favicon File: Use complete path of favicon file location */
+config.favicon_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-favicon.ico';
+
+/* Add new feature Package Config details below */
+config.featurePkg.webController.path = '/usr/src/contrail/contrail-web-controller';
+config.featurePkg.webController.enable = true;
+
+{%- else %}
 /* Logo File: Use complete path of logo file location */
 config.logo_file = '/var/lib/contrail-webui/contrail-web-core/webroot/img/opencontrail-logo.png';
 
 /* Favicon File: Use complete path of favicon file location */
 config.favicon_file = '/var/lib/contrail-webui/contrail-web-core/webroot/img/juniper-networks-favicon.ico';
 
-config.featurePkg = {};
 /* Add new feature Package Config details below */
-config.featurePkg.webController = {};
 config.featurePkg.webController.path = '/var/lib/contrail-webui/contrail-web-controller';
 config.featurePkg.webController.enable = true;
 
-{% elif grains.os_family == "RedHat" %}
-
-config.logo_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-logo.png';
-
-/* Favicon File: Use complete path of favicon file location */
-config.favicon_file = '/usr/src/contrail/contrail-web-core/webroot/img/juniper-networks-favicon.ico';
-
-config.featurePkg = {};
-/* Add new feature Package Config details below */
-config.featurePkg.webController = {};
-config.featurePkg.webController.path = '/usr/src/contrail/contrail-web-controller';
-config.featurePkg.webController.enable = true;
-
-
-{% endif %}
+{%- endif %}
 
 /* Enable/disable Stat Query Links in Sidebar*/
 config.qe = {};
@@ -264,7 +270,7 @@ config.logs.level = 'debug';
 /******************************************************************************
  * Boolean flag getDomainProjectsFromApiServer indicates wheather the project
  * list should come from API Server or Identity Manager.
- * If Set 
+ * If Set
  *      - true, then project list will come from API Server
  *      - false, then project list will come from Identity Manager
  * Default: false
@@ -274,7 +280,7 @@ config.getDomainProjectsFromApiServer = false;
 /*****************************************************************************
 * Boolean flag L2_enable indicates the default forwarding-mode of a network.
 * Allowed values : true / false
-* Set this flag to true if all the networks are to be L2 networks, 
+* Set this flag to true if all the networks are to be L2 networks,
 * set to false otherwise.
 *****************************************************************************/
 config.network = {};
