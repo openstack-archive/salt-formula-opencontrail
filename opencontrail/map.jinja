@@ -32,14 +32,14 @@ compute:
         ['contrail-utils', 'iproute2', 'haproxy']
     services:
         ['supervisor-vrouter']
-    dpkg:
+    dpdk:
         enabled: False
   RedHat:
     pkgs:
         ['contrail-openstack-vrouter', 'contrail-utils', 'haproxy', 'contrail-vrouter-source']
     services:
         ['supervisor-vrouter']
-    dpkg:
+    dpdk:
         enabled: False
 config:
   Debian:
@@ -138,14 +138,14 @@ compute:
          ['contrail-utils', 'iproute2', 'haproxy']
     services:
         ['supervisor-vrouter']
-    dpkg:
+    dpdk:
         enabled: False
   RedHat:
     pkgs:
          ['contrail-openstack-vrouter', 'contrail-utils', 'haproxy', 'contrail-vrouter-source']
     services:
         ['supervisor-vrouter']
-    dpkg:
+    dpdk:
         enabled: False
 config:
   Debian:
