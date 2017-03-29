@@ -155,7 +155,8 @@ publisher_init:
     - service: opencontrail_config_services
 {%- endif %}
 
-{%- if not common.vendor == "juniper" or not grains.get('virtual_subtype', None) == "Docker" %}
+{%- if not grains.get('virtual_subtype', None) == "Docker" %}
+{%- if not common.vendor == "juniper" %}
 
 /etc/contrail/supervisord_config_files/ifmap.ini:
   file.absent:
@@ -166,6 +167,7 @@ publisher_init:
     - service: opencontrail_config_services
 {%- endif %}
 
+{%- endif %}
 {%- endif %}
 
 /etc/contrail/supervisord_config.conf:
